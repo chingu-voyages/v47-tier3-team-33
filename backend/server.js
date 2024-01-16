@@ -1,18 +1,16 @@
-const port = 8000;
 const express = require('express');
+const cors = require('cors');
 const app = express();
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-app.use(express.json(), express.urlencoded({ extended: true }));
+// Mongo URL and Connection
+const mongoURL = process.env.DATABASE_URL;
 
-// CORS FOR FRONT END 
-// const cors = require("cors");
-// app.use(cors({ //cors is going to allow different ports to send requests to our API
-//     origin:"http://localhost:3000" 
-// }));
+// Connect to Mongo
+mongoose.connect(mongoURL).then(() => console.log("db connection successful"));
 
-// ROUTES AND CONFIG AFTER MAKING FILES
-// require("./config/mongoose.config");
-// const xRoutes = require("./routes/xxxx");
-// xRoutes(app);
-
-app.listen(port, () => console.log(`🎉Party on port: ${port}`) );
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
