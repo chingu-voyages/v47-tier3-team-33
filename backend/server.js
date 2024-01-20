@@ -1,16 +1,18 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const mongoose = require('mongoose');
+const connectDB = require('./config/db');
 require('dotenv').config();
-
-// Mongo URL and Connection
-const mongoURL = process.env.DATABASE_URL;
-
-// Connect to Mongo
-mongoose.connect(mongoURL).then(() => console.log("db connection successful"));
+const PORT = 5000 || process.env.PORT;
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+// Mongo URL and Connection
+connectDB();
+
+app.listen(PORT, () => {
+	console.log(`App listening on port ${PORT}`);
+});
