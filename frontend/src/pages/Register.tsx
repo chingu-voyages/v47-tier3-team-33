@@ -1,51 +1,55 @@
-import '../css/login.css';
 const Register = () => {
     return (
-    <div className="form">
-    
-        <ul className="tab-group">
-            <li className="tab active"><a href="#signup">Sign Up</a></li>
-            <li className="tab"><a href="login">Log In</a></li>
-        </ul>
-        <div className="tab-content">
-            <div id="signup">   
-                <h1>Sign Up for Free</h1>
+    <section className="bg-gray-50 dark:bg-gray-50">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             
-                <form action="/" method="post">
-            
-                    {/* <div className="top-row"> */}
-                    <div className="">
-                        <div className="field-wrap">
-                            <label>
-                            First Name<span className="req">*</span>
-                            </label>
-                            <input type="text" required/>
+            <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-50 dark:border-gray-700">
+                <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <h2 className=" text-center text-xl font-bold leading-tight tracking-tight text-red-400 md:text-2xl dark:text-red-400">
+                        Event Planner
+                    </h2>
+                    <h1 className="text-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-gray-900">
+                        Create an Account
+                    </h1>
+                    <form className="space-y-4 md:space-y-6" action="#">
+                        <div className="columns-2">
+                            <div>
+                                <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">First Name</label>
+                                <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" />
+                            </div>
+                            <div>
+                                <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">Last Name</label>
+                                <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" />
+                            </div>
                         </div>
-                
-                        <div className="field-wrap">
-                            <label>
-                                Last Name<span className="req">*</span>
-                            </label>
-                            <input type="text"required />
+                        <div>
+                            <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">Email Address</label>
+                            <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" />
                         </div>
-                    </div>
-                    <div className="field-wrap">
-                        <label>Email Address<span className="req">*</span></label>
-                        <input type="email"required/>
-                    </div>
-                    <div className="field-wrap">
-                        <label> Set A Password<span className="req">*</span></label>
-                        <input type="password"required/>
-                    </div>
-                    <button type="submit" className="button button-block">Get Started</button>
-                </form>
-            </div>
-
-            <div>
-                <hr/>
+                        <div>
+                            <label  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">Password</label>
+                            <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300  sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-start">
+                                <div className="flex items-center h-5">
+                                    <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" />
+                                </div>
+                                <div className="ml-3 text-sm">
+                                    <label  className="text-gray-500 dark:text-gray-300">Remember me</label>
+                                </div>
+                            </div>
+                            <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
+                        </div>
+                        <button type="submit" className="w-full text-white bg-red-400 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+                        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                            Don’t have an account yet? <a href="login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
+                        </p>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
     );
 };
 
