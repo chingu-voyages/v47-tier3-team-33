@@ -7,9 +7,11 @@ const NavBar = () => {
       <div className="flex items-center flex-shrink-0 mr-6">
         {/* Logo */}
         <div className="fill-current flex-shrink-0 items-center absolute">
+          <a href="/" className="text-white">
             <img 
                 className="object-contain h-48 w-auto"
                 src={omnilogo} alt="Omni logo"/>
+          </a>
         </div>
         {/* Navigation Links */}
         <ul className="flex space-x-4 md:space-x-7 items-center mx-auto ">
@@ -20,7 +22,7 @@ const NavBar = () => {
         </ul>
         <div>
         {/* Login Button*/}
-            <button className="bg-white hover:bg-darkTeal text-black font-bold py-2 px-4 border border-blue-700 rounded">
+            <button className="bg-yellow hover:bg-darkTeal text-white font-bold py-2 px-4 border border-white rounded">
                 Login
             </button>
         </div>
