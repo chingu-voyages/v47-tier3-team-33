@@ -1,9 +1,13 @@
+import Features from '../components/Features';
+import Hero from '../components/Hero';
+
 const HomePage = () => {
-    return (
-        <div className='h-[100vh] w-full bg-white'>
-            <h1 className='text-teal font-semibold'>Home Page</h1>
-        </div>
-    );
+	return (
+		<div className='h-full'>
+			<Hero />
+			<Features />
+		</div>
+	);
 };
 
 export default HomePage;

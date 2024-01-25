@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function Hero() {
 	return (
 		<div className='h-full w-full'>
-			<div className='absolute top-20 left-0 w-full overflow-hidden line-0 transform -rotate-180 bg-pink h-[790px]'>
+			<div className=' left-0 w-full overflow-hidden line-0 transform -rotate-180 bg-pink h-[790px]'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					viewBox='0 0 1200 120'
