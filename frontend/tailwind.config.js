@@ -12,6 +12,7 @@ module.exports = {
 				greenishYellow: '#Cccc33',
 			},
 		},
+		
 	},
 	plugins: [],
 };
