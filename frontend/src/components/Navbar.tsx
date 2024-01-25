@@ -22,7 +22,7 @@ const NavBar = () => {
         </ul>
         <div>
         {/* Login Button*/}
-            <button className="bg-yellow hover:bg-darkTeal text-white font-bold py-2 px-4 border border-white rounded">
+            <button className="bg-white hover:text-yellow text-darkTeal font-bold py-2 px-4 border border-white rounded">
                 Login
             </button>
         </div>

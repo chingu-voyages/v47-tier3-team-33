@@ -1,13 +1,11 @@
 // ContactPage.tsx
-import React from 'react';
+
 const ContactPage= () => {
   return (
     <div className=" flex items-center justify-center bg-white h-screen">
-      <div className=" flex justify-center container mx-auto p-10 rounded-md shadow-md">
-     
+      <div className="justify-center container mx-auto px-4 rounded-md">
         <h1 className="text-4xl font-bold mb-6 text-darkTeal ">Contact Us</h1>
-       
-        <div className="">
+        <div>
         {/* Contact Form */}
         <form className="bg-white p-10 rounded-md shadow-md">
           <div className="mb-4">
@@ -17,7 +15,7 @@ const ContactPage= () => {
               type="text"
               id="name"
               name="name"
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border border-gray-300 rounded text-black"
               placeholder="Your Name"
             />
           </div>
@@ -28,7 +26,7 @@ const ContactPage= () => {
               type="email"
               id="email"
               name="email"
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border border-gray-300 rounded text-black"
               placeholder="Your Email"
             />
           </div>
@@ -39,7 +37,7 @@ const ContactPage= () => {
               id="message"
               name="message"
               rows={4}
-              className="w-full p-2 border border-gray-300 rounded"
+              className="w-full p-2 border border-gray-300 rounded text-black"
               placeholder="How can we help?"
             ></textarea>
           </div>
