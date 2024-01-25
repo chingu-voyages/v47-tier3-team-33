@@ -1,4 +1,3 @@
-import React from 'react';
 import HeroImg from '../assets/hero-icon.png';
 import { Link } from 'react-router-dom';
 
