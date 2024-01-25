@@ -5,14 +5,13 @@ module.exports = {
 		extend: {
 			colors: {
 				pink: '#Ff6666',
-				black: '#2b2a29',
+				black: '#3C0345',
 				teal: '#33cccc',
 				darkTeal: '#339999',
 				yellow: '#Ffcc00',
 				greenishYellow: '#Cccc33',
 			},
 		},
-		
 	},
 	plugins: [],
 };
