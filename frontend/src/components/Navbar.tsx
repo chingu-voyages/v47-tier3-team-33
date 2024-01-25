@@ -12,7 +12,7 @@ const NavBar = () => {
                 src={omnilogo} alt="Omni logo"/>
         </div>
         {/* Navigation Links */}
-        <ul className="flex space-x-7 items-center mx-auto ">
+        <ul className="flex space-x-4 md:space-x-7 items-center mx-auto ">
           <li><a href="/about" className="text-white">About</a></li>
           <li><a href="/events" className="text-white">Events</a></li>
           <li><a href="/categories" className="text-white">Categories</a></li>
@@ -20,7 +20,7 @@ const NavBar = () => {
         </ul>
         <div>
         {/* Login Button*/}
-            <button className="bg-white hover:bg-yellow text-black font-bold py-2 px-4 border border-blue-700 rounded">
+            <button className="bg-white hover:bg-darkTeal text-black font-bold py-2 px-4 border border-blue-700 rounded">
                 Login
             </button>
         </div>
