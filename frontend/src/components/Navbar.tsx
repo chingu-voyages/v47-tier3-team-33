@@ -1,6 +1,6 @@
 import React from 'react';
 import omnilogo from "../assets/omni-logo.png"
-
+import LRbutton from './LRbutton';
 const NavBar = () => {
   return (
     <nav className="bg-pink p-6 items-center flex-wrap">
@@ -21,7 +21,7 @@ const NavBar = () => {
         <div>
         {/* Login Button*/}
             <button className="bg-white hover:bg-yellow text-black font-bold py-2 px-4 border border-blue-700 rounded">
-                Login
+              <LRbutton/>
             </button>
         </div>
       </div>
