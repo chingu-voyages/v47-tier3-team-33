@@ -40,7 +40,7 @@ const NavBar = () => {
 				<div>
 					{/* Login Button*/}
 
-					<button className='bg-white hover:bg-yellow text-black font-bold py-2 px-4 border border-blue-700 rounded'>
+					<button className='bg-white hover:bg-yellow text-darkTeal font-bold py-1.25 px-4 border border-white rounded'>
 						<LRbutton />
 					</button>
 				</div>
