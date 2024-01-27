@@ -12,3 +12,5 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+
+// Wilson's reference: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose
