@@ -5,8 +5,8 @@ interface IUser extends Document {
     surname: string;
     email: string;
     profile_img: string;
-    events: string;
-    interests: string;
+    events: string[];
+    interests: string[];
 }
 
 const UserSchema: Schema = new Schema({
@@ -14,8 +14,8 @@ const UserSchema: Schema = new Schema({
     surname: { type: String, required: true},
     email: { type: String, required: true},
     profile_img: { type: String, required: false},
-    events: { type: String, required: false},
-    interests: { type: String, required: true}
+    events: { type: [String], required: false },
+    interests: { type: [String], required: true },
 })
 
 const UserModel = mongoose.model<IUser>('User', UserSchema)
