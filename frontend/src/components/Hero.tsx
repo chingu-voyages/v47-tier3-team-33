@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 function Hero() {
 	return (
 		<div className='h-full w-full'>
-			<div className=' left-0 w-full overflow-hidden line-0 transform -rotate-180 bg-pink h-[790px]'>
+			<div className='left-0 w-full overflow-hidden line-0 transform -rotate-180 bg-pink h-[550px] md:h-[790px]'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					viewBox='0 0 1200 120'
@@ -16,17 +16,19 @@ function Hero() {
 						className='relative block fill-white'
 					></path>
 				</svg>
-				<div className='w-full h-full absolute top-0 left-0 -rotate-180 flex'>
-					<div className='w-[50%] ml-40'>
-						<h1 className='w-full text-5xl font-medium text-left text-[#f8f8f8f4] mt-[20%] leading-[70px]'>
+				<div className='w-full h-full absolute -top-10 md:top-0 left-0 -rotate-180 flex justify-center items-center md:items-stretch flex-col md:flex-row'>
+					<div className='w-full text-center md:w-[50%] md:ml-40'>
+						<h1 className='w-full mx-auto text-2xl md:text-5xl font-medium md:text-left text-[#f8f8f8f4] mt-6 md:mt-[20%] md:leading-[70px]'>
 							Crafting Unforgettable Moments. Your Ultimate Events Planner.
 						</h1>
-						<div className='space-x-8 mt-20'>
-							<button className='bg-white p-4 rounded-md text-2xl text-[#3C0345]'>
-								Get started for free
-							</button>
+						<div className='space-y-4 md:space-x-8 mt-[240px] md:mt-20 flex flex-col md:flex-row'>
+							<Link to='/about'>
+								<button className='bg-white w-40 h-10 md:h-full md:w-full md:p-4 rounded-md md:text-2xl text-[#3C0345]'>
+									Get started for free
+								</button>
+							</Link>
 							<Link to='/events'>
-								<button className='bg-white p-4 rounded-md text-2xl text-[#3C0345]'>
+								<button className='bg-white w-40 h-10 md:h-full md:w-full md:p-4 rounded-md md:text-2xl text-[#3C0345]'>
 									Explore events
 								</button>
 							</Link>
@@ -36,7 +38,7 @@ function Hero() {
 						<img
 							src={HeroImg}
 							alt='hero party image'
-							className='w-[84%] h-[100%] mt-20'
+							className='w-full h-[220px] md:h-[100%] -mt-[320px] md:mt-20'
 						/>
 					</div>
 				</div>
