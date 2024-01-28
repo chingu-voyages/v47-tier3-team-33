@@ -1,13 +1,16 @@
 // ContactPage.tsx
+import ContactHero from "../components/ContactHero";
 
 const ContactPage= () => {
   return (
-    <div className=" flex items-center justify-center bg-white h-screen">
-      <div className="justify-center container mx-auto px-4 rounded-md">
-        <h1 className="text-4xl font-bold mb-6 text-darkTeal ">Contact Us</h1>
-        <div>
+
+    <div className=" flex items-center justify-center bg-white h-screen ">
+      
+      <div className="justify-center container mx-auto px-80 rounded-md">
+      <ContactHero />
+
         {/* Contact Form */}
-        <form className="bg-white p-10 rounded-md shadow-md">
+        <form className="bg-white p-10 rounded-lg shadow-lg w-full">
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
             </label>
@@ -50,7 +53,7 @@ const ContactPage= () => {
         </form>
         </div>
       </div>
-    </div>
+   
   );
 };
 
