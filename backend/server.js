@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes (temp)
-const routes = require('./routes');
+const routes = require('./routes.ts');
 app.use('/api', routes);
 
 // Mongo URL and Connection
