@@ -1,4 +1,9 @@
+
+
+
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -13,7 +18,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className="my-4">
+    <div className="flex items-center p-4">
       <input
         type="text"
         value={query}
@@ -21,8 +26,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         placeholder="Search events..."
         className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
       />
+      <button className="p-2">
+      <FontAwesomeIcon icon={faSearch} className="w-4 h-4" />     </button>
     </div>
   );
 };
 
 export default SearchBar;
+

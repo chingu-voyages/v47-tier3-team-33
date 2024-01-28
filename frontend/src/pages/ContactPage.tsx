@@ -4,11 +4,12 @@ import ContactHero from "../components/ContactHero";
 const ContactPage= () => {
   return (
 
-    <div className=" flex items-center justify-center bg-white h-screen ">
+    <div className=" flex items-center bg-white h-screen">
       
+        <ContactHero />
+    
       <div className="justify-center container mx-auto px-80 rounded-md">
-      <ContactHero />
-
+      
         {/* Contact Form */}
         <form className="bg-white p-10 rounded-lg shadow-lg w-full">
           <div className="mb-4">

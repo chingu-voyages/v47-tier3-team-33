@@ -1,13 +1,35 @@
-/* eslint-disable jsx-a11y/alt-text */
-
+import contactus from '../assets/contactus-img.png'
 
 const ContactHero = () => {
     return (
-        <div className="flex-container">
-        <img 
-        src="https://www.figma.com/file/w9nFcGRPGTXEiXNjO0gCAA/Chingu-Project?type=design&node-id=336-2&mode=design&t=RyN1wvckwoT86kJD-4"
-        alt='Contact us words'  ></img>
-        </div>
+        <div className='flex justify-content absolute container w-full z-20'> 
+         
+          <img
+            className='object-contain h-48 w-auto'
+            src={contactus}
+            alt='contact us sign'
+          />
+         
+           <div className='text-center leading-10 absolute top-48'>
+                <span className='text-[#3C0345] text-2xl text-medium'>
+                    Customer satisfaction is very 
+                </span>
+                <br/>
+                <span className='text-[#3C0345] text-2xl text-medium'>
+                    important to us! Send a
+                </span>
+                <br/>
+                <span className='text-[#3C0345] text-2xl text-medium'>
+                    message using the contact
+                    
+                </span>
+                <br/>
+                <span className='text-[#3C0345] text-2xl text-medium'>
+                    form below for inquires. 
+                </span>
+                </div>
+            </div>
+       
     )
 }
 
