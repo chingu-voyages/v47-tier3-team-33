@@ -5,7 +5,7 @@ interface ITicket {
   price: number;
 }
 
-interface IEvent extends Document {
+export interface IEvent extends Document {
     title: string;
     date: Date;
     location: string;
@@ -21,11 +21,16 @@ const TicketSchema: Schema = new Schema({
 
 const EventSchema: Schema = new Schema({
     title: { type: String, required: true},
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true,
+    },
     date: { type: Date, required: true},
     location: { type: String, required: true},
     description: { type: String, required: true},
     image: { type: String, required: true},
-	tickets: {type: [TicketSchema], required: true}
+	tickets: {type: [TicketSchema], required: true},
 })
 
 const EventModel = mongoose.model<IEvent>('Event', EventSchema)
