@@ -21,7 +21,7 @@ function Hero() {
 						<h1 className='w-full mx-auto text-2xl md:text-5xl font-medium md:text-left text-[#f8f8f8f4] mt-6 md:mt-[20%] md:leading-[70px]'>
 							Crafting Unforgettable Moments. Your Ultimate Events Planner.
 						</h1>
-						<div className='space-y-4 md:space-x-8 mt-[240px] md:mt-20 flex flex-col md:flex-row'>
+						<div className='space-y-4 md:space-y-0 md:space-x-8 mt-[240px] md:mt-20 flex flex-col md:flex-row'>
 							<Link to='/about'>
 								<button className='bg-white w-40 h-10 md:h-full md:w-full md:p-4 rounded-md md:text-2xl text-[#3C0345]'>
 									Get started for free
