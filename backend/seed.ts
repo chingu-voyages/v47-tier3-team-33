@@ -1,6 +1,5 @@
-import mongoose = require('mongoose');
-import CategoryModel from './models/Category';
-import EventModel, { IEvent } from "./models/Event"; 
+import mongoose from 'mongoose';
+import {CategoryModel, EventModel, IEvent } from "./models/Event"; 
 import connectDB from "./config/db";
 
 // Connect to the database
@@ -47,28 +46,17 @@ const updateCategoriesWithEvents = async (categoryMap: { [key: string]: mongoose
     try {
         const events = await EventModel.find();
         
-        // Group events by category
-        const eventsByCategory: { [category: string]: mongoose.Types.ObjectId[] } = {};
-        events.forEach(event => {
-            const categoryString = event.category.toString(); // Convert ObjectId to string
-            if (!eventsByCategory[categoryString]) {
-                eventsByCategory[categoryString] = [];
-            }
-            eventsByCategory[categoryString].push(event._id);
-
-        });
 
         // Update categories with events
-        for (const categoryName in eventsByCategory) {
-            if (Object.prototype.hasOwnProperty.call(eventsByCategory, categoryName)) {
-				
+        for (const categoryName in categoryMap) {
+            if (Object.prototype.hasOwnProperty.call(categoryMap, categoryName)) {
                 const categoryId = categoryMap[categoryName];
-			
                 if (categoryId) {
-                    // Push event ObjectIds into the 'events' array of the category
-					console.log('Updating category:', categoryId);
-                    console.log('Events to push:', eventsByCategory[categoryName]);
-                    await CategoryModel.findByIdAndUpdate(categoryId, { $push: { events: { $each: eventsByCategory[categoryName] } } });
+                    // Find events belonging to this category
+                    const categoryEvents = events.filter(event => event.category.toString() === categoryId.toString());
+                    
+                    // Push event objects into the 'events' array of the category
+                    await CategoryModel.findByIdAndUpdate(categoryId, { $push: { events: { $each: categoryEvents } } });
                 }
             }
         }
