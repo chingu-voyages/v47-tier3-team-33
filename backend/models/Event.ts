@@ -1,4 +1,4 @@
-import mongoose, {Schema, Document} from 'mongoose';
+import mongoose, {Schema, Document, Types} from 'mongoose';
 
 interface ITicket {
   type: string;
@@ -7,6 +7,7 @@ interface ITicket {
 
 export interface IEvent extends Document {
     title: string;
+    category: Types.ObjectId
     date: Date;
     location: string;
     description: string;

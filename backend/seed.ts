@@ -1,6 +1,6 @@
 import mongoose = require('mongoose');
 import CategoryModel from './models/Category';
-import EventModel from "./models/Event";
+import EventModel, { IEvent } from "./models/Event"; 
 import connectDB from "./config/db";
 
 // Connect to the database
@@ -43,12 +43,51 @@ const seedCategories = async () => {
     }
 };
 
+const updateCategoriesWithEvents = async (categoryMap: { [key: string]: mongoose.Types.ObjectId }) => {
+    try {
+        const events = await EventModel.find();
+        
+        // Group events by category
+        const eventsByCategory: { [category: string]: mongoose.Types.ObjectId[] } = {};
+        events.forEach(event => {
+            const categoryString = event.category.toString(); // Convert ObjectId to string
+            if (!eventsByCategory[categoryString]) {
+                eventsByCategory[categoryString] = [];
+            }
+            eventsByCategory[categoryString].push(event._id);
+
+        });
+
+        // Update categories with events
+        for (const categoryName in eventsByCategory) {
+            if (Object.prototype.hasOwnProperty.call(eventsByCategory, categoryName)) {
+				
+                const categoryId = categoryMap[categoryName];
+			
+                if (categoryId) {
+                    // Push event ObjectIds into the 'events' array of the category
+					console.log('Updating category:', categoryId);
+                    console.log('Events to push:', eventsByCategory[categoryName]);
+                    await CategoryModel.findByIdAndUpdate(categoryId, { $push: { events: { $each: eventsByCategory[categoryName] } } });
+                }
+            }
+        }
+
+        console.log('Categories updated with events successfully.');
+    } catch (error) {
+        console.error('Error updating categories with events:', error);
+        throw error;
+    }
+};
+
+
 const seedEvents = async () => {
 	try {
 		const categories = await CategoryModel.find();
         const categoryMap: { [key: string]: mongoose.Types.ObjectId } = {};
-        categories.forEach((category:any) => {
-            categoryMap[category.name] = category._id;
+        categories.forEach((category) => {
+			const categoryName = category.name.trim().toLowerCase();
+            categoryMap[categoryName] = category._id;
         });
 
     const eventsData = [
@@ -122,7 +161,7 @@ const seedEvents = async () => {
 			},
 			{
 				title: 'Tech Summit 2024',
-				category:'technology',
+				category:'Tech and Innovation',
 				date: '2024-10-05',
 				location: 'Innovation Center',
 				description:
@@ -138,7 +177,7 @@ const seedEvents = async () => {
 			},
 			{
 				title: 'HackathonX',
-				category:'technology',
+				category:'Tech and Innovation',
 				date: '2024-09-18',
 				location: 'Tech Hub',
 				description:
@@ -154,19 +193,22 @@ const seedEvents = async () => {
 			},
     ];
 
-		const eventsToInsert = eventsData.map(event => ({
-    ...event,
-    category: categoryMap[event.category.toLowerCase()],
-}));
+		const eventsToInsert: Partial<IEvent>[] = eventsData.map(event => ({
+            ...event,
+             category: categoryMap[event.category.trim().toLowerCase()], // Use category name to get corresponding ObjectId
+            date: new Date(event.date), // Convert 'date' to 'Date' object
+        }));
 
         await EventModel.insertMany(eventsToInsert);
+
+        await updateCategoriesWithEvents(categoryMap);
+
+        console.log('Categories updated with events successfully.');
         console.log('Events seeded successfully.');
     } catch (error) {
         console.error('Error seeding events:', error);
         throw error;
     }
-
-	
 };
 
 
