@@ -1,4 +1,4 @@
-import mongoose, {Schema, Document} from 'mongoose';
+import mongoose, {Schema, Document, Types} from 'mongoose';
 
 interface ITicket {
   type: string;
@@ -7,6 +7,7 @@ interface ITicket {
 
 export interface IEvent extends Document {
     title: string;
+    category: Types.ObjectId
     date: Date;
     location: string;
     description: string;
@@ -33,6 +34,21 @@ const EventSchema: Schema = new Schema({
 	tickets: {type: [TicketSchema], required: true},
 })
 
+interface ICategory extends Document {
+    name: string;
+    description: string;
+    events: Types.ObjectId[]; 
+    image: string;
+}
+
+const CategorySchema: Schema = new Schema({
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    events:[{ type: Schema.Types.ObjectId, ref: 'Event' }],
+    image: { type: String, required: true },
+});
+
+const CategoryModel = mongoose.model<ICategory>('Category', CategorySchema);
 const EventModel = mongoose.model<IEvent>('Event', EventSchema)
 
-export default EventModel;
+export { CategoryModel, EventModel };
