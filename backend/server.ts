@@ -1,9 +1,14 @@
-const express = require('express');
-const cors = require('cors');
+import express from 'express';
+import mongoose = require('mongoose');
+const CategoryModel = require('./models/Category.ts');
+import EventModel from "./models/Event";
+import cors from 'cors';
 const app = express();
-const connectDB = require('./config/db');
-require('dotenv').config();
-const PORT = 5000 || process.env.PORT;
+import connectDB from './config/db';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const PORT = 8000 || process.env.PORT;
 
 // Middleware
 app.use(express.json());
