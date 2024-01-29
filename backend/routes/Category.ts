@@ -10,7 +10,7 @@ router.get("/", async(req, res) => {
         res.status(200).json({
             categories
         })
-    } catch (error) {
+    } catch (error: any) {
         console.log(error.message);
     }
 })
@@ -34,7 +34,7 @@ router.get("/:id", async(req, res) => {
         category: categoryDoc
     })
     
-    } catch (error) {
+    } catch (error:any) {
         console.log(error.message);
     }
 })
