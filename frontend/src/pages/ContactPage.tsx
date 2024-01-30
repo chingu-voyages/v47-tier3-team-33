@@ -1,15 +1,17 @@
-// ContactPage.tsx
+import React from 'react';
+import ContactHero from '../components/ContactHero';
 
-const ContactPage= () => {
+const ContactPage: React.FC = () => {
   return (
-    <div className=" flex items-center justify-center bg-white h-screen">
-      <div className="justify-center container mx-auto px-4 rounded-md">
-        <h1 className="text-4xl font-bold mb-6 text-darkTeal ">Contact Us</h1>
-        <div>
+    <div className="flex items-center bg-white h-screen">
+      <ContactHero />
+
+      <div className="justify-center container mx-auto px-80 rounded-md">
         {/* Contact Form */}
-        <form className="bg-white p-10 rounded-md shadow-md">
+        <form className="bg-white p-10 rounded-lg shadow-lg w-full">
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
+              Your Name
             </label>
             <input
               type="text"
@@ -21,6 +23,7 @@ const ContactPage= () => {
           </div>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">
+              Your Email
             </label>
             <input
               type="email"
@@ -32,6 +35,7 @@ const ContactPage= () => {
           </div>
           <div className="mb-4">
             <label htmlFor="message" className="block text-gray-700 text-sm font-bold mb-2">
+              How can we help?
             </label>
             <textarea
               id="message"
@@ -43,17 +47,14 @@ const ContactPage= () => {
           </div>
           <button
             type="submit"
-            className="bg-yellow text-white font-bold py-2 px-4 rounded hover:bg-darkTeal"
+            className="bg-pink text-white font-bold py-2 px-4 rounded hover:bg-yellow"
           >
             Send Message
           </button>
         </form>
-        </div>
       </div>
     </div>
   );
 };
 
 export default ContactPage;
-
-
