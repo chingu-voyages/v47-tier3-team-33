@@ -1,4 +1,8 @@
+import React from 'react';
 import SearchBar from "../components/SearchBar"
+import ScrollingTags from '../components/ScrollingTags';
+
+
 
 const EventsPage= () => {
     return (
@@ -11,7 +15,11 @@ const EventsPage= () => {
                 throw new Error("Function not implemented.");
             } }/>
            </div>
-        </div>
+      <ScrollingTags />
+      {/* Add other components or content here */}
+    </div>
+
+      
 
     )
 }
