@@ -1,10 +1,9 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import EventsDetailPage from 'pages/EventsDetailPage';
 import { FiShare } from 'react-icons/fi';
+import RSVPButton from './RSVPButton';
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -30,14 +29,14 @@ export default function EventCard() {
 				onClick={handleOpen}
 				className='cursor-pointer h-[370px] md:h-[430px] lg:h-[370px] xl:h-[430px] w-full border flex flex-grow rounded-md shadow-md'
 			>
-				<div className='w-full flex flex-col justify-between'>
+				<div className='w-full flex flex-col justify-between relative'>
 					<div className='relative'>
 						<img
 							src='https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
 							alt='event image'
 							className='h-[200px] md:h-[250px] lg:h-[190px] xl:h-[250px] w-full'
 						/>
-						<p className='absolute bg-white text-black p-2 px-4 rounded-sm top-0 mt-2 ml-2'>
+						<p className='absolute bg-white text-black py-1 px-4 rounded-sm top-0 mt-2 ml-2'>
 							Free
 						</p>
 						<div className='p-2 text-lg'>
@@ -52,11 +51,18 @@ export default function EventCard() {
 					<div className='flex justify-between p-2 w-full'>
 						<p className=''>Attendees: 20</p>
 						<div className='space-x-3'>
-							<button className='bg-pink text-white rounded-md px-4'>
-								RSVP
-							</button>
-							<button className='absolute top-0 right-0 text-black'>
+							<div
+								onClick={(event) => {
+									event.stopPropagation();
+								}}
+							>
+								<RSVPButton />
+							</div>
+							<button className='absolute top-2 right-2 hover:text-white text-gray-300 opacity-20 hover:opacity-100 text-3xl flex flex-col items-center'>
 								<FiShare />
+								<p className='text-white text-sm opacity-0 hover:opacity-100'>
+									Share
+								</p>
 							</button>
 							{/* <button className='bg-pink text-white rounded-md px-4'>
 								Share
