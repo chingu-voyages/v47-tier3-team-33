@@ -3,70 +3,74 @@ import omnilogo from '../assets/omni-logo.png';
 import LRbutton from './LRbutton';
 
 const NavBar: React.FC = () => {
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+	const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 1068);
-    };
+	useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 1068);
+		};
 
-    handleResize(); // Set initial state based on window width
+		handleResize(); // Set initial state based on window width
 
-    window.addEventListener('resize', handleResize);
+		window.addEventListener('resize', handleResize);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
 
-  const renderNavLinks = () => (
-    <ul className='flex justify-center md:space-x-7 items-center mx-auto'>
-      {navLinks.map((link) => (
-        <li key={link.href}>
-          <a href={link.href} className='text-white hover:underline'>
-            {link.text}
-          </a>
-        </li>
-      ))}
-    </ul>
-  );
+	const renderNavLinks = () => (
+		<ul className='flex justify-center md:space-x-7 items-center mx-auto text-lg'>
+			{navLinks.map((link) => (
+				<li key={link.href}>
+					<a href={link.href} className='text-white hover:underline'>
+						{link.text}
+					</a>
+				</li>
+			))}
+		</ul>
+	);
 
-  const renderHamburgerMenu = () => (
-    <button className='tham tham-e-squeeze tham-w-7 bg-pink'>
-      <div className="tham-box">
-        <div className="tham-inner bg-white" />
-      </div>
-    </button>
-  );
+	const renderHamburgerMenu = () => (
+		<button className='tham tham-e-squeeze tham-w-7 bg-pink pl-4'>
+			<div className='tham-box'>
+				<div className='tham-inner bg-white' />
+			</div>
+		</button>
+	);
 
-  return (
-    <nav className='bg-pink flex items-center flex-wrap pb-10'>
-      {/* Logo */}
-      <div className='flex items-center  space-x-0 '>
-        <a href='/' className='text-white'>
-          <img className='object-contain h-48 w-auto' src={omnilogo} alt='Omni logo' />
-        </a>
-      </div>
+	return (
+		<nav className='bg-pink flex items-center justify-between relative py-8'>
+			{/* Logo */}
+			<div className='flex items-center space-x-0 absolute'>
+				<a href='/' className='text-white'>
+					<img className='object-contain h-60' src={omnilogo} alt='Omni logo' />
+				</a>
+			</div>
 
-      {/* Navigation Links or Hamburger Menu */}
-      {isMobile ? renderHamburgerMenu() : renderNavLinks()}
+			{/* Navigation Links or Hamburger Menu */}
+			{isMobile ? (
+				renderHamburgerMenu()
+			) : (
+				<div className='text-center w-full ml-32'>{renderNavLinks()}</div>
+			)}
 
-      {/* Login Button */}
-      <div className='ml-auto mr-8'>
-        <button className='bg-white hover:bg-yellow text-darkTeal font-bold py-1.25 px-3 border border-white rounded'>
-          <LRbutton />
-        </button>
-      </div>
-    </nav>
-  );
+			{/* Login Button */}
+			<div className='ml-auto mr-8'>
+				<button className='bg-white hover:bg-yellow text-darkTeal font-bold py-1.25 px-3 border border-white rounded'>
+					<LRbutton />
+				</button>
+			</div>
+		</nav>
+	);
 };
 
 // Define navigation links
 const navLinks = [
-  { href: '/about', text: 'About' },
-  { href: '/events', text: 'Events' },
-  { href: '/categories', text: 'Categories' },
-  { href: '/contact', text: 'Contact Us' },
+	{ href: '/about', text: 'About' },
+	{ href: '/events', text: 'Events' },
+	{ href: '/categories', text: 'Categories' },
+	{ href: '/contact', text: 'Contact Us' },
 ];
 
 export default NavBar;
