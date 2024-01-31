@@ -22,10 +22,14 @@ const AboutUs = () => {
 					></path>
 				</svg>
 
-				<div className='w-full mt-40 flex justify-center items-center -rotate-180'>
-					<img src={Planning} alt='hero party image' className='w-[50%] mt-8' />
+				<div className='w-full mt-[27%] md:mt-40 flex flex-col-reverse md:flex-row justify-center items-center -rotate-180'>
+					<img
+						src={Planning}
+						alt='hero party image'
+						className='w-[80%] md:w-[50%] mt-8'
+					/>
 
-					<h1 className='text-white text-5xl px-4 w-[37%]'>
+					<h1 className='text-white text-3xl md:text-5xl px-4 md:w-[37%] font-semibold ml-6 md:ml-0'>
 						Crafting Unforgettable Moments. Your Ultimate Events Planner.
 					</h1>
 				</div>
@@ -35,30 +39,30 @@ const AboutUs = () => {
 				<h2 className='text-center mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-pink'>
 					Our Mission
 				</h2>
-				<div className='text-center leading-10'>
-					<span className='text-[#3C0345] text-3xl text-medium'>
+				<div className='text-center leading-10 w-[90%] mx-auto '>
+					<span className='text-[#3C0345] text-2xl text-medium'>
 						Our mission is for you and your friends, family,
 					</span>
 					<br />
-					<span className='text-[#3C0345] text-3xl text-medium'>
+					<span className='text-[#3C0345] text-2xl text-medium'>
 						and customers can get together and share amazing events together.
 					</span>
 					<br />
-					<span className='text-[#3C0345] text-3xl text-medium'>
+					<span className='text-[#3C0345] text-2xl text-medium'>
 						We believe quality time and events are such a great opprotunity and
 					</span>
 					<br />
-					<span className='text-[#3C0345] text-3xl text-medium'>
+					<span className='text-[#3C0345] text-2xl text-medium'>
 						gift for people to have toegether we can unite the world as a
 						family.
 					</span>
 					<br />
-					<span className='text-[#3C0345] text-3xl text-medium'>
+					<span className='text-[#3C0345] text-2xl text-medium'>
 						Share your thoughts and plans with the world so the world can
 						recipricate
 					</span>
 					<br />
-					<span className='text-[#3C0345] text-3xl text-medium'>
+					<span className='text-[#3C0345] text-2xl text-medium'>
 						your thoughts and feelings.
 					</span>
 				</div>
