@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import EventsDetailPage from 'pages/EventsDetailPage';
 import { FiShare } from 'react-icons/fi';
+import RSVPButton from './RSVPButton';
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -50,9 +51,13 @@ export default function EventCard() {
 					<div className='flex justify-between p-2 w-full'>
 						<p className=''>Attendees: 20</p>
 						<div className='space-x-3'>
-							<button className='bg-pink text-white rounded-md px-4'>
-								RSVP
-							</button>
+							<div
+								onClick={(event) => {
+									event.stopPropagation();
+								}}
+							>
+								<RSVPButton />
+							</div>
 							<button className='absolute top-2 right-2 hover:text-white text-gray-300 opacity-20 hover:opacity-100 text-3xl flex flex-col items-center'>
 								<FiShare />
 								<p className='text-white text-sm opacity-0 hover:opacity-100'>
