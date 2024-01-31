@@ -1,12 +1,10 @@
 import express from 'express';
-import mongoose = require('mongoose');
-const CategoryModel = require('./models/Category.ts');
-import EventModel from "./models/Event";
 import cors from 'cors';
 const app = express();
 import connectDB from './config/db';
 import dotenv from 'dotenv';
 dotenv.config();
+import categoryRouter from './routers/Category';
 
 const PORT = 8000 || process.env.PORT;
 
@@ -22,6 +20,10 @@ app.use(cors());
 // Mongo URL and Connection
 connectDB();
 
-app.listen(PORT, () => {
+// Routes
+app.use('/categories', categoryRouter); 
+
+
+app.listen(PORT, () => { 
 	console.log(`App listening on port ${PORT}`);
 });

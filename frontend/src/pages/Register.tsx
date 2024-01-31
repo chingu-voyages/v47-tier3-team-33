@@ -4,7 +4,7 @@ const Register = () => {
 	const { handleLogin } = useAuth();
 	return (
 		<section>
-			<div className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-50 dark:border-gray-700'>
+			<div className='w-[50%] flex justify-center items-center mx-auto md:w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-50 dark:border-gray-700'>
 				<div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
 					<h2 className=' text-center text-xl font-bold leading-tight tracking-tight text-red-400 md:text-2xl dark:text-red-400'>
 						Event Planner
