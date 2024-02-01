@@ -1,9 +1,12 @@
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import axios from 'axios';
+import { MdRemoveRedEye } from 'react-icons/md';
+import { IoEyeOff } from 'react-icons/io5';
 
 const Register = () => {
 	const { handleLogin } = useAuth();
+	const [showPassword, setShowPassword] = useState(false);
 	const [formData, setFormData] = useState({
 		first_name: '',
 		sur_name: '',
@@ -95,15 +98,30 @@ const Register = () => {
 							<label className='block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900'>
 								Password
 							</label>
-							<input
-								type='password'
-								name='password'
-								id='password'
-								value={formData.password}
-								onChange={handleChange}
-								placeholder='••••••••'
-								className='bg-gray-50 border border-gray-300  sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500'
-							/>
+							<div className='flex bg-gray-50 border border-gray-300 justify-between items-center pr-2'>
+								<input
+									type={showPassword ? 'text' : 'password'}
+									name='password'
+									id='password'
+									value={formData.password}
+									onChange={handleChange}
+									placeholder='••••••••'
+									className='sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-[94%] p-2.5  dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500'
+								/>
+								{showPassword ? (
+									<MdRemoveRedEye
+										onClick={() => {
+											setShowPassword(false);
+										}}
+									/>
+								) : (
+									<IoEyeOff
+										onClick={() => {
+											setShowPassword(true);
+										}}
+									/>
+								)}
+							</div>
 						</div>
 						<div className='flex items-center justify-between'>
 							<div className='flex items-start'>
