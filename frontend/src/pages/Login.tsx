@@ -1,8 +1,11 @@
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
+import { MdRemoveRedEye } from 'react-icons/md';
+import { IoEyeOff } from 'react-icons/io5';
 
 const Login = () => {
 	const { loginUser, handleLogin } = useAuth();
+	const [showPassword, setShowPassword] = useState(false);
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
@@ -14,7 +17,7 @@ const Login = () => {
 		try {
 			loginUser(formData);
 		} catch (error: any) {
-			console.error('Login failed:', error.response.data.message);
+			console.error('Login failed:', error.message);
 		}
 	};
 
@@ -53,15 +56,30 @@ const Login = () => {
 							<label className='block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900'>
 								Password
 							</label>
-							<input
-								type='password'
-								name='password'
-								id='password'
-								value={formData.password}
-								onChange={handleChange}
-								placeholder='••••••••'
-								className='bg-gray-50 border border-gray-300  sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500'
-							/>
+							<div className='bg-gray-50 border border-gray-300 flex justify-between items-center w-full pr-1'>
+								<input
+									type={showPassword ? 'text' : 'password'}
+									name='password'
+									id='password'
+									value={formData.password}
+									onChange={handleChange}
+									placeholder='••••••••'
+									className=' sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-[94%] p-2.5 selection:dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500'
+								/>
+								{showPassword ? (
+									<MdRemoveRedEye
+										onClick={() => {
+											setShowPassword(false);
+										}}
+									/>
+								) : (
+									<IoEyeOff
+										onClick={() => {
+											setShowPassword(true);
+										}}
+									/>
+								)}
+							</div>
 						</div>
 						<div className='flex items-center justify-between'>
 							<div className='flex items-start'>

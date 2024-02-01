@@ -19,7 +19,7 @@ const UserSchema: Schema = new Schema({
 	password: { type: String, required: true },
 	profile_img: { type: String, required: false },
 	events: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
-	interests: { type: [String], required: true },
+	interests: { type: [String], required: false },
 });
 
 // Hash password before saving

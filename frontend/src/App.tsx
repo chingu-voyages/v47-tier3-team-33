@@ -6,12 +6,12 @@ import AboutUs from 'pages/AboutUs';
 import EventsPage from 'pages/EventsPage';
 import CategoriesPage from 'pages/CategoriesPage';
 import CreateEventPage from 'pages/CreateEventPage';
-import { useAuth } from "context/AuthContext";
-import {Navigate} from "react-router";
+import { useAuth } from 'context/AuthContext';
+import { Navigate } from 'react-router';
 
 function App() {
-	const {user} =useAuth()
-    console.log(user)
+	const { user } = useAuth();
+	console.log(user);
 
 	return (
 		<Layout>
@@ -19,13 +19,9 @@ function App() {
 				<Route path='/' element={<HomePage />} />
 				<Route path='/categories' element={<CategoriesPage />} />
 				<Route path='/contact' element={<ContactPage />} />
-        		<Route path='/about' element={<AboutUs />} />
+				<Route path='/about' element={<AboutUs />} />
 				<Route path='/events' element={<EventsPage />} />
-				{user?
-					<Route path='/createEvent' element={<CreateEventPage />} />
-				:
-					<Redirect to ='/' element={<HomePage />} />
-				}
+				<Route path='/create-event' element={<CreateEventPage />} />
 			</Routes>
 		</Layout>
 	);
