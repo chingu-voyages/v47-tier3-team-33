@@ -1,10 +1,16 @@
-
-
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "context/AuthContext";
+import {Navigate} from "react-router";
 
 const CreateEventPage= () => {
+    
+    const {user} =useAuth()
+    console.log(user)
+    // const navigate= useNavigate()
+    if(!user){
+        <Navigate to="/"/>
+    }
     return (
-
-
     <form className="w-full max-w-2xl content-center mx-auto	">
         <h2 className=' text-center text-xl font-bold leading-tight tracking-tight text-red-400 md:text-2xl dark:text-red-400'>
 						Event Planner
@@ -29,7 +35,7 @@ const CreateEventPage= () => {
                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" >
                     Start Date
                 </label>
-                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="date" placeholder="Event Name"/>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="time-date" placeholder="Event Name"/>
                 <p className="text-red-500 text-xs italic">Please fill out this field.</p>
             </div>
             <div className="w-full md:w-1/2 px-3">

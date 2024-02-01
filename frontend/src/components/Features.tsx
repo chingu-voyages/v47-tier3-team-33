@@ -155,7 +155,7 @@ function Features() {
 						/>{' '}
 					</h2>
 					<button className='bg-pink p-2 md:p-6 text-2xl md:text-4xl rounded-md mt-10 md:mt-28 text-white'>
-						Get started
+					<Link to="/createEvent">Get started</Link>
 					</button>
 				</div>
 			</div>
