@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Planner from './../assets/planner-svg.svg';
 import { Link } from 'react-router-dom';
 import {
@@ -8,45 +8,58 @@ import {
 import { useMediaQuery } from '@mui/material';
 import Typewriter from 'typewriter-effect';
 import confetti from '../assets/—Pngtree—colorful confetti falling png isolated_7432197.png';
+import axios from 'axios';
+// const categories = [
+// 	{
+// 		title: 'Music',
+// 		image:
+// 			'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+// 	},
+// 	{
+// 		title: 'Technology',
+// 		image:
+// 			'https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+// 	},
+// 	{
+// 		title: 'Sports & Fitness',
+// 		image:
+// 			'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+// 	},
+// ];
 
-const categories = [
-	{
-		title: 'Music',
-		image:
-			'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-	},
-	{
-		title: 'Technology',
-		image:
-			'https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-	},
-	{
-		title: 'Sports & Fitness',
-		image:
-			'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-	},
-	{
-		title: 'Theatre & Arts',
-		image:
-			'https://images.unsplash.com/photo-1640891175384-e599abd85c6d?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-	},
-];
+interface ICategory {
+	name: string;
+	description: string;
+	events: [];
+	image: string;
+}
 
 function Features() {
 	const isMobile = useMediaQuery('(min-width: 640px)');
 	let [currIdx, setCurrIdx] = useState<number>(0);
+	const [categories, setCategories] = useState<ICategory[]>([]);
 
 	const prevSlide = () => {
 		const isFirstSlide = currIdx === 0;
-		const newIndex = isFirstSlide ? categories.length - 1 : currIdx - 1;
+		const newIndex = isFirstSlide ? categories?.length - 1 : currIdx - 1;
 		setCurrIdx(newIndex);
 	};
 
 	const nextSlide = () => {
-		const isLastSlide = currIdx === categories.length - 1;
+		const isLastSlide = currIdx === categories?.length - 1;
 		const newIndex = isLastSlide ? 0 : currIdx + 1;
 		setCurrIdx(newIndex);
 	};
+
+	useEffect(() => {
+		const fetchCategories = async () => {
+			await axios.get('http://localhost:8000/categories').then((response) => {
+				console.log(response.data);
+				setCategories(response.data.categories);
+			});
+		};
+		fetchCategories();
+	}, []);
 
 	return (
 		<div className='h-full w-full bg-white z-20 relative pt-28 md:pt-36 pb-6'>
@@ -64,7 +77,7 @@ function Features() {
 						<span onClick={prevSlide}>
 							<MdKeyboardDoubleArrowLeft />
 						</span>
-						<div className='border bottom-2 border-black -mt-6 w-[250px] md:w-[300px] h-[250px] md:h-[370px] rounded-md relative'>
+						<div className='border bottom-2 -mt-6 w-[250px] md:w-[300px] h-[250px] md:h-[370px] rounded-md relative'>
 							<img
 								src={categories[currIdx].image}
 								alt='category image'
@@ -73,7 +86,7 @@ function Features() {
 							<div className='absolute bg-darkTeal w-full h-16 bottom-0 flex items-center justify-center'>
 								{' '}
 								<p className='text-3xl text-black'>
-									{categories[currIdx].title}
+									{categories[currIdx].name}
 								</p>
 							</div>
 						</div>
@@ -82,23 +95,29 @@ function Features() {
 						</span>
 					</div>
 				) : (
-					<div className='flex items-center justify-center space-x-10 mt-[80px] '>
-						{categories.map((cat, idx) => (
+					<div className='flex items-center mt-[80px] gap-10 '>
+						<span onClick={prevSlide}>
+							<MdKeyboardDoubleArrowLeft />
+						</span>
+						{categories.slice(0, 3).map((cat, idx) => (
 							<div
 								key={idx}
-								className='border bottom-2 border-black -mt-6 w-[250px] md:w-[300px] h-[250px] md:h-[370px] rounded-md relative'
+								className='border bottom-2 border-black -mt-6 w-[250px] md:w-[320px] h-[250px] md:h-[370px] rounded-md relative shadow-md'
 							>
 								<img
 									src={cat.image}
 									alt='category image'
 									className='h-full w-full object-cover'
 								/>
-								<div className='absolute bg-darkTeal w-full h-16 bottom-0 flex items-center justify-center'>
+								<div className='absolute  w-full h-16 top-36 opacity-60 hover:opacity-100 shadow-md bg-pink flex items-center justify-center ease-in-out'>
 									{' '}
-									<p className='text-3xl text-black'>{cat.title}</p>
+									<p className='text-3xl text-white'>{cat.name}</p>
 								</div>
 							</div>
 						))}
+						<span onClick={nextSlide}>
+							<MdKeyboardDoubleArrowRight />
+						</span>
 					</div>
 				)}
 			</div>
