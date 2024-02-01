@@ -1,7 +1,37 @@
 import { useAuth } from '../context/AuthContext';
+import { useState } from 'react';
+import axios from 'axios';
 
 const Register = () => {
 	const { handleLogin } = useAuth();
+	const [formData, setFormData] = useState({
+		first_name: '',
+		sur_name: '',
+		email: '',
+		password: '',
+	});
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
+	const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		try {
+			await axios
+				.post('http://localhost:8000/users', {
+					name: formData.first_name,
+					surname: formData.sur_name,
+					email: formData.email,
+					password: formData.password,
+				})
+				.then((response) => {
+					localStorage.setItem('user', JSON.stringify(response.data));
+					window.location.reload();
+				});
+		} catch (error: any) {
+			console.error('Registration failed:', error.message);
+		}
+	};
 	return (
 		<section>
 			<div className='w-[50%] flex justify-center items-center mx-auto md:w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-50 dark:border-gray-700'>
@@ -12,17 +42,23 @@ const Register = () => {
 					<h1 className='text-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-gray-900'>
 						Create an Account
 					</h1>
-					<form className='space-y-4 md:space-y-6' action='#'>
+					<form
+						className='space-y-4 md:space-y-6'
+						action='#'
+						onSubmit={handleRegister}
+					>
 						<div className='columns-2'>
 							<div>
 								<label className='block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900'>
 									First Name
 								</label>
 								<input
-									type='email'
-									name='email'
-									id='email'
-									className='bg-gray-50 border border-gray-300  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+									type='text'
+									name='first_name'
+									id='first_name'
+									value={formData.first_name}
+									onChange={handleChange}
+									className='bg-gray-50 border border-gray-300  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500'
 									placeholder='name@company.com'
 								/>
 							</div>
@@ -31,10 +67,12 @@ const Register = () => {
 									Last Name
 								</label>
 								<input
-									type='email'
-									name='email'
-									id='email'
-									className='bg-gray-50 border border-gray-300  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+									type='text'
+									name='sur_name'
+									id='sur_name'
+									value={formData.sur_name}
+									onChange={handleChange}
+									className='bg-gray-50 border border-gray-300  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500'
 									placeholder='name@company.com'
 								/>
 							</div>
@@ -47,7 +85,9 @@ const Register = () => {
 								type='email'
 								name='email'
 								id='email'
-								className='bg-gray-50 border border-gray-300  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+								value={formData.email}
+								onChange={handleChange}
+								className='bg-gray-50 border border-gray-300  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500'
 								placeholder='name@company.com'
 							/>
 						</div>
@@ -59,8 +99,10 @@ const Register = () => {
 								type='password'
 								name='password'
 								id='password'
+								value={formData.password}
+								onChange={handleChange}
 								placeholder='••••••••'
-								className='bg-gray-50 border border-gray-300  sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+								className='bg-gray-50 border border-gray-300  sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500'
 							/>
 						</div>
 						<div className='flex items-center justify-between'>

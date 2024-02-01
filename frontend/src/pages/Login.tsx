@@ -14,7 +14,7 @@ const Login = () => {
 		try {
 			loginUser(formData);
 		} catch (error: any) {
-			console.error('Login failed:', error.response.data.message);
+			console.error('Login failed:', error.message);
 		}
 	};
 
