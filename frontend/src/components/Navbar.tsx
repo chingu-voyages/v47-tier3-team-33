@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import omnilogo from '../assets/omni-logo.png';
 import LRbutton from './LRbutton';
 import { CgProfile } from 'react-icons/cg';
+import { Navigate } from 'react-router';
 
 const NavBar: React.FC = () => {
 	const [isMobile, setIsMobile] = useState<boolean>(false);

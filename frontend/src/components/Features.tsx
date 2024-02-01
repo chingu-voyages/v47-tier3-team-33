@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Planner from './../assets/planner-svg.svg';
 import { Link } from 'react-router-dom';
 import {
@@ -9,23 +10,7 @@ import { useMediaQuery } from '@mui/material';
 import Typewriter from 'typewriter-effect';
 import confetti from '../assets/—Pngtree—colorful confetti falling png isolated_7432197.png';
 import axios from 'axios';
-// const categories = [
-// 	{
-// 		title: 'Music',
-// 		image:
-// 			'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-// 	},
-// 	{
-// 		title: 'Technology',
-// 		image:
-// 			'https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-// 	},
-// 	{
-// 		title: 'Sports & Fitness',
-// 		image:
-// 			'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-// 	},
-// ];
+import { useAuth } from '../context/AuthContext';
 
 interface ICategory {
 	name: string;
@@ -50,6 +35,10 @@ function Features() {
 		const newIndex = isLastSlide ? 0 : currIdx + 1;
 		setCurrIdx(newIndex);
 	};
+
+	const navigate = useNavigate();
+
+	const { user } = useAuth();
 
 	useEffect(() => {
 		const fetchCategories = async () => {
@@ -154,8 +143,18 @@ function Features() {
 							}}
 						/>{' '}
 					</h2>
-					<button className='bg-pink p-2 md:p-6 text-2xl md:text-4xl rounded-md mt-10 md:mt-28 text-white'>
-					<Link to="/createEvent">Get started</Link>
+
+					<button
+						className='bg-pink p-2 md:p-6 text-2xl md:text-4xl rounded-md mt-10 md:mt-28 text-white'
+						onClick={() => {
+							if (user) {
+								navigate('/create-event');
+							} else {
+								window.scrollTo(0, 0);
+							}
+						}}
+					>
+						Get started
 					</button>
 				</div>
 			</div>
