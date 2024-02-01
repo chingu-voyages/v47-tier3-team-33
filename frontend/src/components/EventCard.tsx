@@ -5,6 +5,23 @@ import EventsDetailPage from 'pages/EventsDetailPage';
 import { FiShare } from 'react-icons/fi';
 import RSVPButton from './RSVPButton';
 
+interface Event {
+	title: string;
+	category: string;
+	date?: Date;
+	location: string;
+	description: string;
+	image: string;
+	tickets: {
+		type: string;
+		price: number;
+	}[];
+}
+
+interface EventCardProps {
+	event: Event;
+}
+
 const style = {
 	position: 'absolute' as 'absolute',
 	top: '50%',
@@ -18,7 +35,7 @@ const style = {
 	p: 4,
 };
 
-export default function EventCard() {
+export default function EventCard({ event }: EventCardProps) {
 	const [open, setOpen] = React.useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -32,7 +49,11 @@ export default function EventCard() {
 				<div className='w-full flex flex-col justify-between relative'>
 					<div className='relative'>
 						<img
-							src='https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+							src={
+								!event.image
+									? 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
+									: event.image
+							}
 							alt='event image'
 							className='h-[200px] md:h-[250px] lg:h-[190px] xl:h-[250px] w-full'
 						/>
@@ -40,12 +61,10 @@ export default function EventCard() {
 							Free
 						</p>
 						<div className='p-2 text-lg'>
-							<p className='font-medium md:text-lg'>
-								Networking Event: Let Us connect
-							</p>
+							<p className='font-medium md:text-lg'>{event.title}</p>
 							<p className=''>Date: Saturday, January 13, 2024</p>
 							<p className=''>Time: 2:00pm - 3:00pm</p>
-							<p className=''>Location: Virtual</p>
+							<p className=''>Location: {event.location}</p>
 						</div>
 					</div>
 					<div className='flex justify-between p-2 w-full'>
@@ -78,7 +97,7 @@ export default function EventCard() {
 				aria-describedby='modal-modal-description'
 			>
 				<Box sx={style}>
-					<EventsDetailPage close={handleClose} />
+					<EventsDetailPage close={handleClose} event={event} />
 				</Box>
 			</Modal>
 		</div>
