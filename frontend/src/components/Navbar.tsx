@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import omnilogo from '../assets/omni-logo.png';
 import LRbutton from './LRbutton';
+import { CgProfile } from 'react-icons/cg';
 
 const NavBar: React.FC = () => {
 	const [isMobile, setIsMobile] = useState<boolean>(false);
+	const { user } = useAuth();
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -57,9 +60,15 @@ const NavBar: React.FC = () => {
 
 			{/* Login Button */}
 			<div className='ml-auto mr-8'>
-				<button className='bg-white hover:bg-yellow text-darkTeal font-bold py-1.25 px-3 border border-white rounded'>
-					<LRbutton />
-				</button>
+				{!user ? (
+					<button className='bg-white hover:bg-yellow text-darkTeal font-bold py-1.25 px-3 border border-white rounded'>
+						<LRbutton />
+					</button>
+				) : (
+					<div className=''>
+						<CgProfile />
+					</div>
+				)}
 			</div>
 		</nav>
 	);
