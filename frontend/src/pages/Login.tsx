@@ -1,7 +1,26 @@
 import { useAuth } from '../context/AuthContext';
+import { useState } from 'react';
 
 const Login = () => {
-	const { login, setLogin, handleLogin } = useAuth();
+	const { loginUser, handleLogin } = useAuth();
+	const [formData, setFormData] = useState({
+		email: '',
+		password: '',
+	});
+
+	const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		try {
+			loginUser(formData);
+		} catch (error: any) {
+			console.error('Login failed:', error.response.data.message);
+		}
+	};
+
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
 
 	return (
 		<div className='flex flex-col items-center justify-center'>
@@ -11,7 +30,11 @@ const Login = () => {
 						Welcome Back!
 					</h1>
 
-					<form className='space-y-4 md:space-y-6' action='#'>
+					<form
+						className='space-y-4 md:space-y-6'
+						action='#'
+						onSubmit={handleLoginSubmit}
+					>
 						<div>
 							<label className='block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900'>
 								Email Address
@@ -20,7 +43,9 @@ const Login = () => {
 								type='email'
 								name='email'
 								id='email'
-								className='bg-gray-50 border border-gray-300  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+								value={formData.email}
+								onChange={handleChange}
+								className='bg-gray-50 border border-gray-300  rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500'
 								placeholder='name@company.com'
 							/>
 						</div>
@@ -32,8 +57,10 @@ const Login = () => {
 								type='password'
 								name='password'
 								id='password'
+								value={formData.password}
+								onChange={handleChange}
 								placeholder='••••••••'
-								className='bg-gray-50 border border-gray-300  sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+								className='bg-gray-50 border border-gray-300  sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500'
 							/>
 						</div>
 						<div className='flex items-center justify-between'>
