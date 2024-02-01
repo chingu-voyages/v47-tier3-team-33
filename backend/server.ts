@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import categoryRouter from './routers/Category';
 import EventRouter from './routers/Events';
+import userRouter from './routers/User';
 
 const PORT = 8000 || process.env.PORT;
 
@@ -24,6 +25,7 @@ connectDB();
 // Routes
 app.use('/categories', categoryRouter);
 app.use('/events', EventRouter);
+app.use('/users', userRouter);
 
 app.listen(PORT, () => {
 	console.log(`App listening on port ${PORT}`);
