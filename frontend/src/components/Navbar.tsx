@@ -3,10 +3,12 @@ import { useAuth } from '../context/AuthContext';
 import omnilogo from '../assets/omni-logo.png';
 import LRbutton from './LRbutton';
 import { CgProfile } from 'react-icons/cg';
-import { Navigate } from 'react-router';
+import { Link } from 'react-router-dom';
+import { IoClose } from 'react-icons/io5';
 
 const NavBar: React.FC = () => {
 	const [isMobile, setIsMobile] = useState<boolean>(false);
+	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 	const { user } = useAuth();
 
 	useEffect(() => {
@@ -35,26 +37,60 @@ const NavBar: React.FC = () => {
 		</ul>
 	);
 
+	const toggleMenu = () => {
+		setMenuOpen(!menuOpen);
+	};
+
 	const renderHamburgerMenu = () => (
-		<button className='tham tham-e-squeeze tham-w-7 bg-pink pl-4'>
+		<button
+			className='tham tham-e-squeeze tham-w-7 bg-pink w-[60px] h-[60px] text-center flex justify-start items-center pl-4 z-50'
+			onClick={toggleMenu}
+		>
 			<div className='tham-box'>
 				<div className='tham-inner bg-white' />
 			</div>
 		</button>
 	);
 
+	const renderCloseIcon = () => (
+		<button className='bg-pink pl-4 cursor-pointer z-50' onClick={toggleMenu}>
+			<span className='text-white text-4xl'>
+				<IoClose />
+			</span>
+		</button>
+	);
+
 	return (
-		<nav className='bg-pink flex items-center justify-between relative py-8'>
+		<nav className='bg-pink flex items-center justify-between relative py-8 w-full'>
 			{/* Logo */}
-			<div className='flex items-center space-x-0 absolute'>
-				<a href='/' className='text-white'>
+			<div className='flex items-center justify-center absolute z-20'>
+				<a href='/' className='text-white '>
 					<img className='object-contain h-60' src={omnilogo} alt='Omni logo' />
 				</a>
 			</div>
 
 			{/* Navigation Links or Hamburger Menu */}
 			{isMobile ? (
-				renderHamburgerMenu()
+				<>
+					{menuOpen ? renderCloseIcon() : renderHamburgerMenu()}
+
+					{menuOpen && (
+						<div className='absolute top-[90px] bg-pink w-full h-screen flex flex-col space-y-16 items-center pt-20 text-xl z-50 text-white font-medium'>
+							{navLinks.map((link, idx) => (
+								<div
+									className=''
+									key={idx}
+									onClick={() => {
+										setMenuOpen(false);
+									}}
+								>
+									<Link to={link.href}>{link.text}</Link>
+									<div className='bg-yellow border-2 border-yellow absolute bottom-0 left-0 w-full h-1 bg-yellow-300 transform translate-x-full transition-transform duration-300 ease-in-out hover:translate-x-0 z-50'></div>
+								</div>
+							))}
+						</div>
+					)}
+				</>
 			) : (
 				<div className='text-center w-full ml-32'>{renderNavLinks()}</div>
 			)}
