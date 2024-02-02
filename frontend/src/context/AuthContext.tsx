@@ -18,8 +18,12 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 interface User {
+	_id?: string;
 	email: string;
 	password: string;
+	user?: {
+		_id: string;
+	};
 }
 
 export const useAuth = () => {
@@ -43,8 +47,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 				'http://localhost:8000/users/login',
 				userData
 			);
-
-			console.log('Login successful:', response.data);
 
 			// Store user data in localStorage
 			localStorage.setItem('user', JSON.stringify(response.data));
@@ -72,7 +74,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 			setUser(parsedUser);
 		}
 	}, []);
-	console.log('user', user);
 
 	return (
 		<AuthContext.Provider

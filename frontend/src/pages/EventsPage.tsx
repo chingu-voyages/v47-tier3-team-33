@@ -4,7 +4,7 @@ import ScrollingTags from '../components/ScrollingTags';
 import EventCard from 'components/EventCard';
 import axios from 'axios';
 interface IEvent {
-	id: string;
+	_id: string;
 	title: string;
 	category: string;
 	location: string;
@@ -19,7 +19,6 @@ const EventsPage = () => {
 	useEffect(() => {
 		const getAllEvents = async () => {
 			await axios.get('http://localhost:8000/events').then((response) => {
-				console.log(response.data);
 				setEvents(response.data.events);
 			});
 		};
@@ -45,7 +44,7 @@ const EventsPage = () => {
 				</h3>
 				<div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
 					{events.map((event, idx) => (
-						<EventCard key={idx} event={event} id={undefined} />
+						<EventCard key={idx} event={event} />
 					))}
 				</div>
 			</div>
