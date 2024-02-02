@@ -12,6 +12,19 @@ export const getEvents = async (req: Request, res: Response) => {
 	}
 };
 
+export const getEventById = async (req: Request, res: Response) => {
+	try {
+		const event = await EventModel.findById(req.params.id);
+		if (!event) {
+			return res.status(404).json({ error: 'Event not found' });
+		}
+		res.json(event);
+	} catch (error: any) {
+		console.log(error);
+		res.status(500).json({ error: error.message || 'Internal Server Error' });
+	}
+};
+
 export const createEvent = async (req: Request, res: Response) => {
 	try {
 		const eventData: IEvent = req.body;
