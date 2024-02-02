@@ -25,6 +25,7 @@ const EventsPage = () => {
 		};
 		getAllEvents();
 	}, []);
+
 	return (
 		<div className=' justify-center h-full m-8 mb-72'>
 			<div className='flex justify-center pt-32 text-black text-4xl '>
@@ -39,12 +40,12 @@ const EventsPage = () => {
 			</div>
 			<ScrollingTags />
 			<div className='h-full'>
-				<h3 className='text-black text-2xl font-medium mb-4 mt-6'>
-					Current events nearby
+				<h3 className='text-black text-2xl font-medium mb-8 mt-12'>
+					Upcoming events
 				</h3>
 				<div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
 					{events.map((event, idx) => (
-						<EventCard key={idx} event={event} />
+						<EventCard key={idx} event={event} id={undefined} />
 					))}
 				</div>
 			</div>

@@ -1,9 +1,11 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import EventsDetailPage from 'pages/EventsDetailPage';
 import { FiShare } from 'react-icons/fi';
 import RSVPButton from './RSVPButton';
+import axios from 'axios';
+import { eventNames } from 'process';
 
 interface Event {
 	title: string;
@@ -19,6 +21,9 @@ interface Event {
 }
 
 interface EventCardProps {
+	id?: {
+		_id: string;
+	};
 	event: Event;
 }
 
@@ -35,10 +40,27 @@ const style = {
 	p: 4,
 };
 
-export default function EventCard({ event }: EventCardProps) {
+export default function EventCard({ event, id }: EventCardProps) {
+	const [cardEvent, setCardEvent] = useState<Event | null>(null);
+
+	const eventId = id && typeof id === 'object' ? id._id : id;
+
 	const [open, setOpen] = React.useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+
+	const fetchEvent = async () => {
+		{
+			const event = await axios.get(`http://localhost:8000/events/${eventId}`);
+			console.log('eve', event.data);
+			setCardEvent(event.data);
+		}
+	};
+	useEffect(() => {
+		if (id !== undefined) {
+			fetchEvent();
+		}
+	}, []);
 
 	return (
 		<div>
@@ -50,7 +72,11 @@ export default function EventCard({ event }: EventCardProps) {
 					<div className='relative'>
 						<img
 							src={
-								!event.image
+								cardEvent
+									? !cardEvent.image
+										? 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
+										: cardEvent.image
+									: !event.image
 									? 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
 									: event.image
 							}
@@ -61,10 +87,14 @@ export default function EventCard({ event }: EventCardProps) {
 							Free
 						</p>
 						<div className='p-2 text-lg'>
-							<p className='font-medium md:text-lg'>{event.title}</p>
+							<p className='font-medium md:text-lg'>
+								{cardEvent ? cardEvent.title : event.title}
+							</p>
 							<p className=''>Date: Saturday, January 13, 2024</p>
 							<p className=''>Time: 2:00pm - 3:00pm</p>
-							<p className=''>Location: {event.location}</p>
+							<p className=''>
+								Location: {cardEvent ? cardEvent.location : event.location}
+							</p>
 						</div>
 					</div>
 					<div className='flex justify-between p-2 w-full'>
@@ -97,7 +127,10 @@ export default function EventCard({ event }: EventCardProps) {
 				aria-describedby='modal-modal-description'
 			>
 				<Box sx={style}>
-					<EventsDetailPage close={handleClose} event={event} />
+					<EventsDetailPage
+						close={handleClose}
+						event={cardEvent ? cardEvent : event}
+					/>
 				</Box>
 			</Modal>
 		</div>
