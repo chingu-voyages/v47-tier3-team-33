@@ -13,6 +13,7 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
 interface ICategory {
+	_id: string;
 	name: string;
 	description: string;
 	events: [];
@@ -31,8 +32,7 @@ function Features() {
 	};
 
 	const nextSlide = () => {
-		const isLastSlide = currIdx === categories?.length - 1;
-		const newIndex = isLastSlide ? 0 : currIdx + 1;
+		const newIndex = (currIdx + 3) % categories.length;
 		setCurrIdx(newIndex);
 	};
 
@@ -61,54 +61,39 @@ function Features() {
 						Create an event for your next gathering
 					</h3>
 				</div>
-				{!isMobile ? (
-					<div className='flex items-center justify-center space-x-10 mt-[80px]'>
-						<span onClick={prevSlide}>
-							<MdKeyboardDoubleArrowLeft />
-						</span>
-						<div className='border bottom-2 -mt-6 w-[250px] md:w-[300px] h-[250px] md:h-[370px] rounded-md relative'>
+
+				<div className='flex items-center justify-center mt-[80px] gap-10 '>
+					<span
+						onClick={prevSlide}
+						className='text-3xl cursor-pointer mb-12 bg-yellow p-2 rounded-full'
+					>
+						<MdKeyboardDoubleArrowLeft />
+					</span>
+					{categories.slice(currIdx, currIdx + 3).map((cat, idx) => (
+						<div
+							key={idx}
+							className='border bottom-2 border-black -mt-6 w-[250px] md:w-[320px] h-[250px] md:h-[370px] rounded-md relative shadow-md'
+						>
 							<img
-								src={categories[currIdx].image}
+								src={cat.image}
 								alt='category image'
 								className='h-full w-full object-cover'
 							/>
-							<div className='absolute bg-darkTeal w-full h-16 bottom-0 flex items-center justify-center'>
-								{' '}
-								<p className='text-3xl text-black'>
-									{categories[currIdx].name}
-								</p>
-							</div>
-						</div>
-						<span onClick={nextSlide}>
-							<MdKeyboardDoubleArrowRight />
-						</span>
-					</div>
-				) : (
-					<div className='flex items-center mt-[80px] gap-10 '>
-						<span onClick={prevSlide}>
-							<MdKeyboardDoubleArrowLeft />
-						</span>
-						{categories.slice(0, 3).map((cat, idx) => (
-							<div
-								key={idx}
-								className='border bottom-2 border-black -mt-6 w-[250px] md:w-[320px] h-[250px] md:h-[370px] rounded-md relative shadow-md'
-							>
-								<img
-									src={cat.image}
-									alt='category image'
-									className='h-full w-full object-cover'
-								/>
-								<div className='absolute  w-full h-16 top-36 opacity-60 hover:opacity-100 shadow-md bg-pink flex items-center justify-center ease-in-out'>
+							<Link to={`/categories/${cat._id}`}>
+								<div className='absolute  w-full h-16 top-36 opacity-60 hover:opacity-100 shadow-md bg-pink flex items-center justify-center ease-in-out cursor-pointer'>
 									{' '}
 									<p className='text-3xl text-white'>{cat.name}</p>
 								</div>
-							</div>
-						))}
-						<span onClick={nextSlide}>
-							<MdKeyboardDoubleArrowRight />
-						</span>
-					</div>
-				)}
+							</Link>
+						</div>
+					))}
+					<span
+						onClick={nextSlide}
+						className='text-3xl cursor-pointer mb-12 bg-yellow p-2 rounded-full'
+					>
+						<MdKeyboardDoubleArrowRight />
+					</span>
+				</div>
 			</div>
 			<div className='bg-teal mt-20 md:mt-36 h-[730px] md:pt-20'>
 				<div className='w-full h-full flex flex-col-reverse md:flex-row justify-center items-center'>
