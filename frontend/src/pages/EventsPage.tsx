@@ -4,7 +4,7 @@ import ScrollingTags from '../components/ScrollingTags';
 import EventCard from 'components/EventCard';
 import axios from 'axios';
 interface IEvent {
-	id: string;
+	_id: string;
 	title: string;
 	category: string;
 	location: string;
@@ -19,12 +19,12 @@ const EventsPage = () => {
 	useEffect(() => {
 		const getAllEvents = async () => {
 			await axios.get('http://localhost:8000/events').then((response) => {
-				console.log(response.data);
 				setEvents(response.data.events);
 			});
 		};
 		getAllEvents();
 	}, []);
+
 	return (
 		<div className=' justify-center h-full m-8 mb-72'>
 			<div className='flex justify-center pt-32 text-black text-4xl '>
@@ -39,8 +39,8 @@ const EventsPage = () => {
 			</div>
 			<ScrollingTags />
 			<div className='h-full'>
-				<h3 className='text-black text-2xl font-medium mb-4 mt-6'>
-					Current events nearby
+				<h3 className='text-black text-2xl font-medium mb-8 mt-12'>
+					Upcoming events
 				</h3>
 				<div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
 					{events.map((event, idx) => (

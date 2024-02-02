@@ -1,9 +1,13 @@
-import React from 'react';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
 import { FaFacebook } from 'react-icons/fa6';
 import { FaSquareXTwitter } from 'react-icons/fa6';
 import { FaLinkedin } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { useAuth } from 'context/AuthContext';
+
 interface Event {
+	_id: string;
 	title: string;
 	category: string;
 	date?: Date;
@@ -36,7 +40,27 @@ const EventsDetailPage = ({
 	close: () => void;
 	event: Event;
 }) => {
-	console.log('eventtt', event);
+	const { user } = useAuth();
+
+	const eventId = event?._id;
+	const userId = user?.user?._id;
+
+	const handleBookingEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		try {
+			await axios.post('http://localhost:8000/events/rsvp', {
+				userId: userId,
+				eventId: eventId,
+			});
+			toast('You have successfully RSVPed to the event!', {
+				style: {
+					color: 'green',
+				},
+			});
+		} catch (error: any) {
+			console.log(error);
+		}
+	};
 	return (
 		<div className='h-full w-full overflow-y-auto'>
 			<div className='text-xl mb-2'>
@@ -54,7 +78,10 @@ const EventsDetailPage = ({
 					<p className='font-semibold text-xl text-black'>Date & Time</p>
 					<p className='text-gray-400'>Saturday, Sep 14, 2019 at 20:30 PM</p>
 					<div className='flex flex-col space-y-2 text-white text-lg mt-4'>
-						<button className='bg-pink py-2 rounded-md font-medium'>
+						<button
+							className='bg-pink py-2 rounded-md font-medium'
+							onClick={handleBookingEvent}
+						>
 							Book Now (Free)
 						</button>
 						<button className='bg-darkTeal py-2 rounded-md font-medium'>

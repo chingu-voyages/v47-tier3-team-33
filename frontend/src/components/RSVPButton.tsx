@@ -2,6 +2,12 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import axios from 'axios';
+import { useAuth } from 'context/AuthContext';
+import { toast } from 'react-toastify';
+interface RSVPButtonProps {
+	id?: string;
+}
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -15,10 +21,33 @@ const style = {
 	p: 4,
 };
 
-export default function RSVPButton() {
+const RSVPButton: React.FC<RSVPButtonProps> = ({ id }) => {
 	const [open, setOpen] = React.useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+
+	const { user } = useAuth();
+
+	const userId = user?.user?._id;
+	const eventId = id;
+
+	const handleBookingEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+
+		try {
+			await axios.post('http://localhost:8000/events/rsvp', {
+				userId: userId,
+				eventId: eventId,
+			});
+			toast('You have successfully RSVPed to the event!', {
+				style: {
+					color: 'green',
+				},
+			});
+		} catch (error: any) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<div>
@@ -39,11 +68,23 @@ export default function RSVPButton() {
 						Interested in this event?
 					</Typography>
 					<div className=' flex items-center space-x-4'>
-						<button className='bg-pink px-4 rounded-sm'>YES</button>
-						<button className='bg-pink px-4 rounded-sm'>NO</button>
+						<button
+							className='bg-pink px-4 rounded-sm'
+							onClick={(e) => {
+								handleBookingEvent(e);
+								handleClose();
+							}}
+						>
+							YES
+						</button>
+						<button className='bg-pink px-4 rounded-sm' onClick={handleClose}>
+							NO
+						</button>
 					</div>
 				</Box>
 			</Modal>
 		</div>
 	);
-}
+};
+
+export default RSVPButton;
