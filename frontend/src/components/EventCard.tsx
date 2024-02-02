@@ -5,9 +5,9 @@ import EventsDetailPage from 'pages/EventsDetailPage';
 import { FiShare } from 'react-icons/fi';
 import RSVPButton from './RSVPButton';
 import axios from 'axios';
-import { eventNames } from 'process';
 
 interface Event {
+	_id: string;
 	title: string;
 	category: string;
 	date?: Date;
@@ -105,7 +105,7 @@ export default function EventCard({ event, id }: EventCardProps) {
 									event.stopPropagation();
 								}}
 							>
-								<RSVPButton />
+								<RSVPButton id={event._id} />
 							</div>
 							<button className='absolute top-2 right-2 hover:text-white text-gray-300 opacity-20 hover:opacity-100 text-3xl flex flex-col items-center'>
 								<FiShare />
@@ -113,9 +113,6 @@ export default function EventCard({ event, id }: EventCardProps) {
 									Share
 								</p>
 							</button>
-							{/* <button className='bg-pink text-white rounded-md px-4'>
-								Share
-							</button> */}
 						</div>
 					</div>
 				</div>

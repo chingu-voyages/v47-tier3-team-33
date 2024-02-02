@@ -3,13 +3,12 @@ import { teamMembers } from 'data';
 import { FaLinkedin } from 'react-icons/fa';
 import { FaGithub } from 'react-icons/fa';
 import { IoGlobeOutline } from 'react-icons/io5';
-import confetti from '../assets/—Pngtree—colorful confetti falling png isolated_7432197.png';
 import { Link } from 'react-router-dom';
 
 const AboutUs = () => {
 	return (
 		<div className=''>
-			<div className=' -rotate-180 bg-pink h-[500px] md:h-[800px]'>
+			<div className=' -rotate-180 bg-pink h-[550px] md:h-[800px]'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					viewBox='0 0 1200 120'
@@ -22,11 +21,11 @@ const AboutUs = () => {
 					></path>
 				</svg>
 
-				<div className='w-full mt-[27%] md:mt-40 flex flex-col-reverse md:flex-row justify-center items-center -rotate-180'>
+				<div className='w-full mt-[30%] md:mt-40 flex flex-col-reverse md:flex-row justify-center items-center -rotate-180'>
 					<img
 						src={Planning}
 						alt='hero party image'
-						className='w-[80%] md:w-[50%] mt-8'
+						className='w-[80%] md:w-[50%] lg:w-[30%] mt-20 md:mt-8'
 					/>
 
 					<h1 className='text-white text-3xl md:text-5xl px-4 md:w-[37%] font-semibold ml-6 md:ml-0'>

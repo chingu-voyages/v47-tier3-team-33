@@ -6,13 +6,10 @@ import AboutUs from 'pages/AboutUs';
 import EventsPage from 'pages/EventsPage';
 import CategoriesPage from 'pages/CategoriesPage';
 import CreateEventPage from 'pages/CreateEventPage';
-import { useAuth } from 'context/AuthContext';
-import { Navigate } from 'react-router';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-	const { user } = useAuth();
-	console.log(user);
-
 	return (
 		<Layout>
 			<Routes>
@@ -23,6 +20,12 @@ function App() {
 				<Route path='/events' element={<EventsPage />} />
 				<Route path='/create-event' element={<CreateEventPage />} />
 			</Routes>
+			<ToastContainer
+				autoClose={5000}
+				closeOnClick
+				theme='light'
+				hideProgressBar={false}
+			/>
 		</Layout>
 	);
 }
