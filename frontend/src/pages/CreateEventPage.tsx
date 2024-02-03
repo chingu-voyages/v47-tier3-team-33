@@ -1,17 +1,14 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useAuth } from 'context/AuthContext';
-import { Navigate } from 'react-router';
 
 const CreateEventPage = () => {
-	const { user } = useAuth();
-	console.log(user);
-	// const navigate= useNavigate()
-	if (user === null) {
-		<Navigate to='/' />;
-	}
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
 	return (
-		<form className='w-full max-w-2xl content-center mx-auto	'>
-			<h2 className=' text-center text-xl font-bold leading-tight tracking-tight text-red-400 md:text-2xl dark:text-red-400'>
+		<form className='w-full max-w-2xl content-center mx-auto py-20'>
+			<h2 className='flex justify-center items-center text-center text-xl font-bold leading-tight tracking-tight text-red-400 md:text-2xl dark:text-red-400 mb-10'>
 				Event Planner
 			</h2>
 			<div className='flex flex-wrap -mx-3 mb-6'>

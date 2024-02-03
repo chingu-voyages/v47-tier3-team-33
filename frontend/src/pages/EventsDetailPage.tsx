@@ -43,7 +43,7 @@ const EventsDetailPage = ({
 	const { user } = useAuth();
 
 	const eventId = event?._id;
-	const userId = user?.user?._id;
+	const userId = user?._id;
 
 	const handleBookingEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();

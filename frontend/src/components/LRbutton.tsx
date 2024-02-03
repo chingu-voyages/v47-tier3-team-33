@@ -18,10 +18,7 @@ const style = {
 };
 
 const LRbutton = () => {
-	const { login, setLogin } = useAuth();
-	const [open, setOpen] = React.useState(false);
-	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+	const { login, setLogin, handleOpen, handleClose, open } = useAuth();
 
 	return (
 		<div>

@@ -1,7 +1,11 @@
 import HeroImg from '../assets/hero-icon.png';
 import { Link } from 'react-router-dom';
+import { useAuth } from 'context/AuthContext';
 
 function Hero() {
+	const { user, handleOpen } = useAuth();
+	console.log(user);
+
 	return (
 		<div className='h-full w-full'>
 			<div className='left-0 w-full overflow-hidden line-0 transform -rotate-180 bg-pink h-[550px] md:h-[790px]'>
@@ -22,11 +26,22 @@ function Hero() {
 							Crafting Unforgettable Moments. Your Ultimate Events Planner.
 						</h1>
 						<div className='space-y-4 md:space-y-0 md:space-x-8 mt-[240px] md:mt-20 flex flex-col md:flex-row'>
-							<Link to='/about'>
-								<button className='bg-white w-40 h-10 md:h-full md:w-full md:p-4 rounded-md md:text-2xl text-[#3C0345]'>
-									Get started for free
-								</button>
-							</Link>
+							{user ? (
+								<Link to={'/create-event'}>
+									<button className='bg-white w-40 h-10 md:h-full md:w-full md:p-4 rounded-md md:text-2xl text-[#3C0345]'>
+										Create a event
+									</button>
+								</Link>
+							) : (
+								<div>
+									<button
+										className='bg-white w-40 h-10 md:h-full md:w-full md:p-4 rounded-md md:text-2xl text-[#3C0345]'
+										onClick={handleOpen}
+									>
+										Create a event
+									</button>
+								</div>
+							)}
 							<Link to='/events'>
 								<button className='bg-white w-40 h-10 md:h-full md:w-full md:p-4 rounded-md md:text-2xl text-[#3C0345]'>
 									Explore events
