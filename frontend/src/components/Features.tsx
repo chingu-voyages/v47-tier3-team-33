@@ -38,7 +38,7 @@ function Features() {
 
 	const navigate = useNavigate();
 
-	const { user } = useAuth();
+	const { user, handleOpen } = useAuth();
 
 	const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 1250);
 
@@ -177,6 +177,7 @@ function Features() {
 								navigate('/create-event');
 							} else {
 								window.scrollTo(0, 0);
+								handleOpen();
 							}
 						}}
 					>

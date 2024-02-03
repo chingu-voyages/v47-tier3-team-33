@@ -90,12 +90,12 @@ const AboutUs = () => {
 									<a href='#'>{member.name}</a>
 								</h3>
 								<p>{member.role}</p>
-								<ul className='flex justify-center mt-4 space-x-4'>
+								<ul className='flex justify-center mt-4 space-x-4 text-2xl'>
 									<br />
 									<li>
 										<Link
 											to={member.github}
-											className='text-gray-900 hover:text-gray-900 dark:hover:text-white dark:text-gray-300'
+											className='text-gray-900 hover:text-gray-900 dark:hover:text-white dark:text-gray-300 text'
 										>
 											<FaGithub />
 										</Link>
@@ -108,11 +108,13 @@ const AboutUs = () => {
 											<FaLinkedin />
 										</Link>
 									</li>
-									<li>
-										<Link
-											to={member.website}
-											className='text-gray-900 hover:text-gray-900 dark:hover:text-white dark:text-gray-300'
-										>
+									<li
+										className='text-gray-900 
+											
+											hover:border-2 
+											hover:h-full hover:border-pink dark:text-gray-300'
+									>
+										<Link to={member.website}>
 											<IoGlobeOutline />
 										</Link>
 									</li>
