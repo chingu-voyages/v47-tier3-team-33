@@ -8,11 +8,14 @@ interface ITicket {
 export interface IEvent extends Document {
     title: string;
     category: Types.ObjectId
-    date: Date;
+	startDate: Date;
+    endDate: Date;
     location: string;
     description: string;
+	organizer: string;
     image: string;
 	tickets: ITicket[];
+	attendees: number;
 }
 
 const TicketSchema: Schema = new Schema({
@@ -27,11 +30,14 @@ const EventSchema: Schema = new Schema({
         ref: 'Category',
         required: true,
     },
-    date: { type: Date, required: true},
+    startDate: { type: Date, required: true},
+    endDate: { type: Date, required: true},
     location: { type: String, required: true},
     description: { type: String, required: true},
+    organizer: { type: String, required: true},
     image: { type: String, required: true},
 	tickets: {type: [TicketSchema], required: true},
+    attendees: { type: Number, required: true},
 })
 
 interface ICategory extends Document {
