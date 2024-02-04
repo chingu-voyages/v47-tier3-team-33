@@ -10,6 +10,9 @@ interface AuthContextProps {
 	login: boolean;
 	setLogin: (value: boolean) => void;
 	handleLogin: () => void;
+	open: boolean;
+	handleOpen: () => void;
+	handleClose: () => void;
 	loginUser: (userData: User) => void;
 	logoutUser: () => void;
 	user: User | null;
@@ -39,6 +42,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
 	const [login, setLogin] = useState<boolean>(true);
 	const [user, setUser] = useState<User | null>(null);
+	const [open, setOpen] = useState<boolean>(false);
+
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => setOpen(false);
 
 	const loginUser = async (userData: User) => {
 		try {
@@ -77,7 +84,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
 	return (
 		<AuthContext.Provider
-			value={{ user, login, setLogin, handleLogin, loginUser, logoutUser }}
+			value={{
+				user,
+				login,
+				setLogin,
+				handleLogin,
+				handleOpen,
+				handleClose,
+				loginUser,
+				logoutUser,
+				open,
+			}}
 		>
 			{children}
 		</AuthContext.Provider>

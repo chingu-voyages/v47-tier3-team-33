@@ -28,7 +28,8 @@ const RSVPButton: React.FC<RSVPButtonProps> = ({ id }) => {
 
 	const { user } = useAuth();
 
-	const userId = user?.user?._id;
+	const userId = user?._id;
+	console.log(userId);
 	const eventId = id;
 
 	const handleBookingEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {

@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { CategoryModel, EventModel, IEvent } from './models/Event';
 import connectDB from './config/db';
+import { IUser } from './models/User';
 
 // Connect to the database
 connectDB();
@@ -127,7 +128,8 @@ const seedEvents = async () => {
 			{
 				title: 'Summer Music Festival',
 				category: 'Music',
-				date: '2024-07-15',
+				startDate: '2024-07-15',
+				endDate: '2024-07-16',
 				location: 'City Park Amphitheater',
 				description:
 					'Join us for a vibrant summer music festival featuring a lineup of diverse artists. Enjoy the tunes, food trucks, and a lively atmosphere!',
@@ -143,11 +145,14 @@ const seedEvents = async () => {
 						price: 49.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'Acoustic Night: Unplugged Sessions',
 				category: 'Music',
-				date: '2024-08-02',
+				startDate: '2024-08-02',
+				endDate: '2024-08-02',
 				location: 'Harmony Lounge',
 				description:
 					'An intimate evening of acoustic performances by talented local musicians. Unplug and unwind with soulful melodies and captivating lyrics.',
@@ -159,11 +164,14 @@ const seedEvents = async () => {
 						price: 15.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'City Marathon Challenge',
 				category: 'Sports and Fitness',
-				date: '2024-09-10',
+				startDate: '2024-09-10',
+				endDate: '2024-09-10',
 				location: 'City Streets',
 				description:
 					'Join the annual city marathon and challenge yourself to conquer the streets. Run, jog, or walk—everyone is welcome!',
@@ -175,11 +183,14 @@ const seedEvents = async () => {
 						price: 29.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'Yoga in the Park',
 				category: 'Sports and Fitness',
-				date: '2024-08-20',
+				startDate: '2024-08-20',
+				endDate: '2024-08-20',
 				location: 'Central Park',
 				description:
 					'Experience tranquility with an outdoor yoga session in the heart of the city. Embrace the serenity of nature as you stretch and rejuvenate.',
@@ -191,11 +202,14 @@ const seedEvents = async () => {
 						price: 19.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'Tech Summit 2024',
 				category: 'Tech and Innovation',
-				date: '2024-10-05',
+				startDate: '2024-10-05',
+				endDate: '2024-10-06',
 				location: 'Innovation Center',
 				description:
 					"Connect with industry leaders, explore emerging technologies, and gain insights into the future of tech at this year's Tech Summit.",
@@ -207,11 +221,14 @@ const seedEvents = async () => {
 						price: 149.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'HackathonX',
 				category: 'Tech and Innovation',
-				date: '2024-09-18',
+				startDate: '2024-09-18',
+				endDate: '2024-09-19',
 				location: 'Tech Hub',
 				description:
 					'Unleash your coding skills and creativity at HackathonX. Collaborate with fellow developers to solve real-world challenges and win exciting prizes.',
@@ -223,11 +240,14 @@ const seedEvents = async () => {
 						price: 49.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'TechConnect 2024',
 				category: 'Tech and Innovation',
-				date: '2024-10-25',
+				startDate: '2024-10-25',
+				endDate: '2024-10-26',
 				location: 'Innovation Center',
 				description:
 					'Join TechConnect 2024, the premier tech conference of the year. Explore the latest trends in technology, attend insightful talks by industry experts, and network with like-minded professionals.',
@@ -243,11 +263,14 @@ const seedEvents = async () => {
 						price: 199.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'Concert Under the Stars',
 				category: 'Music',
-				date: '2024-08-12',
+				startDate: '2024-08-12',
+				endDate: '2024-08-12',
 				location: 'Central Park Amphitheater',
 				description:
 					'Experience a magical evening with Concert Under the Stars. Enjoy live performances by top artists across genres under the open sky.',
@@ -263,11 +286,14 @@ const seedEvents = async () => {
 						price: 99.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'Classical Symphony Night',
 				category: 'Music',
-				date: '2024-09-30',
+				startDate: '2024-09-30',
+				endDate: '2024-10-01',
 				location: 'Symphony Hall',
 				description:
 					'Immerse yourself in the enchanting melodies of Classical Symphony Night. Be mesmerized by timeless compositions performed by world-class orchestras.',
@@ -283,11 +309,14 @@ const seedEvents = async () => {
 						price: 79.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'Art Exhibition: Modern Masters',
 				category: 'Arts & Theater',
-				date: '2024-08-20',
+				startDate: '2024-08-20',
+				endDate: '2024-08-21',
 				location: 'Metropolitan Art Gallery',
 				description:
 					'Explore the works of Modern Masters at this captivating art exhibition. Witness breathtaking paintings, sculptures, and installations by renowned contemporary artists.',
@@ -303,11 +332,14 @@ const seedEvents = async () => {
 						price: 49.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'Shakespeare in the Park: Hamlet',
 				category: 'Arts & Theater',
-				date: '2024-09-15',
+				startDate: '2024-09-15',
+				endDate: '2024-09-15',
 				location: 'Central Park Amphitheater',
 				description:
 					'Experience the timeless tale of Hamlet performed live in the enchanting setting of Central Park Amphitheater. Join us for an unforgettable evening of theater under the stars.',
@@ -323,11 +355,14 @@ const seedEvents = async () => {
 						price: 69.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'Gourmet Food Festival',
 				category: 'Food & Drink',
-				date: '2024-08-25',
+				startDate: '2024-08-25',
+				endDate: '2024-08-25',
 				location: 'Downtown Culinary Square',
 				description:
 					'Indulge your taste buds in a culinary adventure at the Gourmet Food Festival. Experience exquisite dishes, fine wines, and a celebration of gastronomic delights.',
@@ -343,11 +378,14 @@ const seedEvents = async () => {
 						price: 99.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'Mindful Meditation Retreat',
 				category: 'Health & Wellness',
-				date: '2024-09-05',
+				startDate: '2024-09-05',
+				endDate: '2024-09-05',
 				location: 'Serene Sanctuary Retreat Center',
 				description:
 					'Escape the hustle and bustle with a Mindful Meditation Retreat. Rejuvenate your mind and body through guided meditation, yoga sessions, and holistic wellness activities.',
@@ -359,11 +397,14 @@ const seedEvents = async () => {
 						price: 149.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'Community Cleanup Day',
 				category: 'Community & Charity',
-				date: '2024-08-12',
+				startDate: '2024-08-12',
+				endDate: '2024-08-12',
 				location: 'City Park',
 				description:
 					'Join hands for a day of community service! Community Cleanup Day is an opportunity to make a positive impact. Contribute to a cleaner, greener environment.',
@@ -375,11 +416,14 @@ const seedEvents = async () => {
 						price: 0.0,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 			{
 				title: 'Adventure Backpacking Expedition',
 				category: 'Travel & Outdoor',
-				date: '2024-09-20',
+				startDate: '2024-09-20',
+				endDate: '2024-09-20',
 				location: 'Mountain Base Camp',
 				description:
 					'Embark on a thrilling adventure with our Backpacking Expedition. Traverse scenic trails, camp under the stars, and connect with nature in this epic outdoor experience.',
@@ -391,13 +435,19 @@ const seedEvents = async () => {
 						price: 79.99,
 					},
 				],
+				attendees: 0,
+				organizer: '65bd9e52b039f1d2045cfafa',
 			},
 		];
 
 		const eventsToInsert: Partial<IEvent>[] = eventsData.map((event) => ({
 			...event,
-			category: categoryMap[event.category.trim().toLowerCase()], // Use category name to get corresponding ObjectId
-			date: new Date(event.date), // Convert 'date' to 'Date' object
+			category: categoryMap[event.category.trim().toLowerCase()],
+			startDate: new Date(event.startDate),
+			endDate: new Date(event.endDate),
+			organizer: new mongoose.Types.ObjectId(event.organizer) as unknown as
+				| IUser
+				| undefined,
 		}));
 
 		await EventModel.insertMany(eventsToInsert);
