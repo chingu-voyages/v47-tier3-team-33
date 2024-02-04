@@ -28,7 +28,6 @@ const EventsPage = () => {
 	}, []);
   
 	const handleSearch = (query: string) => {
-	  // Use the .filter method to filter events based on the title or other properties
 	  const filtered = events.filter((event) =>
 		event.title.toLowerCase().includes(query.toLowerCase())
 	  );
@@ -54,7 +53,7 @@ const EventsPage = () => {
 			))}
 		  </div>
 		</div>
-		{/* Add other components or content here */}
+	
 	  </div>
 	);
   };
