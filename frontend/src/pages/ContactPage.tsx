@@ -49,7 +49,6 @@ emailjs.send(serviceId, templateId, templateParams, userId)
             </label>
             <input
               type='text'
-              id='name'
               name='name'
               value={name}
               className='w-full p-2 border border-gray-300 rounded text-black'
@@ -63,7 +62,6 @@ emailjs.send(serviceId, templateId, templateParams, userId)
             </label>
             <input
               type='email'
-              id='email'
               name='email'
               value={email}
               className='w-full p-2 border border-gray-300 rounded text-black'
@@ -76,7 +74,6 @@ emailjs.send(serviceId, templateId, templateParams, userId)
               How can we help?
             </label>
             <textarea
-              id='message'
               name='message'
               value={message}
               rows={4}
