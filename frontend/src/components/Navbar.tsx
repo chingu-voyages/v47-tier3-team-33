@@ -6,6 +6,9 @@ import { CgProfile } from 'react-icons/cg';
 import { Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 
+import SideDrawer from '../navagation/SideDrawer';
+
+
 const NavBar: React.FC = () => {
 	const [isMobile, setIsMobile] = useState<boolean>(false);
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -60,13 +63,39 @@ const NavBar: React.FC = () => {
 		</button>
 	);
 
+
+
+
+
+
+
+
+
+	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+    const openDrawerHandler = () => {
+        setDrawerIsOpen(true);
+    };
+    const closeDrawerHandler = () => {
+        setDrawerIsOpen(false);
+    };
 	return (
 		<nav className='bg-pink flex items-center justify-between relative py-8 w-full'>
-			{/* Logo */}
-			<div className='flex items-center justify-center absolute z-20'>
+			
+
+			<div className='flex items-center justify-center absolute z-20' onClick={openDrawerHandler}>
 				<a href='/' className='text-white '>
 					<img className='object-contain h-60' src={omnilogo} alt='Omni logo' />
 				</a>
+			</div>
+
+			{drawerIsOpen && user && 
+			<div className="absolute right-1 bg-white h-[600px] text-black top-20 z-50 p-10">
+			Hello
+			</div>
+			}
+			
+			<div className="absolute right-1 bg-white h-[900px] w-[550px] text-black top-1 z-50 p-10">
+				<SideDrawer/>
 			</div>
 
 			{/* Navigation Links or Hamburger Menu */}
