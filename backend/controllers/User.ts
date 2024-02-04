@@ -27,6 +27,16 @@ export const getUserById = async (req: Request, res: Response) => {
 	}
 };
 
+export const getUser = async (req: Request, res: Response) => {
+  try {
+    const users = await UserModel.find();
+    res.json(users);
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 export const loginUser = async (req: Request, res: Response) => {
 	try {
 		const { email, password } = req.body;
