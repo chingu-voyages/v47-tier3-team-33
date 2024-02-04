@@ -8,7 +8,7 @@ const ContactPage: React.FC = () => {
 				<ContactHero />
 			</div>
 
-			<div className='justify-center container mx-auto px-80 rounded-md'>
+			<>
 				{/* Contact Form */}
 				<form className='bg-white p-10 rounded-lg shadow-lg w-full'>
 					<div className='mb-4'>
@@ -63,7 +63,7 @@ const ContactPage: React.FC = () => {
 						Send Message
 					</button>
 				</form>
-			</div>
+			</>
 		</div>
 	);
 };
