@@ -63,3 +63,9 @@ export const loginUser = async (req: Request, res: Response) => {
 		res.status(500).json({ error: 'Internal Server Error' });
 	}
 };
+
+export const logoutUser = (req: Request, res: Response) => {
+  // Since JWT is stateless, the client-side is usually responsible for logging out
+
+  res.status(200).json({ message: 'Logout successful' });
+};
