@@ -10,7 +10,7 @@ export const createUser = async (req: Request, res: Response) => {
 		res.status(201).json(savedUser);
 	} catch (error: any) {
 		console.log(error);
-		res.status(500).json({ error: error.message || 'Internal Server Error' });
+		res.status(500).json({ error: error.message || 'Error registering user.' });
 	}
 };
 
@@ -23,8 +23,18 @@ export const getUserById = async (req: Request, res: Response) => {
 		res.json(user);
 	} catch (error: any) {
 		console.log(error);
-		res.status(500).json({ error: error.message || 'Internal Server Error' });
+		res.status(500).json({ error: error.message || 'Error finding user via getUserById.' });
 	}
+};
+
+export const getUser = async (req: Request, res: Response) => {
+  try {
+    const users = await UserModel.find();
+    res.json(users);
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ error: 'Error finding user via getUser.' });
+  }
 };
 
 export const loginUser = async (req: Request, res: Response) => {
@@ -50,6 +60,12 @@ export const loginUser = async (req: Request, res: Response) => {
 		res.json({ token, user });
 	} catch (error: any) {
 		console.error(error);
-		res.status(500).json({ error: 'Internal Server Error' });
+		res.status(500).json({ error: 'Error logging in user.' });
 	}
+};
+
+export const logoutUser = (req: Request, res: Response) => {
+  // Since JWT is stateless, the client-side is usually responsible for logging out
+
+  res.status(200).json({ message: 'Logout successful' });
 };
