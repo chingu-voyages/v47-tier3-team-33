@@ -94,7 +94,7 @@ const NavBar: React.FC = () => {
 			</div>
 			}
 			
-			<div className="absolute right-1 bg-white h-[900px] w-[550px] text-black top-1 z-50 p-10">
+			<div className="absolute right-1 bg-white h-[900px] w-[350px] text-black top-1 z-50 p-10 ">
 				<SideDrawer/>
 			</div>
 
