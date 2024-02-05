@@ -6,6 +6,9 @@ import { CgProfile } from 'react-icons/cg';
 import { Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 
+import SideDrawer from '../navagation/SideDrawer';
+
+
 const NavBar: React.FC = () => {
 	const [isMobile, setIsMobile] = useState<boolean>(false);
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
@@ -60,14 +63,37 @@ const NavBar: React.FC = () => {
 		</button>
 	);
 
+
+
+
+
+
+
+
+
+	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
+    const openDrawerHandler = () => {
+        setDrawerIsOpen(true);
+    };
+    const closeDrawerHandler = () => {
+        setDrawerIsOpen(false);
+    };
 	return (
 		<nav className='bg-pink flex items-center justify-between relative py-8 w-full'>
-			{/* Logo */}
+			
+
 			<div className='flex items-center justify-center absolute z-20'>
 				<a href='/' className='text-white '>
 					<img className='object-contain h-60' src={omnilogo} alt='Omni logo' />
 				</a>
 			</div>
+
+			{drawerIsOpen && user && 
+			<div className="rounded-lg absolute right-1 bg-gray-100 h-[400px] w-[250px] text-black top-20 z-50 p-4 ">
+				<SideDrawer/>
+			</div>
+			}
+
 
 			{/* Navigation Links or Hamburger Menu */}
 			{isMobile ? (
@@ -96,13 +122,13 @@ const NavBar: React.FC = () => {
 			)}
 
 			{/* Login Button */}
-			<div className='ml-auto mr-8'>
+			<div className='ml-auto mr-8' >
 				{!user ? (
 					<button className='bg-white hover:bg-yellow text-darkTeal font-bold py-1.25 px-3 border border-white rounded'>
 						<LRbutton />
 					</button>
 				) : (
-					<div className=''>
+					<div className=' 'onClick={openDrawerHandler}>
 						<CgProfile />
 					</div>
 				)}
