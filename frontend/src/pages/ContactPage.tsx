@@ -1,5 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import ContactHero from '../components/ContactHero';
+import MessageConfirmation from '../components/MessegeConfirmation';
 import emailjs, { init } from 'emailjs-com';
 
 init('service_gl868wq'); // Replace 'user_your_user_id' with your EmailJS user ID
@@ -8,6 +9,7 @@ const ContactPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,16 +24,23 @@ const ContactPage: React.FC = () => {
       to_name: 'Omni Events',
       message: message,
     };
-emailjs.send(serviceId, templateId, templateParams, userId)
-	.then((response) => {
-      console.log('Email sent successfully:', response);
-	  setName('')
-	  setEmail('')
-	  setMessage('');
-    })
-	.catch ((error) => {
-      console.error('Error sending email:', error);
-    })
+
+    emailjs
+      .send(serviceId, templateId, templateParams, userId)
+      .then((response) => {
+        console.log('Email sent successfully:', response);
+        setName('');
+        setEmail('');
+        setMessage('');
+        setShowConfirmation(true); // Show the confirmation modal
+      })
+      .catch((error) => {
+        console.error('Error sending email:', error);
+      });
+  };
+
+  const closeConfirmationModal = () => {
+    setShowConfirmation(false);
   };
 
   return (
@@ -89,6 +98,11 @@ emailjs.send(serviceId, templateId, templateParams, userId)
             Send Message
           </button>
         </form>
+
+        {/* Message Confirmation Modal */}
+        {showConfirmation && (
+          <MessageConfirmation onClose={closeConfirmationModal} />
+        )}
       </>
     </div>
   );
