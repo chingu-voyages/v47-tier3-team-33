@@ -51,7 +51,7 @@ const ContactPage: React.FC = () => {
 
       <>
         {/* Contact Form */}
-        <form onSubmit={handleSubmit} className='emailForm bg-white p-10 rounded-lg shadow-lg w-full mx-40'>
+        <form onSubmit={handleSubmit} className='emailForm bg-white p-10 rounded-lg shadow-lg w-full mx-8 sm:mx-16 md:mx-32 lg:mx-40'>
           <div className='mb-4'>
             <label htmlFor='name' className='block text-gray-700 text-sm font-bold mb-2'>
               Your Name
