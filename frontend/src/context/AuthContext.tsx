@@ -17,9 +17,11 @@ interface AuthContextProps {
 	logoutUser: () => void;
 	user: User | null;
 	text: string;
-	setText: (text:string) => void;
+	setText: (text: string) => void;
 	conversationId: string;
-	setConversationId: (text:string) => void;
+	setConversationId: (test: string) => void;
+	notifications: Notification[];
+	setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -31,6 +33,10 @@ interface User {
 	user?: {
 		_id: string;
 	};
+}
+
+interface Notification {
+	_id: string;
 }
 
 export const useAuth = () => {
@@ -48,6 +54,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 	const [user, setUser] = useState<User | null>(null);
 	const [open, setOpen] = useState<boolean>(false);
 	const [text, setText] = useState<string>('');
+	const [notifications, setNotifications] = useState<Notification[]>([]);
 	const [conversationId, setConversationId] = useState<string>('');
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -99,7 +106,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 				loginUser,
 				logoutUser,
 				open,
-				text, setText,conversationId, setConversationId
+				text,
+				setText,
+				conversationId,
+				setConversationId,
+				notifications,
+				setNotifications,
 			}}
 		>
 			{children}
