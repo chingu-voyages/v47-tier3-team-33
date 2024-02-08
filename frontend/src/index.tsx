@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-
+import { SocketProvider } from './context/SocketContext';
 library.add(faSearch);
 
 const root = ReactDOM.createRoot(
@@ -14,10 +14,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
 	<React.StrictMode>
-		<AuthProvider>
-			<Router>
-				<App />
-			</Router>
-		</AuthProvider>
+		<SocketProvider>
+			<AuthProvider>
+				<Router>
+					<App />
+				</Router>
+			</AuthProvider>
+		</SocketProvider>
 	</React.StrictMode>
 );

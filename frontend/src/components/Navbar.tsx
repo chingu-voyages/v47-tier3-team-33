@@ -5,16 +5,17 @@ import LRbutton from './LRbutton';
 import { CgProfile } from 'react-icons/cg';
 import { Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
-
 import SideDrawer from '../navagation/SideDrawer';
-
 import { FaRegBell } from 'react-icons/fa';
 import NotificationTabs from './notificationTabs';
+import { useSocket } from '../context/SocketContext';
 
 const NavBar: React.FC = () => {
+	const socket = useSocket();
 	const [isMobile, setIsMobile] = useState<boolean>(false);
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 	const [showNotifications, setShowNotifications] = useState<boolean>(false);
+	const [newNotifications, setNewNotifications] = useState<boolean>(false);
 	const { user, setText } = useAuth();
 	console.log(user);
 
@@ -31,6 +32,15 @@ const NavBar: React.FC = () => {
 			window.removeEventListener('resize', handleResize);
 		};
 	}, []);
+
+	useEffect(() => {
+		console.log('navbar socket');
+		socket &&
+			socket.on('getNotification', () => {
+				setNewNotifications((prevNotifications) => !prevNotifications);
+				console.log('done');
+			});
+	}, [socket]);
 
 	const renderNavLinks = () => (
 		<ul className='flex justify-center md:space-x-7 items-center mx-auto text-lg'>
@@ -124,9 +134,14 @@ const NavBar: React.FC = () => {
 					<div className='flex text-2xl space-x-6 text-white'>
 						<div className='text-yellow cursor-pointer'>
 							<FaRegBell
-								onClick={() => setShowNotifications(!showNotifications)}
+								onClick={() => {
+									setShowNotifications(!showNotifications);
+									setNewNotifications(false);
+								}}
 							/>
-							<div className='w-3 h-3 bg-red-600 rounded-full absolute right-[70px] z-50 top-7'></div>
+							{newNotifications && (
+								<div className='w-3 h-3 bg-red-600 rounded-full absolute right-[70px] top-7'></div>
+							)}
 							{showNotifications && (
 								<div>
 									<div
