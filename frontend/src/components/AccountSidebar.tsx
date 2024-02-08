@@ -5,6 +5,7 @@ import { IoCreate } from 'react-icons/io5';
 import { TbStackFront } from 'react-icons/tb';
 import { TbStackMiddle } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
+import { useNavigate } from 'react-router';
 
 interface SidebarProps {
 	isExpanded: boolean;
@@ -14,6 +15,13 @@ interface SidebarProps {
 const AccountSidebar = ({ isExpanded, setText }: SidebarProps) => {
 	const [activeLink, setActiveLink] = useState<number>(0);
 
+	const navigate = useNavigate();
+
+	const handleLogout = () => {
+		localStorage.clear();
+		navigate('/');
+		window.location.reload();
+	};
 	return (
 		<div className='h-screen w-full px-10 py-12'>
 			<div
@@ -41,10 +49,13 @@ const AccountSidebar = ({ isExpanded, setText }: SidebarProps) => {
 					</div>
 				))}
 			</div>
-			{/* <button className='mt-8 font-medium text-xl bg-pink text-white px-6 py-2 rounded-md flex items-center justify-between space-x-2'>
+			<button
+				className='mt-8 font-medium text-xl bg-pink text-white px-6 py-2 rounded-md flex items-center justify-between space-x-2'
+				onClick={handleLogout}
+			>
 				<BiLogOutCircle />
 				{isExpanded && <p className=''>Logout</p>}
-			</button> */}
+			</button>
 		</div>
 	);
 };
