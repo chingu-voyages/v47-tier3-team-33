@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useAuth } from 'context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { useSocket } from '../context/SocketContext';
 
 interface Event {
 	_id: string;
@@ -45,9 +46,14 @@ const EventsDetailPage = ({
 	const { user, setText, setConversationId } = useAuth();
 
 	const eventId = event?._id;
+	console.log('eventID*:', eventId);
 	const eventOrganizerId = event?.organizer;
+	console.log('event organizer*:', eventOrganizerId);
 	const userId = user?.user?._id;
+	console.log('userID*:', userId);
 
+	const socket = useSocket();
+	console.log('socket:', socket);
 	console.log('eventt: ', event);
 	console.log('userId:: ', userId);
 	const navigate = useNavigate();
@@ -59,6 +65,17 @@ const EventsDetailPage = ({
 				userId: userId,
 				eventId: eventId,
 			});
+
+			if (socket) {
+				socket.emit('rsvp', {
+					type: 'rsvp', // Notification type
+					eventId: eventId,
+					userId: userId,
+					organizerId: eventOrganizerId,
+				});
+				console.log('RSVP socket event emitted successfully');
+			}
+
 			toast('You have successfully RSVPed to the event!', {
 				style: {
 					color: 'green',

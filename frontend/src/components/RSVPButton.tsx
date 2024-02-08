@@ -7,6 +7,7 @@ import { useAuth } from 'context/AuthContext';
 import { toast } from 'react-toastify';
 interface RSVPButtonProps {
 	id?: string;
+	organizerId: string;
 }
 
 const style = {
@@ -21,7 +22,7 @@ const style = {
 	p: 4,
 };
 
-const RSVPButton: React.FC<RSVPButtonProps> = ({ id }) => {
+const RSVPButton: React.FC<RSVPButtonProps> = ({ id, organizerId }) => {
 	const [open, setOpen] = React.useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -39,6 +40,7 @@ const RSVPButton: React.FC<RSVPButtonProps> = ({ id }) => {
 				userId: userId,
 				eventId: eventId,
 			});
+
 			toast('You have successfully RSVPed to the event!', {
 				style: {
 					color: 'green',

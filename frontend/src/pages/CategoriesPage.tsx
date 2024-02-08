@@ -9,6 +9,7 @@ interface ICategory {
 	name: string;
 	description: string;
 	events: [];
+	organizerId: string;
 	image: string;
 }
 
@@ -59,7 +60,7 @@ const CategoriesPage = () => {
 					<div className='text-3xl mt-10 pl-8 py-30'>{category?.name}</div>
 					<div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-8'>
 						{category?.events.map((event, idx) => (
-							<EventCard event={event} id={event} />
+							<EventCard key={idx} event={event} id={event} />
 						))}
 					</div>
 				</div>

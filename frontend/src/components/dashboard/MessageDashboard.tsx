@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from 'context/AuthContext';
-import io from 'socket.io-client';
-
-const socket = io('http://localhost:8000');
+import { useAuth } from '../../context/AuthContext';
+import { useSocket } from '../../context/SocketContext';
 
 interface IConversation {
 	_id: string;
@@ -17,13 +15,6 @@ interface IMessage {
 	text: string;
 	createdAt: string;
 }
-interface Notification {
-	sender: string;
-	message: string;
-	type: string;
-	createdAt: string;
-}
-
 interface RecieverProfile {
 	_id: string;
 	name: string;
@@ -31,6 +22,7 @@ interface RecieverProfile {
 	email: string;
 }
 const MessageDashboard = () => {
+	const socket = useSocket();
 	const [conversations, setConversations] = useState<IConversation[]>([]);
 	const [messages, setMessages] = useState<IMessage[]>([]);
 	const [message, setMessage] = useState('');
@@ -41,30 +33,22 @@ const MessageDashboard = () => {
 		email: '',
 	});
 
-	const {
-		user,
-		setConversationId,
-		conversationId,
-		notifications,
-		setNotifications,
-	} = useAuth();
+	const { user, setConversationId, conversationId } = useAuth();
 	const userId = user?.user?._id;
-	console.log('u:', userId);
-
-	console.log('cid:', conversationId);
 
 	const [selectedConversationId, setSelectedConversationId] = useState<
 		string | null
 	>(null);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		socket.emit('typing', conversationId);
+		if (socket) {
+			socket.emit('typing', conversationId);
+		}
 		setMessage(e.target.value);
 	};
 	const receivers = conversations?.map((convo) =>
 		convo?.participants?.filter((a) => a !== userId)
 	);
-	console.log(receivers);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -77,18 +61,28 @@ const MessageDashboard = () => {
 			});
 
 			setMessage('');
-			socket.emit('send_message', {
-				conversationId,
-				sender: userId,
-				text: message,
-			});
-
-			socket.emit('send_notification', {
-				sender: userId,
-				reciever: receivers[0],
-				message: message,
-			});
-		} catch (error) {
+			if (socket) {
+				socket
+					.emit('message', {
+						conversationId,
+						sender: userId,
+						recipient: receivers[0],
+						text: message,
+					})
+					.emit('sendNotification', {
+						sender: userId,
+						recipient: receivers[0],
+						type: 'new inbox message',
+					});
+			}
+			if (socket) {
+				socket.emit('send_notification', {
+					sender: userId,
+					recipient: receivers[0],
+					message: message,
+				});
+			}
+		} catch (error: any) {
 			console.error('Error sending message:', error);
 		}
 	};
@@ -98,36 +92,13 @@ const MessageDashboard = () => {
 			setMessages((prevMessages) => [...prevMessages, message]);
 		};
 
-		socket.on('message', handleReceiveMessage);
+		if (socket) {
+			socket.on('message', handleReceiveMessage);
 
-		return () => {
-			socket.off('message', handleReceiveMessage);
-		};
-	}, []);
-
-	useEffect(() => {
-		const handleReceiveNotification = (notification: any) => {
-			console.log('Received notification:', notification);
-			setNotifications((prevNotifications) => [
-				...prevNotifications,
-				notification,
-			]);
-		};
-
-		socket.on('notification', handleReceiveNotification);
-
-		return () => {
-			socket.off('notification', handleReceiveNotification);
-		};
-	}, []);
-
-	useEffect(() => {
-		socket.on('notification', (notification) => {
-			setNotifications((prevNotifications) => [
-				...prevNotifications,
-				notification,
-			]);
-		});
+			return () => {
+				socket.off('message', handleReceiveMessage);
+			};
+		}
 	}, []);
 
 	const fetchUser = async () => {
@@ -156,8 +127,8 @@ const MessageDashboard = () => {
 		fetchConversations();
 
 		return () => {
-			socket.off('connect');
-			socket.off('disconnect');
+			socket && socket.off('connect');
+			socket && socket.off('disconnect');
 		};
 	}, []);
 
@@ -174,12 +145,11 @@ const MessageDashboard = () => {
 	};
 
 	useEffect(() => {
-		socket.on('recieve_message', (data) => {
-			alert(data.message);
-		});
+		socket &&
+			socket.on('recieve_message', (data) => {
+				alert(data.message);
+			});
 	}, [socket]);
-
-	console.log('notifications: ', notifications);
 
 	return (
 		<div className='flex h-[780px] w-full mb-40'>

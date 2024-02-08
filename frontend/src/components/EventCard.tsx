@@ -106,7 +106,7 @@ export default function EventCard({ event, id }: EventCardProps) {
 									event.stopPropagation();
 								}}
 							>
-								<RSVPButton id={event._id} />
+								<RSVPButton id={event._id} organizerId={event.organizer} />
 							</div>
 							<button className='absolute top-2 right-2 hover:text-white text-gray-300 opacity-20 hover:opacity-100 text-3xl flex flex-col items-center'>
 								<FiShare />
