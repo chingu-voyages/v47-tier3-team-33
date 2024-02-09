@@ -8,6 +8,8 @@ import CategoriesPage from 'pages/CategoriesPage';
 import CreateEventPage from 'pages/CreateEventPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import YourCreatedEventsPage from 'pages/YourCreatedEventsPage';
+import YourJoinedEventsPage from 'pages/YourJoinedEventsPage';
 
 function App() {
 	return (
@@ -19,6 +21,8 @@ function App() {
 				<Route path='/about' element={<AboutUs />} />
 				<Route path='/events' element={<EventsPage />} />
 				<Route path='/create-event' element={<CreateEventPage />} />
+				<Route path='/your-created-event' element={<YourCreatedEventsPage />} />
+				<Route path='/your-joined-event' element={<YourJoinedEventsPage />} />
 			</Routes>
 			<ToastContainer
 				autoClose={5000}

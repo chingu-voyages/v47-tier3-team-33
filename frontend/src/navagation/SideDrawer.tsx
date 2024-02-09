@@ -8,10 +8,9 @@ const SideDrawer = () => {
             
 
             <h1 className="text-center">Name</h1>
-            <h2 className="text-center">ss.id{}</h2>
-            <br/>
-            <hr/>
-            <br/>
+            <h2 className="text-center mb-[20px]">ss.id{}</h2>
+
+            <hr className="text-center mb-[20px]"/>
             <button className="flex w-full bg-pink hover:bg-black text-white font-bold py-2 px-4 rounded">
                 <Link to="./dashboard">
                     Browse Events
