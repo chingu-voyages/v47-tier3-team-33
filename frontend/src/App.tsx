@@ -6,6 +6,7 @@ import AboutUs from 'pages/AboutUs';
 import EventsPage from 'pages/EventsPage';
 import CategoriesPage from 'pages/CategoriesPage';
 import CreateEventPage from 'pages/CreateEventPage';
+import AccountDashboard from 'pages/AccountDashboard';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AccountInformationPage from './components/dashboard/AccountInformation'
@@ -19,8 +20,7 @@ function App() {
 				<Route path='/about' element={<AboutUs />} />
 				<Route path='/events' element={<EventsPage />} />
 				<Route path='/create-event' element={<CreateEventPage />} />
-				<Route path='/info' element={<AccountInformationPage/>} />
-				
+				<Route path='/my-account' element={<AccountDashboard />} />
 			</Routes>
 			<ToastContainer
 				autoClose={5000}
