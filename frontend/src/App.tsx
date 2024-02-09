@@ -8,7 +8,7 @@ import CategoriesPage from 'pages/CategoriesPage';
 import CreateEventPage from 'pages/CreateEventPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import AccountInformationPage from './components/dashboard/AccountInformation'
+import AccountInformationPage from './components/dashboard/AccountInformation'
 function App() {
 	return (
 		<Layout>
@@ -19,7 +19,7 @@ function App() {
 				<Route path='/about' element={<AboutUs />} />
 				<Route path='/events' element={<EventsPage />} />
 				<Route path='/create-event' element={<CreateEventPage />} />
-				{/* <Route path='/info' element={<AccountInformationPage/>} /> */}
+				<Route path='/info' element={<AccountInformationPage/>} />
 				
 			</Routes>
 			<ToastContainer
