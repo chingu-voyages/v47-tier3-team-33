@@ -1,10 +1,10 @@
 import express from 'express';
 import {
-	createUser,
-	loginUser,
+  createUser,
+  loginUser,
   logoutUser,
   getUser,
-	getUserById,
+  getUserById,
   deleteUser,
   updateUser,
 } from '../controllers/User';
@@ -12,12 +12,12 @@ import {
 const router = express.Router();
 
 // User Routes
-router.post('/', createUser);
-router.post('/login', loginUser);
-router.post('/logout', logoutUser);
-router.get('/', getUser);
-router.get('/:id', getUserById);
-router.delete('/:id', deleteUser);
-router.put('/:id', updateUser);
+router.post('/', createUser);         // Create User
+router.post('/login', loginUser);     // Login
+router.post('/logout', logoutUser);   // Logout
+router.get('/:id', getUserById);      // Get User by ID
+router.put('/:id', updateUser);       // Update User
+router.delete('/:id', deleteUser);    // Delete User
+router.get('/', getUser);             // Get All Users (optional)
 
 export default router;
