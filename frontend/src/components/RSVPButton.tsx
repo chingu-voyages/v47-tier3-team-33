@@ -5,6 +5,7 @@ import Modal from '@mui/material/Modal';
 import axios from 'axios';
 import { useAuth } from 'context/AuthContext';
 import { toast } from 'react-toastify';
+import { useSocket } from '../context/SocketContext';
 interface RSVPButtonProps {
 	id?: string;
 	organizerId: string;
@@ -23,6 +24,7 @@ const style = {
 };
 
 const RSVPButton: React.FC<RSVPButtonProps> = ({ id, organizerId }) => {
+	const socket = useSocket();
 	const [open, setOpen] = React.useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -40,6 +42,21 @@ const RSVPButton: React.FC<RSVPButtonProps> = ({ id, organizerId }) => {
 				userId: userId,
 				eventId: eventId,
 			});
+
+			if (socket) {
+				console.log('rsvp socket');
+				console.log('orgId', organizerId);
+				socket
+					.emit('rsvp', {
+						sender: userId,
+						recipient: organizerId,
+						eventId: eventId,
+					})
+					.emit('sendNotification', {
+						sender: userId,
+						recipient: organizerId,
+					});
+			}
 
 			toast('You have successfully RSVPed to the event!', {
 				style: {

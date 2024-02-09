@@ -44,10 +44,6 @@ export const SocketProvider: React.FC<SocketContextProps> = ({ children }) => {
 			console.error('User string is null in local storage');
 		}
 
-		newSocket.on('rsvp', (data) => {
-			console.log('Received RSVP event:', data);
-		});
-
 		return () => {
 			newSocket.disconnect();
 		};

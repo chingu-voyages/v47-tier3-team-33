@@ -151,8 +151,8 @@ const NavBar: React.FC = () => {
 											borderTopRightRadius: '50px',
 										}}
 									></div>
-									<div className='absolute right-10 top-20 h-[500px] w-[440px] p-0 bg-white z-50 rounded'>
-										<NotificationTabs />
+									<div className='absolute right-10 top-20 h-[100px] w-[440px] p-0 bg-white z-50 rounded'>
+										{/* <NotificationTabs /> */}
 									</div>
 								</div>
 							)}

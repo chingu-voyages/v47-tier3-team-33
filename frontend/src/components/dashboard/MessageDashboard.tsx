@@ -72,15 +72,7 @@ const MessageDashboard = () => {
 					.emit('sendNotification', {
 						sender: userId,
 						recipient: receivers[0],
-						type: 'new inbox message',
 					});
-			}
-			if (socket) {
-				socket.emit('send_notification', {
-					sender: userId,
-					recipient: receivers[0],
-					message: message,
-				});
 			}
 		} catch (error: any) {
 			console.error('Error sending message:', error);
