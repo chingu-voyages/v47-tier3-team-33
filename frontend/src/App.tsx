@@ -9,7 +9,7 @@ import CreateEventPage from 'pages/CreateEventPage';
 import AccountDashboard from 'pages/AccountDashboard';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AccountInformationPage from './components/dashboard/AccountInformation'
+
 function App() {
 	return (
 		<Layout>
