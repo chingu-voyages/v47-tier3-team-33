@@ -9,7 +9,7 @@ export const createUser = async (req: Request, res: Response) => {
 
     res.status(201).json(savedUser);
   } catch (error: any) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ error: error.message || 'Error registering user.' });
   }
 };
@@ -22,7 +22,7 @@ export const getUserById = async (req: Request, res: Response) => {
     }
     res.json(user);
   } catch (error: any) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ error: error.message || 'Error finding user via getUserById.' });
   }
 };
@@ -80,7 +80,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     res.status(200).json({ message: 'User deleted successfully' });
   } catch (error: any) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Error deleting user' });
   }
 };
 
@@ -94,6 +94,6 @@ export const updateUser = async (req: Request, res: Response) => {
     res.status(200).json(updatedUser);
   } catch (error: any) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Error updating user' });
   }
 };
