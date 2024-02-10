@@ -23,6 +23,7 @@
 		"@types/react-router-dom": "^5.3.3",
 		"@types/socket.io-client": "^3.0.0",
 		"axios": "^1.6.7",
+		"cors": "^2.8.5",
 		"emailjs-com": "^3.2.0",
 		"formik": "^2.4.5",
 		"framer-motion": "^11.0.3",
