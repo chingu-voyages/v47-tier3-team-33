@@ -33,8 +33,10 @@ const ComponentsArray = [
 	},
 ];
 const AccountDashboard = () => {
-	const { text, setText } = useAuth();
+	const { text } = useAuth();
 	const [isExpanded, setIsExpanded] = useState<boolean>(true);
+
+	console.log(text);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -46,7 +48,7 @@ const AccountDashboard = () => {
 				variants={variants}
 				className='w-[25%] border border-r-1'
 			>
-				<AccountSidebar isExpanded={isExpanded} setText={setText} />
+				<AccountSidebar isExpanded={isExpanded} />
 			</motion.div>
 			<div
 				onClick={() => {
