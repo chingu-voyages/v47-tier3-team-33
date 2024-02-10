@@ -60,7 +60,7 @@ const Dashboard: React.FC = () => {
     field: string,
     type: string
   ) => {
-    // handleInputChange function remains the same...
+    
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -77,12 +77,10 @@ const Dashboard: React.FC = () => {
         },
       });
 
-      // Assuming the backend sends back the saved data
+      
       console.log(response.data);
 
-      // Update state with received data for display on the page
-      // Example:
-      // setSavedData(response.data);
+     
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -344,12 +342,14 @@ const Dashboard: React.FC = () => {
             />
           </div>
         </div>
-		<button
-            type="submit"
-            className="bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600"
-          >
-            Save Changes
-          </button>
+		<div className="flex justify-center">
+      <button
+        type="submit"
+        className="w-full bg-pink text-white py-2 px-4 rounded hover:bg-pink-600"
+      >
+        Save Changes
+      </button>
+    </div>
         </form>
       </div>
     </div>
