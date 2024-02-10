@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const Dashboard: React.FC = () => {
   const [photo, setPhoto] = useState<File | null>(null);
@@ -42,58 +42,57 @@ const Dashboard: React.FC = () => {
     country: '',
   });
 
+  const prefixOptions = ['Mr.', 'Mrs.', 'Ms.', 'Dr.', 'Prof.'];
+
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setPhoto(e.target.files[0]);
     }
   };
 
+  const handlePrefixChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setPrefix(e.target.value);
+  };
+
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: string,
     type: string
   ) => {
-    switch (type) {
-      case 'contactInfo':
-        setContactInfo((prev) => ({ ...prev, [field]: e.target.value }));
-        break;
-      case 'homeAddress':
-        setHomeAddress((prev) => ({ ...prev, [field]: e.target.value }));
-        break;
-      case 'billingAddress':
-        setBillingAddress((prev) => ({ ...prev, [field]: e.target.value }));
-        break;
-      case 'shippingAddress':
-        setShippingAddress((prev) => ({ ...prev, [field]: e.target.value }));
-        break;
-      case 'workAddress':
-        setWorkAddress((prev) => ({ ...prev, [field]: e.target.value }));
-        break;
-      default:
-        break;
+    // handleInputChange function remains the same...
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append('photo', photo as File);
+      formData.append('prefix', prefix);
+      // Append other form fields to formData...
+
+      const response = await axios.post('/api/formdata', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      // Assuming the backend sends back the saved data
+      console.log(response.data);
+
+      // Update state with received data for display on the page
+      // Example:
+      // setSavedData(response.data);
+    } catch (error) {
+      console.error('Error submitting form:', error);
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Submit form data or perform validation here
-    console.log({
-      photo,
-      prefix,
-      contactInfo,
-      homeAddress,
-      billingAddress,
-      shippingAddress,
-      workAddress,
-    });
-  };
-
   return (
-    <div className="bg-white min-h-screen flex justify-center items-center">
-    <div className="bg-white rounded-md shadow-md p-8 space-y-8 max-w-5xl w-full overflow-y-auto pb-20">
-
-      <h1 className="text-2xl font-semibold mb-4">Account Information</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="bg-gray-100 min-h-screen flex justify-center items-center">
+      <div className="bg-white rounded-md shadow-md p-8 space-y-8 max-w-4xl w-full overflow-y-auto">
+        <h1 className="text-3xl font-semibold mb-4 text-center">Account Information</h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
         {/* Upload Photo */}
         <div className="mb-8">
            <h1 className="text-xl font-semibold text-black mb-4">Upload Photo</h1>
@@ -105,16 +104,19 @@ const Dashboard: React.FC = () => {
           />
         </div>
         {/* Prefix */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-2">Prefix</h2>
-          <input
-            type="text"
-            placeholder="Prefix"
-            className="input"
-            value={prefix}
-            onChange={(e) => setPrefix(e.target.value)}
-          />
-        </div>
+		<div className="mb-8">
+            <h2 className="text-lg font-semibold mb-2">Prefix</h2>
+            <select
+              value={prefix}
+              onChange={handlePrefixChange}
+              className="input"
+            >
+              <option value="">Select Prefix</option>
+              {prefixOptions.map((option, index) => (
+                <option key={index} value={option}>{option}</option>
+              ))}
+            </select>
+          </div>
         {/* First and Last Name */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold mb-2">Name</h2>
@@ -342,18 +344,19 @@ const Dashboard: React.FC = () => {
             />
           </div>
         </div>
-        <button
-          type="submit"
-          className="bg-pink text-white py-2 px-4 rounded hover:bg-yellow"
-        >
-          Save Changes
-        </button>
-      </form>
-    </div>
+		<button
+            type="submit"
+            className="bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600"
+          >
+            Save Changes
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
 
-
-
 export default Dashboard;
+
+
+
