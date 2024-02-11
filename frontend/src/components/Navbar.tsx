@@ -5,14 +5,19 @@ import LRbutton from './LRbutton';
 import { CgProfile } from 'react-icons/cg';
 import { Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
-
 import SideDrawer from '../navagation/SideDrawer';
-
+import { FaRegBell } from 'react-icons/fa';
+import NotificationTabs from './notificationTabs';
+import { useSocket } from '../context/SocketContext';
 
 const NavBar: React.FC = () => {
+	const socket = useSocket();
 	const [isMobile, setIsMobile] = useState<boolean>(false);
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
-	const { user } = useAuth();
+	const [showNotifications, setShowNotifications] = useState<boolean>(false);
+	const [newNotifications, setNewNotifications] = useState<boolean>(false);
+	const { user, setText } = useAuth();
+	console.log(user);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -27,6 +32,15 @@ const NavBar: React.FC = () => {
 			window.removeEventListener('resize', handleResize);
 		};
 	}, []);
+
+	useEffect(() => {
+		console.log('navbar socket');
+		socket &&
+			socket.on('getNotification', () => {
+				setNewNotifications((prevNotifications) => !prevNotifications);
+				console.log('done');
+			});
+	}, [socket]);
 
 	const renderNavLinks = () => (
 		<ul className='flex justify-center md:space-x-7 items-center mx-auto text-lg'>
@@ -46,7 +60,7 @@ const NavBar: React.FC = () => {
 
 	const renderHamburgerMenu = () => (
 		<button
-			className='tham tham-e-squeeze tham-w-7 bg-pink w-[60px] h-[60px] text-center flex justify-start items-center pl-4 z-50'
+			className='tham tham-e-squeeze tham-w-7 bg-pink w-[60px] h-[60px] text-center flex justify-start items-center pl-4 z-30'
 			onClick={toggleMenu}
 		>
 			<div className='tham-box'>
@@ -63,37 +77,26 @@ const NavBar: React.FC = () => {
 		</button>
 	);
 
-
-
-
-
-
-
-
-
 	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
-    const openDrawerHandler = () => {
-        setDrawerIsOpen(true);
-    };
-    const closeDrawerHandler = () => {
-        setDrawerIsOpen(false);
-    };
+	const openDrawerHandler = () => {
+		setDrawerIsOpen(true);
+	};
+	const closeDrawerHandler = () => {
+		setDrawerIsOpen(false);
+	};
 	return (
 		<nav className='bg-pink flex items-center justify-between relative py-8 w-full'>
-			
-
 			<div className='flex items-center justify-center absolute z-20'>
 				<a href='/' className='text-white '>
 					<img className='object-contain h-60' src={omnilogo} alt='Omni logo' />
 				</a>
 			</div>
 
-			{drawerIsOpen && user && 
-			<div className="rounded-lg absolute right-1 bg-gray-100 h-[400px] w-[250px] text-black top-20 z-50 p-4 ">
-				<SideDrawer/>
-			</div>
-			}
-
+			{drawerIsOpen && user && (
+				<div className='rounded-lg absolute right-1 bg-gray-100 h-[400px] w-[250px] text-black top-20 z-50 p-4 '>
+					<SideDrawer />
+				</div>
+			)}
 
 			{/* Navigation Links or Hamburger Menu */}
 			{isMobile ? (
@@ -122,14 +125,41 @@ const NavBar: React.FC = () => {
 			)}
 
 			{/* Login Button */}
-			<div className='ml-auto mr-8' >
+			<div className='ml-auto mr-8'>
 				{!user ? (
 					<button className='bg-white hover:bg-yellow text-darkTeal font-bold py-1.25 px-3 border border-white rounded'>
 						<LRbutton />
 					</button>
 				) : (
-					<div className=' 'onClick={openDrawerHandler}>
-						<CgProfile />
+					<div className='flex text-2xl space-x-6 text-white'>
+						<div className='text-yellow cursor-pointer'>
+							<FaRegBell
+								onClick={() => {
+									setShowNotifications(!showNotifications);
+									setNewNotifications(false);
+								}}
+							/>
+							{newNotifications && (
+								<div className='w-3 h-3 bg-red-600 rounded-full absolute right-[70px] top-7'></div>
+							)}
+							{showNotifications && (
+								<div>
+									<div
+										className='absolute h-6 w-10 z-50 top-16 bg-white right-[70px]'
+										style={{
+											borderTopLeftRadius: '50px',
+											borderTopRightRadius: '50px',
+										}}
+									></div>
+									<div className='absolute right-10 top-20 h-[500px] w-[440px] p-0 bg-white z-50 rounded'>
+										<NotificationTabs />
+									</div>
+								</div>
+							)}
+						</div>
+						<div className=' ' onClick={openDrawerHandler}>
+							<CgProfile />
+						</div>
 					</div>
 				)}
 			</div>
@@ -142,7 +172,7 @@ const navLinks = [
 	{ href: '/about', text: 'About' },
 	{ href: '/events', text: 'Events' },
 	{ href: '/categories', text: 'Categories' },
-	{ href: '/contact', text: 'Contact Us' },
+	{ href: '/contact', text: 'Contacts' },
 ];
 
 export default NavBar;

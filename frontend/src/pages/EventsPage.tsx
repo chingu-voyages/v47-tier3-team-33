@@ -8,6 +8,7 @@ interface IEvent {
 	title: string;
 	category: string;
 	location: string;
+	organizer: string;
 	description: string;
 	image: string;
 	tickets: [];
@@ -15,27 +16,32 @@ interface IEvent {
 
 const EventsPage = () => {
 	const [events, setEvents] = useState<IEvent[]>([]);
+	const [filteredEvents, setFilteredEvents] = useState<IEvent[]>([]);
 
 	useEffect(() => {
 		const getAllEvents = async () => {
 			await axios.get('http://localhost:8000/events').then((response) => {
 				setEvents(response.data.events);
+				setFilteredEvents(response.data.events); // Initially set to all events
 			});
 		};
 		getAllEvents();
 	}, []);
 
+	const handleSearch = (query: string) => {
+		const filtered = events.filter((event) =>
+			event.title.toLowerCase().includes(query.toLowerCase())
+		);
+		setFilteredEvents(filtered);
+	};
+
 	return (
-		<div className=' justify-center h-full m-8 mb-72'>
+		<div className='justify-center h-full m-8 mb-72'>
 			<div className='flex justify-center pt-32 text-black text-4xl '>
 				Explore Events
 			</div>
 			<div className='flex items-center pt-20 '>
-				<SearchBar
-					onSearch={function (query: string): void {
-						throw new Error('Function not implemented.');
-					}}
-				/>
+				<SearchBar onSearch={handleSearch} />
 			</div>
 			<ScrollingTags />
 			<div className='h-full'>
@@ -43,13 +49,13 @@ const EventsPage = () => {
 					Upcoming events
 				</h3>
 				<div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
-					{events.map((event, idx) => (
+					{filteredEvents.map((event, idx) => (
 						<EventCard key={idx} event={event} />
 					))}
 				</div>
 			</div>
-			{/* Add other components or content here */}
 		</div>
 	);
 };
+
 export default EventsPage;

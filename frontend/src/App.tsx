@@ -6,6 +6,7 @@ import AboutUs from 'pages/AboutUs';
 import EventsPage from 'pages/EventsPage';
 import CategoriesPage from 'pages/CategoriesPage';
 import CreateEventPage from 'pages/CreateEventPage';
+import AccountDashboard from 'pages/AccountDashboard';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import YourCreatedEventsPage from 'pages/YourCreatedEventsPage';
@@ -21,6 +22,7 @@ function App() {
 				<Route path='/about' element={<AboutUs />} />
 				<Route path='/events' element={<EventsPage />} />
 				<Route path='/create-event' element={<CreateEventPage />} />
+				<Route path='/my-account' element={<AccountDashboard />} />
 				<Route path='/your-created-event' element={<YourCreatedEventsPage />} />
 				<Route path='/your-joined-event' element={<YourJoinedEventsPage />} />
 			</Routes>

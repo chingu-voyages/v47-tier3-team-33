@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import EventModifyPage from 'pages/EventModifyPage';
 import { FiShare } from 'react-icons/fi';
-import RSVPButton from './RSVPButton';
 import axios from 'axios';
 
 interface Event {
@@ -106,7 +105,6 @@ export default function CreatedEventCard({ event, id }: EventCardProps) {
 									event.stopPropagation();
 								}}
 							>
-								<RSVPButton id={event._id} />
 							</div>
 							<button 
 							onClick={(event) => {
