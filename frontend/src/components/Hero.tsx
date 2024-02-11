@@ -4,7 +4,6 @@ import { useAuth } from 'context/AuthContext';
 
 function Hero() {
 	const { user, handleOpen } = useAuth();
-	console.log(user);
 
 	return (
 		<div className='h-full w-full'>

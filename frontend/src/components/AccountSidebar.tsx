@@ -25,9 +25,9 @@ const AccountSidebar = ({ isExpanded }: SidebarProps) => {
 	};
 	return (
 		<div className='h-screen w-full px-10 py-12'>
-			<div className={`text-3xl font-medium mb-10 ${!isExpanded && ''}`}>
+			{/* <div className={`text-3xl font-medium mb-10 ${!isExpanded && ''}`}>
 				My Dashboard
-			</div>
+			</div> */}
 
 			<div className='space-y-8'>
 				{NavLinks.map((link, idx) => (

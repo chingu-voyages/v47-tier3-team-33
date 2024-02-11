@@ -5,10 +5,11 @@ import LRbutton from './LRbutton';
 import { CgProfile } from 'react-icons/cg';
 import { Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
-import SideDrawer from '../navagation/SideDrawer';
+import SideDrawer from '../navigation/SideDrawer';
 import { FaRegBell } from 'react-icons/fa';
 import NotificationTabs from './notificationTabs';
 import { useSocket } from '../context/SocketContext';
+import axios from 'axios';
 
 const NavBar: React.FC = () => {
 	const socket = useSocket();
@@ -16,8 +17,20 @@ const NavBar: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 	const [showNotifications, setShowNotifications] = useState<boolean>(false);
 	const [newNotifications, setNewNotifications] = useState<boolean>(false);
-	const { user, setText } = useAuth();
-	console.log(user);
+	const { user } = useAuth();
+	const userId = user?._id ? user?._id : user?.user?._id;
+
+	const fetchPendingNotifications = async () => {
+		try {
+			const response = await axios.get(
+				`http://localhost:8000/notifications/pending/${userId}`
+			);
+			const pendingNotifications = response.data;
+			setNewNotifications(true);
+		} catch (error) {
+			console.error('Error fetching pending notifications:', error);
+		}
+	};
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -34,13 +47,15 @@ const NavBar: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
-		console.log('navbar socket');
 		socket &&
 			socket.on('getNotification', () => {
 				setNewNotifications((prevNotifications) => !prevNotifications);
-				console.log('done');
 			});
 	}, [socket]);
+
+	useEffect(() => {
+		fetchPendingNotifications();
+	}, [socket, user]);
 
 	const renderNavLinks = () => (
 		<ul className='flex justify-center md:space-x-7 items-center mx-auto text-lg'>
@@ -79,7 +94,7 @@ const NavBar: React.FC = () => {
 
 	const [drawerIsOpen, setDrawerIsOpen] = useState(false);
 	const openDrawerHandler = () => {
-		setDrawerIsOpen(true);
+		setDrawerIsOpen(!drawerIsOpen);
 	};
 	const closeDrawerHandler = () => {
 		setDrawerIsOpen(false);
@@ -111,6 +126,7 @@ const NavBar: React.FC = () => {
 									key={idx}
 									onClick={() => {
 										setMenuOpen(false);
+										closeDrawerHandler();
 									}}
 								>
 									<Link to={link.href}>{link.text}</Link>
@@ -127,9 +143,9 @@ const NavBar: React.FC = () => {
 			{/* Login Button */}
 			<div className='ml-auto mr-8'>
 				{!user ? (
-					<button className='bg-white hover:bg-yellow text-darkTeal font-bold py-1.25 px-3 border border-white rounded'>
+					<div className='bg-white hover:bg-yellow text-darkTeal font-bold py-1.25 px-3 border border-white rounded'>
 						<LRbutton />
-					</button>
+					</div>
 				) : (
 					<div className='flex text-2xl space-x-6 text-white'>
 						<div className='text-yellow cursor-pointer'>
@@ -152,12 +168,12 @@ const NavBar: React.FC = () => {
 										}}
 									></div>
 									<div className='absolute right-10 top-20 h-[100px] w-[440px] p-0 bg-white z-50 rounded'>
-										{/* <NotificationTabs /> */}
+										<NotificationTabs />
 									</div>
 								</div>
 							)}
 						</div>
-						<div className=' ' onClick={openDrawerHandler}>
+						<div onClick={openDrawerHandler}>
 							<CgProfile />
 						</div>
 					</div>

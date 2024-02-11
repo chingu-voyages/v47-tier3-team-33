@@ -6,11 +6,11 @@ import categoryRouter from './routers/Category';
 import EventRouter from './routers/Events';
 import userRouter from './routers/User';
 import notificationRouter from './routers/Notification';
-import messageRouter from './routers/Message';
 import conversationRouter from './routers/Conversations';
 import http from 'http';
 import { Socket } from 'socket.io';
 import UserModel from './models/User';
+import NotificationModel from './models/Notification';
 import mongoose from 'mongoose';
 
 const socketio = require('socket.io');
@@ -40,39 +40,62 @@ app.use('/categories', categoryRouter);
 app.use('/events', EventRouter);
 app.use('/users', userRouter);
 app.use('/notifications', notificationRouter);
-app.use('/messages', messageRouter);
 app.use('/conversations', conversationRouter);
 
-const userSocketMap: {
-	[userId: string]: { socket: Socket | null; notifications: any[] };
+export const userSocketMap: {
+	[userId: string]: {
+		[x: string]: any;
+		socket: Socket | null;
+		notifications: any[];
+	};
 } = {};
 
-console.log('userSocketMap: ', userSocketMap);
+const getPendingNotifications = async (userId: string) => {
+	try {
+		const pendingNotifications = await NotificationModel.find({
+			userId,
+			status: 'pending',
+		});
+		return pendingNotifications;
+	} catch (error) {
+		console.error('Error getting pending notifications:', error);
+		return [];
+	}
+};
+
+const clearPendingNotifications = async (userId: string) => {
+	try {
+		await NotificationModel.deleteMany({ userId, status: 'pending' });
+		console.log('Pending notifications cleared successfully');
+	} catch (error) {
+		console.error('Error clearing pending notifications:', error);
+	}
+};
 
 const handleUserConnected = async (socket: Socket, userId: string) => {
-	// Store user information
 	userSocketMap[userId] = { socket, notifications: [] };
 
-	socket.on('disconnect', () => {
-		// set user socket to null when logged out
+	socket.on('disconnect', async () => {
 		userSocketMap[userId]!.socket = null;
 		console.log(`User ${userId} disconnected`);
+
+		await clearPendingNotifications(userId);
 	});
 
-	// Emit pending notifications
-	const pendingNotifications = userSocketMap[userId]?.notifications;
-	if (pendingNotifications?.length > 0 && userSocketMap[userId]?.socket) {
-		userSocketMap[userId]!.socket?.emit(
+	const pendingNotifications = await getPendingNotifications(userId);
+	if (pendingNotifications.length > 0 && userSocketMap[userId]?.socket) {
+		userSocketMap[userId]?.socket?.emit(
 			'getNotifications',
 			pendingNotifications
 		);
-		userSocketMap[userId]!.notifications = []; /
+
+		await clearPendingNotifications(userId);
 	}
 
 	console.log(`User ${userId} connected with socket ID ${socket.id}`);
 };
 
-const emitNotification = async (
+export const emitNotification = async (
 	recipientUserId: string,
 	senderUser: any,
 	eventId?: string,
@@ -88,8 +111,24 @@ const emitNotification = async (
 
 		socket.emit('getNotification', notificationData);
 		console.log('Notification sent successfully');
+
+		try {
+			await UserModel.findByIdAndUpdate(
+				recipientUserId,
+				{
+					$push: { notifications: notificationData },
+				},
+				{ new: true }
+			);
+
+			console.log('User document updated with new notification');
+		} catch (error: any) {
+			console.error(
+				'Error updating user document with new notification:',
+				error
+			);
+		}
 	} else {
-		// If user is not connected, store the notification as pending
 		userSocketMap[recipientUserId]?.notifications.push({
 			sender: senderUser?._id.toString(),
 			eventId,
@@ -114,9 +153,6 @@ io.on('connection', (socket: Socket) => {
 
 	socket.on('rsvp', async ({ sender, recipient, eventId }: any) => {
 		try {
-			console.log('rsvp event received:', { sender, recipient, eventId });
-
-			// Ensure sender and recipient are valid ObjectId strings
 			if (
 				!mongoose.isValidObjectId(sender) ||
 				!mongoose.isValidObjectId(recipient)
@@ -129,7 +165,6 @@ io.on('connection', (socket: Socket) => {
 
 			if (!recipientUser) {
 				console.log('Recipient not found');
-				return;
 			}
 
 			const recipientUserId = recipientUser?._id.toString();
@@ -151,11 +186,9 @@ io.on('connection', (socket: Socket) => {
 	});
 
 	socket.on('sendNotification', async ({ sender, recipient }: any) => {
-		console.log('messsage sender: ', sender, 'message recipient: ', recipient);
-
-		// Ensure sender and recipient are valid ObjectId strings
 		if (
 			!mongoose.isValidObjectId(sender) ||
+			!mongoose.isValidObjectId(recipient) ||
 			!mongoose.isValidObjectId(recipient[0])
 		) {
 			console.log('Invalid sender or recipient ID');

@@ -36,8 +36,6 @@ const AccountDashboard = () => {
 	const { text } = useAuth();
 	const [isExpanded, setIsExpanded] = useState<boolean>(true);
 
-	console.log(text);
-
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);

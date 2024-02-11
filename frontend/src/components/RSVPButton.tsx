@@ -31,7 +31,8 @@ const RSVPButton: React.FC<RSVPButtonProps> = ({ id, organizerId }) => {
 
 	const { user } = useAuth();
 
-	const userId = user?.user?._id;
+	const userId = user?._id ? user?._id : user?.user?._id;
+
 	const eventId = id;
 
 	const handleBookingEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -39,30 +40,22 @@ const RSVPButton: React.FC<RSVPButtonProps> = ({ id, organizerId }) => {
 
 		try {
 			await axios.post('http://localhost:8000/events/rsvp', {
-				userId: userId,
-				eventId: eventId,
+				userId,
+				eventId,
 			});
-
-			if (socket) {
-				console.log('rsvp socket');
-				console.log('orgId', organizerId);
-				socket
-					.emit('rsvp', {
-						sender: userId,
-						recipient: organizerId,
-						eventId: eventId,
-					})
-					.emit('sendNotification', {
-						sender: userId,
-						recipient: organizerId,
-					});
-			}
 
 			toast('You have successfully RSVPed to the event!', {
 				style: {
 					color: 'green',
 				},
 			});
+
+			if (socket) {
+				socket.emit('sendNotification', {
+					sender: userId,
+					recipient: organizerId,
+				});
+			}
 		} catch (error: any) {
 			console.log(error);
 		}
