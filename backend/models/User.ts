@@ -1,4 +1,6 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
+import { IMessage } from './Message';
+import { NotificationType } from './Notification';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -10,6 +12,8 @@ export interface IUser extends Document {
 	profile_img: string;
 	events: Types.ObjectId[];
 	interests: string[];
+	notifications: Array<NotificationType>;
+	messages: Array<IMessage>;
 }
 
 const UserSchema: Schema = new Schema({
@@ -20,6 +24,12 @@ const UserSchema: Schema = new Schema({
 	profile_img: { type: String, required: false },
 	events: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
 	interests: { type: [String], required: false },
+	notifications: [
+		{ type: mongoose.Types.ObjectId, ref: 'Notification', required: false },
+	],
+	messages: [
+		{ type: mongoose.Types.ObjectId, ref: 'Message', required: false },
+	],
 });
 
 // Hash password before saving

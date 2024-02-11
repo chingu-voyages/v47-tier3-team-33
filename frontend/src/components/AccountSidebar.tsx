@@ -6,14 +6,15 @@ import { TbStackFront } from 'react-icons/tb';
 import { TbStackMiddle } from 'react-icons/tb';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { useNavigate } from 'react-router';
-
+import { useAuth } from '../context/AuthContext';
 interface SidebarProps {
 	isExpanded: boolean;
-	setText: (text: string) => void;
 }
 
-const AccountSidebar = ({ isExpanded, setText }: SidebarProps) => {
+const AccountSidebar = ({ isExpanded }: SidebarProps) => {
 	const [activeLink, setActiveLink] = useState<number>(0);
+
+	const { setText, text } = useAuth();
 
 	const navigate = useNavigate();
 
@@ -24,19 +25,15 @@ const AccountSidebar = ({ isExpanded, setText }: SidebarProps) => {
 	};
 	return (
 		<div className='h-screen w-full px-10 py-12'>
-			<div
-				className={`hidden text-3xl font-medium mb-10 ${
-					!isExpanded && 'hidden'
-				}`}
-			>
+			{/* <div className={`text-3xl font-medium mb-10 ${!isExpanded && ''}`}>
 				My Dashboard
-			</div>
+			</div> */}
 
 			<div className='space-y-8'>
 				{NavLinks.map((link, idx) => (
 					<div
 						className={`font-medium text-xl cursor-pointer space-x-3 py-3 pl-2 flex items-center ${
-							activeLink === idx && 'bg-pink rounded-md text-white'
+							text === link.main && 'bg-pink rounded-md text-white'
 						}   rounded-sm`}
 						key={idx}
 						onClick={() => {

@@ -46,16 +46,11 @@ const EventsDetailPage = ({
 	const { user, setText, setConversationId } = useAuth();
 
 	const eventId = event?._id;
-	console.log('eventID*:', eventId);
 	const eventOrganizerId = event?.organizer;
-	console.log('event organizer*:', eventOrganizerId);
-	const userId = user?.user?._id;
-	console.log('userID*:', userId);
+	const userId = user?._id ? user?._id : user?.user?._id;
 
 	const socket = useSocket();
-	console.log('socket:', socket);
-	console.log('eventt: ', event);
-	console.log('userId:: ', userId);
+
 	const navigate = useNavigate();
 
 	const handleBookingEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {

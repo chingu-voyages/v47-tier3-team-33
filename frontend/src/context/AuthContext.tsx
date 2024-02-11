@@ -19,7 +19,7 @@ interface AuthContextProps {
 	text: string;
 	setText: (text: string) => void;
 	conversationId: string;
-	setConversationId: (test: string) => void;
+	setConversationId: (text: string) => void;
 	notifications: Notification[];
 	setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
 }

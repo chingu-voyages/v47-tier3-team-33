@@ -11,6 +11,7 @@ interface IEvent {
 	organizer: string;
 	description: string;
 	image: string;
+	attendees: [];
 	tickets: [];
 }
 

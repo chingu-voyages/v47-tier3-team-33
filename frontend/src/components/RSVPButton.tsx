@@ -5,6 +5,7 @@ import Modal from '@mui/material/Modal';
 import axios from 'axios';
 import { useAuth } from 'context/AuthContext';
 import { toast } from 'react-toastify';
+import { useSocket } from '../context/SocketContext';
 interface RSVPButtonProps {
 	id?: string;
 	organizerId: string;
@@ -23,13 +24,15 @@ const style = {
 };
 
 const RSVPButton: React.FC<RSVPButtonProps> = ({ id, organizerId }) => {
+	const socket = useSocket();
 	const [open, setOpen] = React.useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
 	const { user } = useAuth();
 
-	const userId = user?.user?._id;
+	const userId = user?._id ? user?._id : user?.user?._id;
+
 	const eventId = id;
 
 	const handleBookingEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,8 +40,8 @@ const RSVPButton: React.FC<RSVPButtonProps> = ({ id, organizerId }) => {
 
 		try {
 			await axios.post('http://localhost:8000/events/rsvp', {
-				userId: userId,
-				eventId: eventId,
+				userId,
+				eventId,
 			});
 
 			toast('You have successfully RSVPed to the event!', {
@@ -46,6 +49,13 @@ const RSVPButton: React.FC<RSVPButtonProps> = ({ id, organizerId }) => {
 					color: 'green',
 				},
 			});
+
+			if (socket) {
+				socket.emit('sendNotification', {
+					sender: userId,
+					recipient: organizerId,
+				});
+			}
 		} catch (error: any) {
 			console.log(error);
 		}

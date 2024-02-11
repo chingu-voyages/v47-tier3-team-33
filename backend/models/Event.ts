@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
-import UserModel, { IUser } from './User';
+import { IUser } from './User';
 interface ITicket {
 	type: string;
 	price: number;
@@ -16,7 +16,7 @@ export interface IEvent extends Document {
 	organizer: Types.ObjectId | IUser;
 	image: string;
 	tickets: ITicket[];
-	attendees: number;
+	attendees: Types.ObjectId[];
 }
 
 const TicketSchema: Schema = new Schema({
@@ -42,8 +42,14 @@ const EventSchema: Schema = new Schema({
 		required: true,
 	},
 	image: { type: String, required: false },
-	tickets: { type: [TicketSchema], required: true },
-	attendees: { type: Number, required: false },
+	tickets: [{ type: [TicketSchema], required: true }],
+	attendees: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
+	],
 });
 
 interface ICategory extends Document {

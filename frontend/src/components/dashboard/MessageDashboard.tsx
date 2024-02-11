@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { useSocket } from '../../context/SocketContext';
@@ -21,116 +21,75 @@ interface RecieverProfile {
 	surname: string;
 	email: string;
 }
+
 const MessageDashboard = () => {
 	const socket = useSocket();
+
 	const [conversations, setConversations] = useState<IConversation[]>([]);
 	const [messages, setMessages] = useState<IMessage[]>([]);
 	const [message, setMessage] = useState('');
-	const [recieverProfile, setRecieverProfile] = useState<RecieverProfile>({
-		_id: '',
-		name: '',
-		surname: '',
-		email: '',
-	});
+
+	const lastMessageRef = useRef<HTMLDivElement>(null);
+
+	const [recieverProfiles, setRecieverProfiles] = useState<RecieverProfile[]>(
+		[]
+	);
 
 	const { user, setConversationId, conversationId } = useAuth();
-	const userId = user?.user?._id;
+
+	const userId = user?._id ? user?._id : user?.user?._id;
 
 	const [selectedConversationId, setSelectedConversationId] = useState<
 		string | null
 	>(null);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (socket) {
-			socket.emit('typing', conversationId);
-		}
 		setMessage(e.target.value);
 	};
-	const receivers = conversations?.map((convo) =>
-		convo?.participants?.filter((a) => a !== userId)
-	);
+
+	const receivers = conversations
+		?.map((convo) => convo?.participants?.filter((a) => a !== userId))
+		.flat();
+
+	useEffect(() => {
+		if (lastMessageRef.current) {
+			lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
+		}
+	}, [messages]);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		try {
-			await axios.post(`http://localhost:8000/conversations/messages`, {
-				conversationId: conversationId,
-				sender: userId,
-				text: message,
-			});
+			const response = await axios.post(
+				`http://localhost:8000/conversations/messages`,
+				{
+					conversationId: conversationId,
+					sender: userId,
+					text: message,
+				}
+			);
 
+			setMessages((prevMessages) => [...prevMessages, response.data]);
 			setMessage('');
+
 			if (socket) {
 				socket
 					.emit('message', {
 						conversationId,
 						sender: userId,
 						recipient: receivers[0],
-						text: message,
+						text: response.data.text,
 					})
 					.emit('sendNotification', {
 						sender: userId,
 						recipient: receivers[0],
-						type: 'new inbox message',
 					});
-			}
-			if (socket) {
-				socket.emit('send_notification', {
-					sender: userId,
-					recipient: receivers[0],
-					message: message,
-				});
 			}
 		} catch (error: any) {
 			console.error('Error sending message:', error);
 		}
 	};
-
-	useEffect(() => {
-		const handleReceiveMessage = (message: IMessage) => {
-			setMessages((prevMessages) => [...prevMessages, message]);
-		};
-
-		if (socket) {
-			socket.on('message', handleReceiveMessage);
-
-			return () => {
-				socket.off('message', handleReceiveMessage);
-			};
-		}
-	}, []);
-
-	const fetchUser = async () => {
-		await axios
-			.get(`http://localhost:8000/users/${receivers[0]?.[0]}`)
-			.then((response) => {
-				setRecieverProfile(response.data);
-				console.log(response.data);
-			});
-	};
-
-	useEffect(() => {
-		if (receivers[0]?.[0]) fetchUser();
-		const fetchConversations = async () => {
-			try {
-				const response = await axios.get(
-					`http://localhost:8000/conversations/user/${userId}`
-				);
-				setConversations(response.data);
-				console.log('conversation:', conversations);
-			} catch (error) {
-				console.error('Error fetching conversations:', error);
-			}
-		};
-
-		fetchConversations();
-
-		return () => {
-			socket && socket.off('connect');
-			socket && socket.off('disconnect');
-		};
-	}, []);
 
 	const handleConversationClick = async (conversationId: string) => {
 		try {
@@ -143,6 +102,69 @@ const MessageDashboard = () => {
 			console.error('Error fetching messages:', error);
 		}
 	};
+
+	useEffect(() => {
+		const handleReceiveMessage = (message: IMessage) => {
+			setMessages((prevMessages) => [...prevMessages, message]);
+		};
+
+		if (socket) {
+			socket.on('message', handleReceiveMessage);
+
+			socket.on('getNotification', (notificationData) => {
+				// Handle notification data as needed
+				console.log('Notification received:', notificationData);
+			});
+
+			return () => {
+				socket.off('message', handleReceiveMessage);
+				socket.off('getNotification');
+			};
+		}
+
+		if (conversationId) {
+			handleConversationClick(conversationId);
+		}
+	}, [socket]);
+
+	const fetchRecipientUser = async () => {
+		try {
+			const profiles = [];
+
+			for (const r of receivers) {
+				const response = await axios.get(`http://localhost:8000/users/${r}`);
+				profiles.push(response.data);
+			}
+
+			setRecieverProfiles(profiles);
+		} catch (error) {
+			console.error('Error fetching user profiles:', error);
+		}
+	};
+
+	useEffect(() => {
+		fetchRecipientUser();
+	}, [receivers]);
+
+	const fetchConversations = async () => {
+		try {
+			const response = await axios.get(
+				`http://localhost:8000/conversations/user/${userId}`
+			);
+			setConversations(response.data);
+		} catch (error) {
+			console.error('Error fetching conversations:', error);
+		}
+	};
+
+	useEffect(() => {
+		fetchConversations();
+
+		return () => {
+			socket && socket.off('connect');
+			socket && socket.off('disconnect');
+		};
+	}, []);
 
 	useEffect(() => {
 		socket &&
@@ -166,34 +188,40 @@ const MessageDashboard = () => {
 						<div
 							key={idx}
 							className={`${
-								selectedConversationId === conversation._id
-									? 'bg-gray-200'
-									: 'hover:bg-gray-100'
-							} p-2 py-4 cursor-pointer flex items-center`}
+								selectedConversationId === conversation._id ||
+								conversationId === conversation._id
+									? 'bg-gray-200 '
+									: 'hover:bg-gray-100 '
+							} py-6 border-b-2 border-b-gray-200 p-2 cursor-pointer flex items-center`}
 							onClick={() => {
 								setConversationId(conversation._id);
+								setSelectedConversationId(conversation._id);
 								handleConversationClick(conversation._id);
 							}}
 						>
 							<div className='bg-pink text-white rounded-full w-8 h-8 text-center text-xl pt-[1px] mr-5'>
-								{recieverProfile?.name?.slice(0, 1)}
+								{recieverProfiles[idx]?.name?.slice(0, 1)?.toUpperCase()}
 							</div>
 							<p className='text-xl'>
-								{recieverProfile.name + ' ' + recieverProfile.surname}
+								{recieverProfiles[idx]?.name +
+									' ' +
+									recieverProfiles[idx]?.surname}
 							</p>
 						</div>
 					))}
 				</div>
 			</div>
 			<div className='w-2/3 p-2 flex flex-col overflow-y-scroll'>
-				{selectedConversationId ? (
+				{selectedConversationId || conversationId ? (
 					<>
-						<div className='flex-grow'>
-							<p className=''>{`Messages ${
-								selectedConversationId ? `(${selectedConversationId})` : ''
-							}`}</p>
+						<p className=''>{`Messages ${
+							selectedConversationId || conversationId
+								? `(${selectedConversationId || conversationId})`
+								: ''
+						}`}</p>
+						<div className='flex-grow overflow-y-scroll'>
 							<div className='w-full'>
-								{messages.map((message, idx) => (
+								{messages?.map((message, idx) => (
 									<div
 										key={idx}
 										className={
@@ -208,6 +236,7 @@ const MessageDashboard = () => {
 										{message.text}
 									</div>
 								))}
+								<div ref={lastMessageRef}></div>
 							</div>
 						</div>
 						<form className='flex items-center gap-2' onSubmit={handleSubmit}>
