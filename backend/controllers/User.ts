@@ -67,7 +67,14 @@ export const loginUser = async (req: Request, res: Response) => {
 export const logoutUser = (req: Request, res: Response) => {
   // Since JWT is stateless, the client-side is usually responsible for logging out
 
-  res.status(200).json({ message: 'Logout successful' });
+  console.log(`User logged out: ${req.user.email}`);
+
+  try {
+    res.status(200).json({ message: 'Logout successful' });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ error: 'Error logging out user' });
+  }
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
