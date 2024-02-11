@@ -34,6 +34,10 @@ interface User {
 	user?: {
 		_id: string;
 		profile_img: string;
+		name: string;
+		surname: string;
+		email: string;
+		password: string;
 	};
 }
 
