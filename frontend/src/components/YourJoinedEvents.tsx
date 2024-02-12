@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
 import ScrollingTags from './ScrollingTags';
-import EventCard from 'components/EventCard';
+import BookedEventsCard from 'components/EventCard';
 import axios from 'axios';
 interface IEvent {
 	_id: string;
@@ -32,11 +32,11 @@ const YourJoinedEvents = () => {
 				<h3 className='text-black text-2xl font-medium mb-8 mt-12'>
 					Upcoming events
 				</h3>
-				{/* <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
+				<div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
 					{events.map((event, idx) => (
-						// <EventCard key={idx} event={event} />
+						<BookedEventsCard key={idx} event={event} />
 					))}
-				</div> */}
+				</div>
 			</div>
 			{/* Add other components or content here */}
 		</div>
