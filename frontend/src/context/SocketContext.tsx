@@ -32,7 +32,7 @@ export const SocketProvider: React.FC<SocketContextProps> = ({ children }) => {
 			try {
 				const user = JSON.parse(userString);
 
-				const userId = user.user._id;
+				const userId = user?._id ? user?._id : user?.user?._id;
 
 				newSocket.emit('userConnected', {
 					userId: userId,
@@ -43,10 +43,6 @@ export const SocketProvider: React.FC<SocketContextProps> = ({ children }) => {
 		} else {
 			console.error('User string is null in local storage');
 		}
-
-		newSocket.on('rsvp', (data) => {
-			console.log('Received RSVP event:', data);
-		});
 
 		return () => {
 			newSocket.disconnect();

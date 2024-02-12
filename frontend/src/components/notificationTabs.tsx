@@ -14,6 +14,7 @@ interface TabPanelProps {
 
 interface INotification {
 	_id: string;
+	type: string;
 	message: string;
 }
 
@@ -49,12 +50,11 @@ export default function NotificationTabs() {
 	const userId = user?._id;
 
 	const [notifications, setNotifications] = useState<INotification[]>([]);
-	console.log(notifications);
 	const [value, setValue] = useState(0);
 
-	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-		setValue(newValue);
-	};
+	// const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+	// 	setValue(newValue);
+	// };
 
 	const fetchAllNotifications = async () => {
 		await axios
@@ -64,13 +64,50 @@ export default function NotificationTabs() {
 			});
 	};
 
+	const markAsRead = async (notificationId: string) => {
+		try {
+			await axios.patch(
+				`http://localhost:8000/notifications/${notificationId}`,
+				{
+					status: 'read',
+				}
+			);
+
+			setNotifications((prevNotifications) =>
+				prevNotifications.map((notification) =>
+					notification._id === notificationId
+						? { ...notification, read: true }
+						: notification
+				)
+			);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const deleteNotification = async (notificationId: string) => {
+		try {
+			await axios.delete(
+				`http://localhost:8000/notifications/${notificationId}`
+			);
+
+			setNotifications((prevNotifications) =>
+				prevNotifications.filter(
+					(notification) => notification._id !== notificationId
+				)
+			);
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	useEffect(() => {
 		fetchAllNotifications();
 	}, []);
 
 	return (
-		<Box sx={{ width: '100%' }}>
-			<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+		<Box sx={{ width: '100%', zIndex: 100, backgroundColor: 'white' }}>
+			{/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 				<Tabs
 					value={value}
 					onChange={handleChange}
@@ -80,18 +117,24 @@ export default function NotificationTabs() {
 					<Tab label='Unread' {...a11yProps(1)} />
 					<Tab label='Read' {...a11yProps(2)} />
 				</Tabs>
-			</Box>
+			</Box> */}
 			<CustomTabPanel value={value} index={0}>
-				{notifications.map((note, idx) => (
-					<div className='' key={idx}>
-						<div className='flex items-center justify-between shadow-md border border-b-gray-300 w-full p-4 py-8'>
-							<p className=''>{note.message}</p>
-							<p className='text-red-600 flex'>
-								<p className=''>Mark as read</p>
-							</p>
+				{notifications
+					.slice(notifications.length - 1, notifications.length)
+					.reverse()
+					.map((note, idx) => (
+						<div className='' key={idx}>
+							<div className='flex items-center justify-between shadow-md border border-b-gray-300 w-full p-4 py-8'>
+								<div className='text-black text-md font-medium'>
+									{note?.type === 'new_inbox_message' && 'New inbox message'}
+									{note?.type === 'event_booked' && 'New event reservation'}
+								</div>
+								<div className='text-red-600 flex'>
+									<p className=''>Mark as read</p>
+								</div>
+							</div>
 						</div>
-					</div>
-				))}
+					))}
 			</CustomTabPanel>
 			<CustomTabPanel value={value} index={1}>
 				Item Two
