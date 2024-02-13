@@ -48,12 +48,12 @@ export const teamMembers = [
         website:''
     },
     {
-        image:'https://media.licdn.com/dms/image/D4E35AQGtvq7KH_rRpg/profile-framedphoto-shrink_800_800/0/1643569170663?e=1707091200&v=beta&t=i39KlI_hTLWmBwILdC9np-H-Av_G7Dh6ABeU0_Ad4Cc',
+        image:'https://avatars.githubusercontent.com/GalacticKnight',
         name:'Vincent Lau',
         role:'Front-end Developer',
-        github:'',
-        linkedIn:'',
-        website:''
+        github:'https://github.com/GalacticKnight',
+        linkedIn:'https://www.linkedin.com/in/vincent-lau-cs/',
+        website:'https://vifiles.onrender.com/'
     },
     {
         image:'https://media.licdn.com/dms/image/D5635AQFh6iEnXZ19og/profile-framedphoto-shrink_400_400/0/1705886047017?e=1707091200&v=beta&t=15AYYUX06aob51UwE3g1QsaK9cZMV9WD6I_ebidc9b4',

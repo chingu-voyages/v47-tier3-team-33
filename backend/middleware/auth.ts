@@ -1,6 +1,8 @@
 import jwt, { Secret } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
+<<<<<<< HEAD
+=======
 declare global {
     namespace Express {
         interface Request {
@@ -9,6 +11,7 @@ declare global {
     }
 }
 
+>>>>>>> 4b2649e4c19eb3965991f6cd00920547414e5acd
 
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {

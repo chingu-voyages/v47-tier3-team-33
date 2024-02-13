@@ -72,7 +72,7 @@ const NavLinks = [
 	},
 	{
 		name: 'My events',
-		main: 'my-events',
+		main: 'your-created-events',
 		icon: <TbStackFront />,
 	},
 	{
