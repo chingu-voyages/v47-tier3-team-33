@@ -10,6 +10,8 @@ interface IEvent {
 	location: string;
 	description: string;
 	image: string;
+	organizer: string;
+	attendees: [];
 	tickets: [];
 }
 
@@ -27,7 +29,6 @@ const YourJoinedEvents = () => {
 
 	return (
 		<div className=' justify-center h-full m-8 mb-72'>
-			
 			<div className='h-full'>
 				<h3 className='text-black text-2xl font-medium mb-8 mt-12'>
 					Upcoming events

@@ -23,8 +23,13 @@
 		"mongodb": "4.1",
 		"mongoose": "^8.1.0",
 		"multer": "^1.4.5-lts.1",
+		"node": "^21.6.1",
 		"nodemailer": "^6.9.9",
 		"nodemon": "^3.0.3",
+<<<<<<< HEAD
+=======
+		"react-share": "^5.1.0",
+>>>>>>> 4b2649e4c19eb3965991f6cd00920547414e5acd
 		"socket.io": "^4.7.4"
 	},
 	"devDependencies": {

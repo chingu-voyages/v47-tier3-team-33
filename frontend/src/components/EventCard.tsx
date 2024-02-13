@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import EventsDetailPage from '../pages/EventsDetailPage';
 import { FiShare } from 'react-icons/fi';
 import RSVPButton from './RSVPButton';
 import axios from 'axios';
+import { useSocket } from '../context/SocketContext';
 
 interface Event {
 	_id: string;
@@ -15,6 +16,7 @@ interface Event {
 	organizer: string;
 	description: string;
 	image: string;
+	attendees: [];
 	tickets: {
 		type: string;
 		price: number;
@@ -42,26 +44,41 @@ const style = {
 };
 
 export default function EventCard({ event, id }: EventCardProps) {
+	const socket = useSocket();
 	const [cardEvent, setCardEvent] = useState<Event | null>(null);
-
-	const eventId = id && typeof id === 'object' ? id._id : id;
-
 	const [open, setOpen] = React.useState(false);
+
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
 	const fetchEvent = async () => {
-		{
-			const event = await axios.get(`http://localhost:8000/events/${eventId}`);
-			console.log('eve', event.data);
-			setCardEvent(event.data);
+		try {
+			const response = await axios.get(
+				`http://localhost:8000/events/${event._id}`
+			);
+			setCardEvent(response.data);
+		} catch (error) {
+			console.error(error);
 		}
 	};
+
 	useEffect(() => {
 		if (id !== undefined) {
 			fetchEvent();
 		}
-	}, []);
+	}, [id]);
+
+	useEffect(() => {
+		socket &&
+			socket.on(`eventUpdate:${event?._id}`, (data) => {
+				setCardEvent((prevEvent) => {
+					if (prevEvent) {
+						return { ...prevEvent, attendees: data.attendees };
+					}
+					return prevEvent;
+				});
+			});
+	}, [socket, event?._id]);
 
 	return (
 		<div>
@@ -72,17 +89,14 @@ export default function EventCard({ event, id }: EventCardProps) {
 				<div className='w-full flex flex-col justify-between relative'>
 					<div className='relative'>
 						<img
-							src={
-								cardEvent
-									? !cardEvent.image
-										? 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
-										: cardEvent.image
-									: !event.image
-									? 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
-									: event.image
-							}
+							src={cardEvent ? cardEvent?.image : event?.image}
 							alt='event image'
 							className='h-[200px] md:h-[250px] lg:h-[190px] xl:h-[250px] w-full'
+							onError={(e) => {
+								const imgElement = e.target as HTMLImageElement;
+								imgElement.src =
+									'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png';
+							}}
 						/>
 						<p className='absolute bg-white text-black py-1 px-4 rounded-sm top-0 mt-2 ml-2'>
 							Free
@@ -99,7 +113,12 @@ export default function EventCard({ event, id }: EventCardProps) {
 						</div>
 					</div>
 					<div className='flex justify-between p-2 w-full'>
-						<p className=''>Attendees: 20</p>
+						<p className=''>
+							Attendees:{' '}
+							{cardEvent
+								? cardEvent?.attendees?.length
+								: event?.attendees?.length}{' '}
+						</p>
 						<div className='space-x-3'>
 							<div
 								onClick={(event) => {

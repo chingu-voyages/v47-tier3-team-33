@@ -2,22 +2,17 @@ import { Request, Response } from 'express';
 import ConversationModel from '../models/Conversation';
 import UserModel from '../models/User';
 import MessageModel from '../models/Message';
-// import { io } from '../server';
-
-// Set up Socket.IO event listeners outside of request handlers
-// io.on('connection', (socket: any) => {
-// 	console.log('A user connected');
-
-// 	socket.on('disconnect', () => {
-// 		console.log('A user disconnected');
-// 	});
-// });
+import { io } from '../server';
+import NotificationModel, { NotificationType } from '../models/Notification';
 
 export const createConversation = async (req: Request, res: Response) => {
 	try {
 		const { userId, eventOrganizerId } = req.body;
 
-		// Check if a conversation already exists for these participants
+		if (!userId || !eventOrganizerId) {
+			return res.status(400).json({ error: 'Invalid request body' });
+		}
+
 		const existingConversation = await ConversationModel.findOne({
 			participants: { $all: [userId, eventOrganizerId] },
 		});
@@ -26,7 +21,6 @@ export const createConversation = async (req: Request, res: Response) => {
 			return res.status(200).json({ conversationId: existingConversation._id });
 		}
 
-		// If not, create a new conversation
 		const newConversation = await ConversationModel.create({
 			participants: [userId, eventOrganizerId],
 		});
@@ -42,10 +36,10 @@ export const sendMessage = async (req: Request, res: Response) => {
 	try {
 		const { conversationId, sender, text } = req.body;
 
-		const existingSender = await UserModel.findById(sender);
-		const existingConversation = await ConversationModel.findById(
-			conversationId
-		);
+		const [existingSender, existingConversation] = await Promise.all([
+			UserModel.findById(sender),
+			ConversationModel.findById(conversationId),
+		]);
 
 		if (!existingSender || !existingConversation) {
 			return res
@@ -62,7 +56,16 @@ export const sendMessage = async (req: Request, res: Response) => {
 		existingConversation.messages.push(newMessage._id);
 		await existingConversation.save();
 
-		// io.to(conversationId).emit('receiveMessage', newMessage);
+		io.to(conversationId).emit('message', newMessage);
+
+		const notificationData = await NotificationModel.create({
+			userId: existingSender,
+			message: text,
+			type: NotificationType.NEW_INBOX_MESSAGE,
+		});
+
+		await notificationData.save();
+		io.emit('getNotification', notificationData);
 
 		return res.status(201).json(newMessage);
 	} catch (error) {

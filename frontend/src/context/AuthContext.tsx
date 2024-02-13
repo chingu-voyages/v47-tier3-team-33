@@ -19,7 +19,7 @@ interface AuthContextProps {
 	text: string;
 	setText: (text: string) => void;
 	conversationId: string;
-	setConversationId: (test: string) => void;
+	setConversationId: (text: string) => void;
 	notifications: Notification[];
 	setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
 }
@@ -30,8 +30,14 @@ interface User {
 	_id?: string;
 	email: string;
 	password: string;
+	profile_img?: string;
 	user?: {
 		_id: string;
+		profile_img: string;
+		name: string;
+		surname: string;
+		email: string;
+		password: string;
 	};
 }
 
