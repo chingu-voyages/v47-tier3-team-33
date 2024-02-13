@@ -80,6 +80,8 @@ export default function EventCard({ event, id }: EventCardProps) {
 			});
 	}, [socket, event?._id]);
 
+	console.log('event:', event);
+
 	return (
 		<div>
 			<div
@@ -98,9 +100,19 @@ export default function EventCard({ event, id }: EventCardProps) {
 									'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png';
 							}}
 						/>
-						<p className='absolute bg-white text-black py-1 px-4 rounded-sm top-0 mt-2 ml-2'>
-							Free
-						</p>
+						{event.tickets.length > 1 ? (
+							<div className=''>
+								{event.tickets.map((ticket, index) => (
+									<div className='' key={index}>
+										{ticket.price}
+									</div>
+								))}
+							</div>
+						) : (
+							<p className='absolute bg-white text-black py-1 px-4 rounded-sm top-0 mt-2 ml-2'>
+								{event.tickets[0].price}
+							</p>
+						)}
 						<div className='p-2 text-lg'>
 							<p className='font-medium md:text-lg'>
 								{cardEvent ? cardEvent.title : event.title}
