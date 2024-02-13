@@ -6,7 +6,8 @@ import Dashboard from '../components/dashboard/Dashboard';
 import MessageDashboard from '../components/dashboard/MessageDashboard';
 import CreateEventPage from './CreateEventPage';
 import { useAuth } from 'context/AuthContext';
-import YourCreatedEvents from './YourCreatedEventsPage';
+import YourCreatedEvents from '../components/YourCreatedEvents';
+
 const variants = {
 	expanded: { width: '25%' },
 	nonExpanded: { width: '8%' },
@@ -23,10 +24,10 @@ const ComponentsArray = [
 	},
 	{
 		name: 'your-created-events',
-		component: <YourCreatedEvents />
+		component: <YourCreatedEvents />,
 	},
 	{
-		name: '',
+		name: 'booked-events',
 	},
 	{
 		name: 'create-event',
