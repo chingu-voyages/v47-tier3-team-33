@@ -26,7 +26,7 @@ interface AuthContextProps {
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-interface User {
+export interface User {
 	_id?: string;
 	email: string;
 	password: string;
@@ -59,7 +59,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 	const [login, setLogin] = useState<boolean>(true);
 	const [user, setUser] = useState<User | null>(null);
 	const [open, setOpen] = useState<boolean>(false);
-	const [text, setText] = useState<string>('');
+	const [text, setText] = useState<string>('dashboard');
 	const [notifications, setNotifications] = useState<Notification[]>([]);
 	const [conversationId, setConversationId] = useState<string>('');
 	const handleOpen = () => setOpen(true);
