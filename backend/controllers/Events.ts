@@ -127,3 +127,132 @@ export const bookEvent = async (req: Request, res: Response) => {
 		res.status(500).json({ error: 'Internal Server Error' });
 	}
 };
+
+export const updateEventById = async (req: Request, res: Response) => {
+	try {
+		const eventId = req.params.id;
+		const updatedEventData: Partial<IEvent> = req.body;
+
+		const userId = req.body.userId;
+
+		const event = await EventModel.findById(eventId);
+
+		if (!event) {
+			return res.status(404).json({ error: 'Event not found' });
+		}
+
+		// Check if the user making the request is the organizer
+		if (event.organizer.toString() !== userId) {
+			return res.status(403).json({
+				error: 'Unauthorized: Only the organizer can update this event',
+			});
+		}
+
+		const updatedEvent = await EventModel.findByIdAndUpdate(
+			eventId,
+			updatedEventData,
+			{ new: true }
+		);
+
+		if (!updatedEvent) {
+			return res.status(404).json({ error: 'Event not found' });
+		}
+
+		// Notify all attendees about the event status
+		const attendeeUserIds = updatedEvent.attendees.map((attendee) =>
+			attendee.toString()
+		);
+
+		let notificationType: NotificationType;
+
+		// Check the event status and set the appropriate notification type
+		if (updatedEvent.endDate && updatedEvent.endDate < new Date()) {
+			notificationType = NotificationType.EVENT_ENDED;
+		} else if (updatedEvent.startDate && updatedEvent.startDate > new Date()) {
+			notificationType = NotificationType.EVENT_STARTING_SOON;
+		} else {
+			notificationType = NotificationType.EVENT_UPDATED;
+		}
+
+		const notificationData = await NotificationModel.create({
+			userId: attendeeUserIds,
+			message: eventId,
+			type: notificationType,
+		});
+
+		await notificationData.save();
+
+		// Emit the notification to all attendees' sockets
+		attendeeUserIds.forEach((userId) => {
+			const attendeeSocket = findSocket(userId);
+
+			if (attendeeSocket) {
+				attendeeSocket.emit('getNotification', notificationData);
+			} else {
+				// If the socket is not available, store the notification as pending
+				userSocketMap[userId]?.notifications.push(notificationData);
+			}
+		});
+
+		res.json({ event: updatedEvent, message: 'Event updated successfully' });
+	} catch (error: any) {
+		console.error(error);
+		res.status(500).json({ error: 'Internal Server Error' });
+	}
+};
+
+export const deleteEventById = async (req: Request, res: Response) => {
+	try {
+		const eventId = req.params.id;
+		const userId = req.body.userId;
+
+		const event = await EventModel.findById(eventId);
+
+		if (!event) {
+			return res.status(404).json({ error: 'Event not found' });
+		}
+
+		// Check if the user making the request is the organizer
+		if (event.organizer.toString() !== userId) {
+			return res.status(403).json({
+				error: 'Unauthorized: Only the organizer can delete this event',
+			});
+		}
+
+		const deletedEvent = await EventModel.findByIdAndDelete(eventId);
+
+		if (!deletedEvent) {
+			return res.status(404).json({ error: 'Event not found' });
+		}
+
+		// Notify all attendees about the event cancellation
+		const attendeeUserIds = deletedEvent.attendees.map((attendee) =>
+			attendee.toString()
+		);
+
+		const notificationData = await NotificationModel.create({
+			userId: attendeeUserIds,
+			message: eventId,
+			type: NotificationType.EVENT_CANCELLED,
+		});
+
+		await notificationData.save();
+
+		// Emit the notification to all attendees' sockets
+		attendeeUserIds.forEach((userId) => {
+			const attendeeSocket = findSocket(userId);
+
+			if (attendeeSocket) {
+				attendeeSocket.emit('getNotification', notificationData);
+			} else {
+				// If the socket is not available, store the notification as pending
+				userSocketMap[userId]?.notifications.push(notificationData);
+			}
+		});
+
+		res.json({ message: 'Event deleted successfully' });
+	} catch (error: any) {
+		console.error(error);
+		res.status(500).json({ error: 'Internal Server Error' });
+	}
+};
