@@ -3,26 +3,21 @@ import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 
 const Dashboard: React.FC = () => {
-	const [photo, setPhoto] = useState<File | null>(null);
 	const { user } = useAuth();
 	const userId = user?._id ? user?._id : user?.user?._id;
 
-	const [prefix, setPrefix] = useState('');
 	const [contactInfo, setContactInfo] = useState({
 		name: user?.user?.name,
 		surname: user?.user?.surname,
 		email: user?.user?.email,
-		profile_img: user?.user?.profile_img,
 	});
+
+	const [profileImg, setProfileImg] = useState<File | null>(null);
 
 	const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files && e.target.files[0]) {
-			setPhoto(e.target.files[0]);
+			setProfileImg(e.target.files[0]);
 		}
-	};
-
-	const handlePrefixChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setPrefix(e.target.value);
 	};
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,9 +27,32 @@ const Dashboard: React.FC = () => {
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		try {
+			const formData = new FormData();
+			formData.append('name', contactInfo?.name ?? '');
+			formData.append('surname', contactInfo?.surname ?? '');
+			formData.append('email', contactInfo?.email ?? '');
+
+			if (profileImg) {
+				formData.append('profile_img', profileImg);
+				await axios.put(
+					`http://localhost:8000/users/${userId}/profileImg`,
+					formData,
+					{
+						headers: {
+							'Content-Type': 'multipart/form-data',
+						},
+					}
+				);
+			}
+
 			const response = await axios.put(
 				`http://localhost:8000/users/${userId}`,
-				contactInfo
+				formData,
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				}
 			);
 
 			console.log(response.data);
@@ -59,6 +77,7 @@ const Dashboard: React.FC = () => {
 							type='file'
 							accept='image/*'
 							className='input'
+							name='profile_img'
 							onChange={handlePhotoChange}
 						/>
 					</div>

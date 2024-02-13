@@ -1,7 +1,8 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export enum NotificationType {
-	EVENT_CANCELED = 'event_canceled',
+	EVENT_CANCELLED = 'event_cancelled',
+	EVENT_UPDATED = 'event_updated',
 	EVENT_STARTING_SOON = 'event_starting_soon',
 	EVENT_ENDED = 'event_ended',
 	EVENT_RECOMMENDATION = 'event_recommendation',
@@ -19,7 +20,11 @@ export interface INotification extends Document {
 
 const NotificationSchema: Schema = new Schema(
 	{
-		userId: { type: mongoose.Schema.Types.ObjectId, required: true },
+		userId: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
 		message: { type: String, required: true },
 		type: {
 			type: String,
