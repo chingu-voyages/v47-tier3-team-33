@@ -12,6 +12,20 @@ import { Socket } from 'socket.io';
 import UserModel from './models/User';
 import NotificationModel from './models/Notification';
 import mongoose from 'mongoose';
+import multer from 'multer';
+import { updateUserWithFile } from './controllers/User';
+
+// Multer configuration
+const storage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		cb(null, 'uploads/');
+	},
+	filename: (req, file, cb) => {
+		cb(null, file.originalname);
+	},
+});
+
+export const upload = multer({ storage: storage });
 
 const socketio = require('socket.io');
 
@@ -20,7 +34,7 @@ dotenv.config();
 const server = http.createServer(app);
 
 const PORT = 8000 || process.env.PORT;
-
+const path = require('path');
 const io = socketio(server, {
 	cors: {
 		origin: 'http://localhost:3000',
@@ -32,6 +46,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Mongo URL and Connection
 connectDB();
 
@@ -39,8 +54,15 @@ connectDB();
 app.use('/categories', categoryRouter);
 app.use('/events', EventRouter);
 app.use('/users', userRouter);
+app.put(
+	'/users/:userId/profileImg',
+	upload.single('profile_img'),
+	updateUserWithFile
+);
 app.use('/notifications', notificationRouter);
 app.use('/conversations', conversationRouter);
+
+// Route handling the file upload and user update
 
 export const userSocketMap: {
 	[userId: string]: {
