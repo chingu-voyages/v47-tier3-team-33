@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
-import { FaFacebook, FaTwitterSquare, FaLinkedin } from 'react-icons/fa';
+import { FaFacebook, FaTwitterSquare, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useAuth } from 'context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
-import { FacebookShareButton, TwitterShareButton, LinkedinShareButton } from 'react-share';
+import { FacebookShareButton, TwitterShareButton, LinkedinShareButton, FacebookIcon, TwitterIcon, LinkedinIcon } from 'react-share';
 
 interface Event {
   _id: string;
@@ -62,6 +62,12 @@ const ShareModal = ({ isOpen, onClose, url }: { isOpen: boolean; onClose: () => 
               <span>Share on LinkedIn</span>
             </div>
           </LinkedinShareButton>
+          <a href={`https://www.instagram.com`} target="_blank" rel="noopener noreferrer">
+            <div className="flex items-center cursor-pointer">
+              <FaInstagram className="mr-2" />
+              <span>Share on Instagram</span>
+            </div>
+          </a>
         </div>
         <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md mt-4 w-full" onClick={onClose}>Close</button>
       </div>
@@ -224,4 +230,5 @@ const EventsDetailPage = ({
 };
 
 export default EventsDetailPage;
+
 
