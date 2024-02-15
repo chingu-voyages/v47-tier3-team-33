@@ -17,7 +17,7 @@ Omni is a comprehensive event discovery app designed to help users find exciting
 - Event Details: Each event listing provides comprehensive details about the event selected.
 - RSVP: Users can RSVP to events directly through the app.
 - Social Integration: Omni allows users to share events with friends and family through social media platforms. 
-- Nofifications: Users can be notified when an organizer has responded to their messages on the app. 
+- Notifications: Users can be notified when an organizer has responded to their messages on the app. 
 - Event Creation: Businesses, organizations and individuals can create and promote their own events within the app.
 
 
