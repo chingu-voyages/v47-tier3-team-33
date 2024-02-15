@@ -183,7 +183,7 @@ const NavBar: React.FC = () => {
 							)}
 						</div>
 						<div onClick={openDrawerHandler}>
-							{user?.profile_img || user?.user?.profile_img ? (
+							{profileImage ? (
 								<img
 									src={profileImage}
 									alt='profile image'
