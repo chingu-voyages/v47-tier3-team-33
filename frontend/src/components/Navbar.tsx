@@ -10,7 +10,6 @@ import { FaRegBell } from 'react-icons/fa';
 import NotificationTabs from './notificationTabs';
 import { useSocket } from '../context/SocketContext';
 import axios from 'axios';
-import { User } from '../context/AuthContext';
 
 const NavBar: React.FC = () => {
 	const socket = useSocket();
@@ -18,30 +17,17 @@ const NavBar: React.FC = () => {
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 	const [showNotifications, setShowNotifications] = useState<boolean>(false);
 	const [newNotifications, setNewNotifications] = useState<boolean>(false);
+	const [profileImage, setProfileImage] = useState('');
 	const { user } = useAuth();
 	const userId = user?._id ? user?._id : user?.user?._id;
-
-	const imageUrl = `http://localhost:8000/${user?.user?.profile_img}`;
-
-	const getUserFromLocalStorage = () => {
-		const userString = localStorage.getItem('user');
-		return userString ? JSON.parse(userString) : null;
-	};
-
-	const saveUserToLocalStorage = (user: User) => {
-		localStorage.setItem('user', JSON.stringify(user));
-	};
+	const currentUser = localStorage.getItem('user');
 
 	useEffect(() => {
-		// Get the current user from localStorage
-		const currentUser = getUserFromLocalStorage();
-
 		if (currentUser) {
-			currentUser.profile_img = imageUrl;
-			// Save the updated user back to localStorage
-			saveUserToLocalStorage(currentUser);
+			const localUser = JSON.parse(currentUser);
+			setProfileImage(localUser.profile_img);
 		}
-	}, [imageUrl]);
+	}, [currentUser]);
 
 	const fetchPendingNotifications = async () => {
 		try {
@@ -197,9 +183,9 @@ const NavBar: React.FC = () => {
 							)}
 						</div>
 						<div onClick={openDrawerHandler}>
-							{user?.user?.profile_img ? (
+							{user?.profile_img || user?.user?.profile_img ? (
 								<img
-									src={imageUrl}
+									src={profileImage}
 									alt='profile image'
 									className='h-7 w-10 rounded-full'
 								/>

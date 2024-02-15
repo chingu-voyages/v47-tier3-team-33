@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { User, useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 
 const Dashboard: React.FC = () => {
@@ -33,16 +33,38 @@ const Dashboard: React.FC = () => {
 			formData.append('email', contactInfo?.email ?? '');
 
 			if (profileImg) {
-				formData.append('profile_img', profileImg);
-				await axios.put(
-					`http://localhost:8000/users/${userId}/profileImg`,
-					formData,
-					{
-						headers: {
-							'Content-Type': 'multipart/form-data',
-						},
+				try {
+					formData.append('profile_img', profileImg);
+
+					const response = await axios.put(
+						`http://localhost:8000/users/${userId}/profileImg`,
+						formData,
+						{
+							headers: {
+								'Content-Type': 'multipart/form-data',
+							},
+						}
+					);
+
+					const updatedProfileImg = response.data.profile_img;
+
+					// Get the current user from localStorage
+					const userString = localStorage.getItem('user');
+
+					if (userString) {
+						const currentUser = JSON.parse(userString);
+
+						// Update the profile_img property
+						currentUser.profile_img = `http://localhost:8000/${updatedProfileImg}`;
+
+						// Save the updated user back to localStorage
+						localStorage.setItem('user', JSON.stringify(currentUser));
 					}
-				);
+
+					window.location.reload();
+				} catch (error) {
+					console.error('Error updating profile image:', error);
+				}
 			}
 
 			const response = await axios.put(
