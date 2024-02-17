@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
 import { FaRegClock } from 'react-icons/fa6';
 import { FaCalendarAlt } from 'react-icons/fa';
@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
 import ShareModal from '../components/ShareModal';
 import { IEvent } from 'interface';
-
+import Moment from 'react-moment';
 interface EventCardProps {
 	event: IEvent;
 	handleClose: () => void;
@@ -24,9 +24,10 @@ const tagsData = [
 	'Exhibition',
 ];
 
-
 const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 	const { user, setText, setConversationId } = useAuth();
+
+	const [eventHost, setEventHost] = useState('');
 
 	const eventId = event?._id;
 	const eventOrganizerId = event?.organizer;
@@ -45,7 +46,7 @@ const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 
 			if (socket) {
 				socket.emit('rsvp', {
-					type: 'rsvp', // Notification type
+					type: 'rsvp',
 					eventId: eventId,
 					userId: userId,
 					organizerId: eventOrganizerId,
@@ -74,6 +75,12 @@ const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 			});
 	};
 
+	useEffect(() => {
+		const response = axios
+			.get(`http://localhost:8000/users/${event?.organizer}`)
+			.then((res) => setEventHost(res.data.name + ' ' + res.data.surname));
+	}, []);
+
 	const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
 	return (
@@ -98,7 +105,10 @@ const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 				</h1>
 				<div className='bg-white  md:w-34 h-[290px] fixed md:absolute bottom-0 md:top-20 right-0 py-8 px-8 mx-auto rounded md:mr-8 shadow-5xl'>
 					<p className='font-semibold text-xl text-black'>Date & Time</p>
-					<p className='text-gray-400'>Saturday, Sep 14, 2019 at 20:30 PM</p>
+					<p className='text-gray-400'>
+						<Moment format='dddd, MMM DD, YYYY'>{event.startDate}</Moment> at{' '}
+						<Moment format='h:mm a'>{event.startDate}</Moment>
+					</p>
 					<div className='flex flex-col space-y-2 text-white text-lg mt-4'>
 						<button
 							className='bg-pink py-2 rounded-md font-medium'
@@ -125,30 +135,10 @@ const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 					</div>
 				</div>
 				<div className='flex flex-col md:flex-row'>
-					<div className='w-full md:w-[70%] p-8'>
+					<div className='w-full md:w-[70%] p-8 space-y-10'>
 						<div className=''>
 							<p className='font-semibold text-black'>Description</p>
 							<p className=''>{event.description}</p>
-						</div>
-
-						<div className='mt-20'>
-							<p className='font-semibold text-black'>Agenda</p>
-							<p className=''>
-								Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem
-								s!
-							</p>
-						</div>
-						<div className='mt-20'>
-							<p className='font-semibold text-black'>Refund Policy</p>
-							<p className=''>
-								Contact the organizer to request a refund. Eventbrite's fee is
-								nonrefundable.
-							</p>
-						</div>
-					</div>
-					<div className='w-[35%] p-8 space-y-10'>
-						<div className='border rounded-md w-full h-fyll py-6'>
-							<p className='text-black'>Get Tickets</p>
 						</div>
 						<div className=''>
 							<p className='font-semibold text-black'>Event Location</p>
@@ -164,9 +154,30 @@ const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 								))}
 							</div>
 						</div>
-						<div className='text-black'>
-							<p className=''>Hosted by:</p>
-							<p className=''>{event.organizer}</p>
+						<div className='mt-20'>
+							<p className='font-semibold text-black'>Refund Policy</p>
+							<p className=''>Contact the organizer to request a refund.</p>
+						</div>
+						<div className=''>
+							<p className='text-black font-semibold'>Hosted by:</p>
+							<p className=''>{eventHost}</p>
+						</div>
+					</div>
+					<div className='w-[35%] p-8 space-y-10'>
+						<div className='w-full h-fyll py-6'>
+							<p className='font-semibold text-black'>
+								Get Tickets (Pay at the door){' '}
+							</p>
+							<div className='space-y-4'>
+								{event?.tickets?.map((ticket, id) => (
+									<div className='' key={id}>
+										<div className=''>
+											<p className=''>{ticket[0]?.type}</p>
+											<p className=''>${ticket[0]?.price}</p>
+										</div>
+									</div>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>

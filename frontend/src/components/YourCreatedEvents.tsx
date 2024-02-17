@@ -3,7 +3,6 @@ import axios from 'axios';
 import CreatedEventsCard from './CreatedEventsCard';
 import { useAuth } from '../context/AuthContext';
 import animatiedGif from '../assets/florid-task-management.gif';
-import ShareModal from './ShareModal';
 import { IEvent } from 'interface';
 
 const YourCreatedEvents = () => {
