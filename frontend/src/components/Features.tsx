@@ -48,9 +48,11 @@ function Features() {
 		};
 
 		const fetchCategories = async () => {
-			await axios.get('http://localhost:8000/categories').then((response) => {
-				setCategories(response.data.categories);
-			});
+			await axios
+				.get('https://omnievents.vercel.app/categories')
+				.then((response) => {
+					setCategories(response.data.categories);
+				});
 		};
 		fetchCategories();
 
@@ -62,7 +64,7 @@ function Features() {
 		return (
 			<div
 				key={currIdx}
-				className='border bottom-2 border-black -mt-6 w-[250px] md:w-[320px] h-[250px] md:h-[370px] rounded-md relative shadow-md'
+				className='overflow-hidden border bottom-2 border-black -mt-6 w-[250px] md:w-[320px] h-[250px] md:h-[370px] rounded-md relative shadow-md'
 			>
 				<img
 					src={categories[currIdx]?.image}
@@ -84,7 +86,7 @@ function Features() {
 			<div className='flex flex-col items-center md:mt-6'>
 				<div className='text-center leading-10'>
 					<span className='text-[#3C0345] text-xl md:text-3xl font-semibold'>
-						Welcome to OmniEvents Platform
+						Welcome to The OmniEvents Platform
 					</span>
 					<h3 className='text-pink text-3xl md:text-5xl mt-2 md:mt-4 w-[350px] md:w-full'>
 						Create an event for your next gathering

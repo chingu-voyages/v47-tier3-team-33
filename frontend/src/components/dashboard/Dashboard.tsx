@@ -3,42 +3,41 @@ import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 
 const Dashboard: React.FC = () => {
-    const { user } = useAuth();
-    const userId = user?._id ? user?._id : user?.user?._id;
+	const { user } = useAuth();
+	const userId = user?._id ? user?._id : user?.user?._id;
 
-    const [contactInfo, setContactInfo] = useState({
-        name: user?.user?.name,
-        surname: user?.user?.surname,
-        email: user?.user?.email,
-    });
+	const [contactInfo, setContactInfo] = useState({
+		name: user?.user?.name,
+		surname: user?.user?.surname,
+		email: user?.user?.email,
+	});
 
-    const [profileImg, setProfileImg] = useState<File | null>(null);
+	const [profileImg, setProfileImg] = useState<File | null>(null);
 
-    const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            setProfileImg(e.target.files[0]);
-        }
-    };
+	const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.files && e.target.files[0]) {
+			setProfileImg(e.target.files[0]);
+		}
+	};
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setContactInfo({ ...contactInfo, [e.target.name]: e.target.value });
-    };
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setContactInfo({ ...contactInfo, [e.target.name]: e.target.value });
+	};
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            const formData = new FormData();
-            formData.append('name', contactInfo?.name ?? '');
-            formData.append('surname', contactInfo?.surname ?? '');
-            formData.append('email', contactInfo?.email ?? '');
-
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		try {
+			const formData = new FormData();
+			formData.append('name', contactInfo?.name ?? '');
+			formData.append('surname', contactInfo?.surname ?? '');
+			formData.append('email', contactInfo?.email ?? '');
 
 			if (profileImg) {
 				try {
 					formData.append('profile_img', profileImg);
 
 					const response = await axios.put(
-						`http://localhost:8000/users/${userId}/profileImg`,
+						`https://omnievents.vercel.app/users/${userId}/profileImg`,
 						formData,
 						{
 							headers: {
@@ -56,7 +55,7 @@ const Dashboard: React.FC = () => {
 						const currentUser = JSON.parse(userString);
 
 						// Update the profile_img property
-						currentUser.profile_img = `http://localhost:8000/${updatedProfileImg}`;
+						currentUser.profile_img = `https://omnievents.vercel.app/${updatedProfileImg}`;
 
 						// Save the updated user back to localStorage
 						localStorage.setItem('user', JSON.stringify(currentUser));
@@ -66,22 +65,21 @@ const Dashboard: React.FC = () => {
 				}
 			}
 
-            const response = await axios.put(
-                `http://localhost:8000/users/${userId}`,
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
-            );
+			const response = await axios.put(
+				`https://omnievents.vercel.app/users/${userId}`,
+				formData,
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				}
+			);
 
-            console.log(response.data);
-        } catch (error) {
-            console.error('Error submitting form:', error);
-        }
-    };
-
+			console.log(response.data);
+		} catch (error) {
+			console.error('Error submitting form:', error);
+		}
+	};
 
 	return (
 		<div className='bg-gray-100 h-full md:min-h-screen flex justify-center items-center'>
@@ -104,57 +102,57 @@ const Dashboard: React.FC = () => {
 						/>
 					</div>
 
-                    {/* Name and Last Name */}
-                    <div className='mb-8 grid grid-cols-2 gap-4'>
-                        <div>
-                            <h2 className='text-lg font-semibold mb-2'>Name</h2>
-                            <input
-                                type='text'
-                                placeholder='First Name'
-                                className='input'
-                                name='name'
-                                value={contactInfo.name}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        <div>
-                            <h2 className='text-lg font-semibold mb-2'>Last Name</h2>
-                            <input
-                                type='text'
-                                placeholder='Last Name'
-                                className='input'
-                                name='surname'
-                                value={contactInfo.surname}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                    </div>
+					{/* Name and Last Name */}
+					<div className='mb-8 grid grid-cols-2 gap-4'>
+						<div>
+							<h2 className='text-lg font-semibold mb-2'>Name</h2>
+							<input
+								type='text'
+								placeholder='First Name'
+								className='input'
+								name='name'
+								value={contactInfo.name}
+								onChange={handleInputChange}
+							/>
+						</div>
+						<div>
+							<h2 className='text-lg font-semibold mb-2'>Last Name</h2>
+							<input
+								type='text'
+								placeholder='Last Name'
+								className='input'
+								name='surname'
+								value={contactInfo.surname}
+								onChange={handleInputChange}
+							/>
+						</div>
+					</div>
 
-                    {/* Email */}
-                    <div className='mb-8'>
-                        <h2 className='text-lg font-semibold mb-2'>Email</h2>
-                        <input
-                            type='email'
-                            placeholder='Email'
-                            className='input'
-                            name='email'
-                            value={contactInfo.email}
-                            onChange={handleInputChange}
-                        />
-                    </div>
+					{/* Email */}
+					<div className='mb-8'>
+						<h2 className='text-lg font-semibold mb-2'>Email</h2>
+						<input
+							type='email'
+							placeholder='Email'
+							className='input'
+							name='email'
+							value={contactInfo.email}
+							onChange={handleInputChange}
+						/>
+					</div>
 
-                    <div className='flex justify-center'>
-                        <button
-                            type='submit'
-                            className='w-full bg-pink text-white py-2 px-4 rounded hover:bg-pink-600'
-                        >
-                            Save Changes
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
+					<div className='flex justify-center'>
+						<button
+							type='submit'
+							className='w-full bg-pink text-white py-2 px-4 rounded hover:bg-pink-600'
+						>
+							Save Changes
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	);
 };
 
 export default Dashboard;

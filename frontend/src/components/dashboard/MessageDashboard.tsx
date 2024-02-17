@@ -54,7 +54,7 @@ const MessageDashboard = () => {
 
 		try {
 			const response = await axios.post(
-				`http://localhost:8000/conversations/messages`,
+				`https://omnievents.vercel.app/conversations/messages`,
 				{
 					conversationId: conversationId,
 					sender: userId,
@@ -86,7 +86,7 @@ const MessageDashboard = () => {
 	const handleConversationClick = async (conversationId: string) => {
 		try {
 			const response = await axios.get(
-				`http://localhost:8000/conversations/messages/${conversationId}`
+				`https://omnievents.vercel.app/conversations/messages/${conversationId}`
 			);
 			setMessages(response.data);
 			setSelectedConversationId(conversationId);
@@ -131,7 +131,9 @@ const MessageDashboard = () => {
 			const profiles = [];
 
 			for (const r of receivers) {
-				const response = await axios.get(`http://localhost:8000/users/${r}`);
+				const response = await axios.get(
+					`https://omnievents.vercel.app/users/${r}`
+				);
 				profiles.push(response.data);
 			}
 
@@ -148,7 +150,7 @@ const MessageDashboard = () => {
 	const fetchConversations = async () => {
 		try {
 			const response = await axios.get(
-				`http://localhost:8000/conversations/user/${userId}`
+				`https://omnievents.vercel.app/conversations/user/${userId}`
 			);
 			setConversations(response.data);
 		} catch (error) {

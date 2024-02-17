@@ -10,14 +10,13 @@ interface SideDrawerProps {
 
 const SideDrawer = ({ setDrawerIsOpen }: SideDrawerProps) => {
 	const { setText, user } = useAuth();
-	console.log(user);
 	const navigate = useNavigate();
 
 	if (!user) {
 		return null;
 	}
 	return (
-		<div className='text-left z-60 h-full'>
+		<div className='text-left z-60 h-full z-50'>
 			<h1 className='text-center pb-6'>
 				{user?.profile_img ? (
 					<img
@@ -27,7 +26,7 @@ const SideDrawer = ({ setDrawerIsOpen }: SideDrawerProps) => {
 					/>
 				) : user?.user?.profile_img ? (
 					<img
-						src={`http://localhost:8000/${user?.user?.profile_img}`}
+						src={`https://omnievents.vercel.app/${user?.user?.profile_img}`}
 						alt='profile image'
 						className='h-20 w-20 flex items-center justify-center mx-auto mb-1 rounded-full'
 					/>

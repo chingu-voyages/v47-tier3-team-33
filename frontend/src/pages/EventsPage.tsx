@@ -11,10 +11,12 @@ const EventsPage = () => {
 
 	useEffect(() => {
 		const getAllEvents = async () => {
-			await axios.get('http://localhost:8000/events').then((response) => {
-				setEvents(response.data.events);
-				setFilteredEvents(response.data.events); // Initially set to all events
-			});
+			await axios
+				.get('https://omnievents.vercel.app/events')
+				.then((response) => {
+					setEvents(response.data.events);
+					setFilteredEvents(response.data.events); // Initially set to all events
+				});
 		};
 		getAllEvents();
 	}, []);

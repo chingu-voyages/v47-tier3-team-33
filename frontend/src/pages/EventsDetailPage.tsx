@@ -39,7 +39,7 @@ const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 	const handleBookingEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		try {
-			await axios.post('http://localhost:8000/events/rsvp', {
+			await axios.post('https://omnievents.vercel.app/events/rsvp', {
 				userId: userId,
 				eventId: eventId,
 			});
@@ -66,7 +66,7 @@ const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 
 	const handContactOrganizer = async () => {
 		await axios
-			.post('http://localhost:8000/conversations', {
+			.post('https://omnievents.vercel.app/conversations', {
 				userId,
 				eventOrganizerId,
 			})
@@ -77,7 +77,7 @@ const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 
 	useEffect(() => {
 		const response = axios
-			.get(`http://localhost:8000/users/${event?.organizer}`)
+			.get(`https://omnievents.vercel.app/users/${event?.organizer}`)
 			.then((res) => setEventHost(res.data.name + ' ' + res.data.surname));
 	}, []);
 

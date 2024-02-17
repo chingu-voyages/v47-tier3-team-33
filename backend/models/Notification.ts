@@ -8,6 +8,7 @@ export enum NotificationType {
 	EVENT_RECOMMENDATION = 'event_recommendation',
 	NEW_INBOX_MESSAGE = 'new_inbox_message',
 	EVENT_BOOKED = 'event_booked',
+	EVENT_UNBOOKED = 'event_unbooked',
 }
 
 export interface INotification extends Document {

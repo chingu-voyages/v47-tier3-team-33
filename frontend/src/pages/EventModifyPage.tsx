@@ -34,7 +34,7 @@ const EventModifyPage = ({
 	const handleUpdateEvent = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		try {
-			await axios.put(`http://localhost:8000/events/${eventId}`, {
+			await axios.put(`https://omnievents.vercel.app/events/${eventId}`, {
 				userId: userId,
 				updatedEventData: data,
 			});

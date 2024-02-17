@@ -31,13 +31,13 @@ function Footer() {
 							<h2 className='text-teal text-xl md:text-2xl'>Navigation</h2>
 							<ul className='space-y-2'>
 								<li className='text-lg cursor-pointer hover:text-yellow md:text-xl'>
-									About
+									<Link to='/about'>About</Link>
 								</li>
 								<li className='text-lg cursor-pointer hover:text-yellow md:text-xl'>
-									Events
+									<Link to='/events'>Events</Link>
 								</li>
 								<li className='text-lg cursor-pointer hover:text-yellow md:text-xl'>
-									Categories
+									<Link to='/categories'>Categories</Link>
 								</li>
 							</ul>
 						</div>
