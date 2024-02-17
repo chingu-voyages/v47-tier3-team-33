@@ -2,21 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import CreatedEventsCard from './CreatedEventsCard';
 import { useAuth } from '../context/AuthContext';
-
-interface IEvent {
-	_id: string;
-	title: string;
-	category: string;
-	location: string;
-	description: string;
-	image: string;
-	organizer?: string;
-	tickets: [];
-}
+import animatiedGif from '../assets/florid-task-management.gif';
+import ShareModal from './ShareModal';
+import { IEvent } from 'interface';
 
 const YourCreatedEvents = () => {
 	const [events, setEvents] = useState<IEvent[]>([]);
-	const { user } = useAuth();
+	const { user, setText } = useAuth();
 	const userId = user?.user?._id;
 
 	useEffect(() => {
@@ -26,12 +18,13 @@ const YourCreatedEvents = () => {
 				(e: IEvent) => e.organizer === userId
 			);
 			setEvents(userEvents);
+			console.log(userEvents);
 		};
 		getUserCreatedEvents();
 	}, []);
 
 	return (
-		<div className=' justify-center h-full m-8 mb-72'>
+		<div className='flex flex-col justify-center h-full w-full m-8 mb-72 -ml-2'>
 			<div className='h-full'>
 				{events.length > 0 ? (
 					<div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-5'>
@@ -40,8 +33,17 @@ const YourCreatedEvents = () => {
 						))}
 					</div>
 				) : (
-					<div>
-						<h2 className=''>Nothing to see here! creatw an event</h2>
+					<div className='flex flex-col justify-center items-center pt-6'>
+						<h2 className='text-2xl md:text-4xl mb-4 font-medium'>
+							Nothing to see here!
+						</h2>
+						<img src={animatiedGif} alt='' className='w-[600px]' />
+						<button
+							className='mt-8 bg-pink text-white px-6 py-3 text-lg rounded-md'
+							onClick={() => setText('create-event')}
+						>
+							Create an Event
+						</button>
 					</div>
 				)}
 			</div>

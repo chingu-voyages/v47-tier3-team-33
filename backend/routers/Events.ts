@@ -6,15 +6,16 @@ import {
 	getEventById,
 	getEvents,
 	updateEventById,
+	uploadEventImage,
 } from '../controllers/Events';
 
 const router = express.Router();
 
 router.get('/', getEvents);
 router.get('/:id', getEventById);
-router.get('/:id', updateEventById);
-router.get('/:id', deleteEventById);
-router.post('/', createEvent);
+router.put('/:eventId', updateEventById);
+router.delete('/:id', deleteEventById);
+router.post('/', uploadEventImage.single('image'), createEvent);
 router.post('/rsvp', bookEvent);
 
 export default router;

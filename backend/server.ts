@@ -13,12 +13,18 @@ import UserModel from './models/User';
 import NotificationModel from './models/Notification';
 import mongoose from 'mongoose';
 import multer from 'multer';
+import fs from 'fs';
 import { updateUserWithFile } from './controllers/User';
 
 // Multer configuration
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		cb(null, 'uploads/');
+		const uploadDirectory = 'uploads';
+		if (!fs.existsSync(uploadDirectory)) {
+			fs.mkdirSync(uploadDirectory);
+			console.log(`Directory ${uploadDirectory} created.`);
+		}
+		cb(null, uploadDirectory);
 	},
 	filename: (req, file, cb) => {
 		cb(null, file.originalname);
@@ -34,7 +40,7 @@ dotenv.config();
 const server = http.createServer(app);
 
 const PORT = 8000 || process.env.PORT;
-const path = require('path');
+import path from 'path';
 const io = socketio(server, {
 	cors: {
 		origin: 'http://localhost:3000',
@@ -47,6 +53,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/event_images', express.static(path.join(__dirname, 'event_images')));
 // Mongo URL and Connection
 connectDB();
 
@@ -72,8 +79,13 @@ export const userSocketMap: {
 	};
 } = {};
 
-const getPendingNotifications = async (userId: string) => {
+export const getPendingNotifications = async (userId: string) => {
 	try {
+		if (!userId || !mongoose.isValidObjectId(userId)) {
+			console.error('Invalid userId:', userId);
+			return [];
+		}
+
 		const pendingNotifications = await NotificationModel.find({
 			userId,
 			status: 'pending',

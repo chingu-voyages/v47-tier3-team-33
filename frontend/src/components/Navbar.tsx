@@ -117,8 +117,8 @@ const NavBar: React.FC = () => {
 			</div>
 
 			{drawerIsOpen && user && (
-				<div className='rounded-lg absolute right-1 bg-gray-100 h-[400px] w-[250px] text-black top-20 z-50 p-4 '>
-					<SideDrawer />
+				<div className='rounded-lg absolute right-1 bg-gray-100 h-[440px] w-[250px] text-black top-20 z-50 p-4 '>
+					<SideDrawer setDrawerIsOpen={setDrawerIsOpen} />
 				</div>
 			)}
 
@@ -165,12 +165,12 @@ const NavBar: React.FC = () => {
 								}}
 							/>
 							{newNotifications && (
-								<div className='w-3 h-3 bg-red-600 rounded-full absolute right-[70px] top-7'></div>
+								<div className='w-2 h-2 bg-red-600 rounded-full absolute right-[80px] top-10 md:top-7'></div>
 							)}
 							{showNotifications && (
 								<div>
 									<div
-										className='absolute h-6 w-10 z-50 top-16 bg-white right-[70px]'
+										className='absolute h-6 w-9 z-50 top-16 bg-white right-[70px]'
 										style={{
 											borderTopLeftRadius: '50px',
 											borderTopRightRadius: '50px',
@@ -187,7 +187,13 @@ const NavBar: React.FC = () => {
 								<img
 									src={profileImage}
 									alt='profile image'
-									className='h-7 w-10 rounded-full'
+									className='h-7 w-7 md:h-7 md:w-12 rounded-full'
+								/>
+							) : user?.user?.profile_img ? (
+								<img
+									src={`http://localhost:8000/${user?.user?.profile_img}`}
+									alt='profile image'
+									className='h-7 w-7 md:h-7 md:w-12 rounded-full'
 								/>
 							) : (
 								<CgProfile />

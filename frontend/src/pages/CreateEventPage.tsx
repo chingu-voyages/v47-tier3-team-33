@@ -15,7 +15,7 @@ const validationSchema = Yup.object({
 		.min(Yup.ref('startDate'), 'End date must be later than start date'),
 	location: Yup.string().required('Location is required'),
 	description: Yup.string().required('Description is required'),
-	image: Yup.string().url('Invalid URL').required('Image URL is required'),
+	image: Yup.mixed().required('Image is required'),
 	venue: Yup.string().required('Venue is required'),
 	tickets: Yup.array().of(
 		Yup.object().shape({
@@ -33,6 +33,7 @@ interface ICategory {
 const CreateEventPage = () => {
 	const [categories, setCategories] = useState<ICategory[]>([]);
 	const { user } = useAuth();
+	console.log(user?._id);
 
 	const formik = useFormik({
 		initialValues: {
@@ -42,21 +43,42 @@ const CreateEventPage = () => {
 			endDate: '',
 			location: '',
 			description: '',
-			image: '',
+			image: '' as any,
 			venue: '',
+			organizer: user?.user?._id || user?._id || '',
 			tickets: [{ type: '', price: 0 }],
 		},
 		validationSchema: validationSchema,
 		onSubmit: async (values, { resetForm }) => {
-			console.log('values: ', values);
-			console.log('submitted');
 			try {
-				await axios.post('http://localhost:8000/events', {
-					...values,
-					attendees: 0,
-					organizer: user?._id,
-					tickets: [...values.tickets],
+				const formData = new FormData();
+
+				Object.keys(values).forEach((key) => {
+					const value = (values as { [key: string]: any })[key];
+					if (key === 'image' && value !== '') {
+						formData.append(key, value as File);
+					} else if (key === 'tickets') {
+						(value as { type: string; price: number }[]).forEach(
+							(ticket, index) => {
+								formData.append(`tickets[${index}].type`, ticket.type);
+								formData.append(
+									`tickets[${index}].price`,
+									ticket.price.toString()
+								);
+							}
+						);
+					} else if (typeof value === 'string' || value instanceof Blob) {
+						formData.append(key, value as string | Blob);
+					}
 				});
+				formData.append('organizer', user?.user?._id || user?._id || 'ohh');
+
+				await axios.post('http://localhost:8000/events', formData, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				});
+
 				toast('Event created successfully!', {
 					style: {
 						color: 'green',
@@ -156,7 +178,7 @@ const CreateEventPage = () => {
 					Start Date & Time
 				</label>
 				<input
-					type='date'
+					type='datetime-local'
 					onChange={formik.handleChange}
 					value={formik.values.startDate}
 					name='startDate'
@@ -178,7 +200,7 @@ const CreateEventPage = () => {
 					End Date & Time
 				</label>
 				<input
-					type='date'
+					type='datetime-local'
 					onChange={formik.handleChange}
 					value={formik.values.endDate}
 					name='endDate'
@@ -346,7 +368,7 @@ const CreateEventPage = () => {
 			</div>
 
 			<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
-				Event Image URL:
+				Event Image:
 			</label>
 
 			<input
@@ -355,15 +377,23 @@ const CreateEventPage = () => {
 						? 'border-red-500'
 						: 'border-gray-200'
 				} rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
-				type='text'
+				type='file'
 				name='image'
-				value={formik.values.image}
-				onChange={formik.handleChange}
+				onChange={(event) => {
+					const file = event.currentTarget.files?.[0];
+					formik.setFieldValue('image', file || '');
+				}}
 			/>
-			{formik.touched.image && formik.errors.image && (
-				<p className='text-red-500 text-xs italic'>{formik.errors.image}</p>
-			)}
+			<input
+				type='hidden'
+				id='organizer'
+				name='organizer'
+				value={formik.values.organizer}
+			/>
 
+			{/* {formik.touched.image && formik.errors.image && (
+				<p className='text-red-500 text-xs italic'>{formik.errors.image}</p>
+			)} */}
 			<button
 				className='w-full bg-pink px-6 py-3 flex justify-center items-center'
 				type='submit'

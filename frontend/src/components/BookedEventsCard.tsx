@@ -4,26 +4,13 @@ import Modal from '@mui/material/Modal';
 import EventModifyPage from 'pages/EventModifyPage';
 import { FiShare } from 'react-icons/fi';
 import axios from 'axios';
-
-interface Event {
-	_id: string;
-	title: string;
-	category: string;
-	date?: Date;
-	location: string;
-	description: string;
-	image: string;
-	tickets: {
-		type: string;
-		price: number;
-	}[];
-}
+import { IEvent } from 'interface';
 
 interface EventCardProps {
 	id?: {
 		_id: string;
 	};
-	event: Event;
+	event: IEvent;
 }
 
 const style = {
@@ -37,11 +24,10 @@ const style = {
 	border: '2px solid #000',
 	boxShadow: 24,
 	p: 4,
-
 };
 
 export default function BookedEventsCard({ event, id }: EventCardProps) {
-	const [cardEvent, setCardEvent] = useState<Event | null>(null);
+	const [cardEvent, setCardEvent] = useState<IEvent | null>(null);
 
 	const eventId = id && typeof id === 'object' ? id._id : id;
 
@@ -104,22 +90,20 @@ export default function BookedEventsCard({ event, id }: EventCardProps) {
 								onClick={(event) => {
 									event.stopPropagation();
 								}}
-							>
-							</div>
-							<button 
-							onClick={(event) => {
-								event.stopPropagation();
-								setOpen(true);
+							></div>
+							<button
+								onClick={(event) => {
+									event.stopPropagation();
+									setOpen(true);
 								}}
-							className='bg-blue-500  rounded-md px-4 hover:text-white text-gray-300  hover:opacity-100 flex flex-col items-center '>
-							Edit
+								className='bg-blue-500  rounded-md px-4 hover:text-white text-gray-300  hover:opacity-100 flex flex-col items-center '
+							>
+								Edit
 							</button>
 							<button className='bg-blue-500  rounded-md px-4 hover:text-white text-gray-300  hover:opacity-100 flex flex-col items-center '>
-								<div className="grid grid-cols-3 justify-items-center items-center">
-								<FiShare />
-								<p>
-									Share
-								</p>
+								<div className='grid grid-cols-3 justify-items-center items-center'>
+									<FiShare />
+									<p>Share</p>
 								</div>
 							</button>
 						</div>
@@ -167,19 +151,17 @@ export default function BookedEventsCard({ event, id }: EventCardProps) {
 				</div>
 
 			</div> */}
-			
+
 			<Modal
 				open={open}
 				onClose={handleClose}
 				aria-labelledby='modal-modal-title'
 				aria-describedby='modal-modal-description'
-
 			>
 				<Box sx={style}>
 					<EventModifyPage
 						close={handleClose}
 						event={cardEvent ? cardEvent : event}
-
 					/>
 				</Box>
 			</Modal>

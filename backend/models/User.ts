@@ -21,7 +21,12 @@ const UserSchema: Schema = new Schema({
 	surname: { type: String, required: true },
 	email: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
-	profile_img: { type: String, required: false },
+	profile_img: {
+		type: String,
+		required: false,
+		default:
+			'https://media.istockphoto.com/id/1208175274/vector/avatar-vector-icon-simple-element-illustrationavatar-vector-icon-material-concept-vector.jpg?s=612x612&w=0&k=20&c=t4aK_TKnYaGQcPAC5Zyh46qqAtuoPcb-mjtQax3_9Xc=',
+	},
 	events: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
 	interests: { type: [String], required: false },
 	notifications: [

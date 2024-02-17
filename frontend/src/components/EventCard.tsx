@@ -6,28 +6,15 @@ import { FiShare } from 'react-icons/fi';
 import RSVPButton from './RSVPButton';
 import axios from 'axios';
 import { useSocket } from '../context/SocketContext';
-
-interface Event {
-	_id: string;
-	title: string;
-	category: string;
-	date?: Date;
-	location: string;
-	organizer: string;
-	description: string;
-	image: string;
-	attendees: [];
-	tickets: {
-		type: string;
-		price: number;
-	}[];
-}
+import Moment from 'react-moment';
+import 'moment-timezone';
+import { IEvent } from 'interface';
 
 interface EventCardProps {
 	id?: {
 		_id: string;
 	};
-	event: Event;
+	event: IEvent;
 }
 
 const style = {
@@ -45,11 +32,40 @@ const style = {
 
 export default function EventCard({ event, id }: EventCardProps) {
 	const socket = useSocket();
-	const [cardEvent, setCardEvent] = useState<Event | null>(null);
+	const [cardEvent, setCardEvent] = useState<IEvent | null>(null);
 	const [open, setOpen] = React.useState(false);
+	const [startDate, setStartDate] = useState('');
+	const [endDate, setEndDate] = useState('');
+	const [startTime, setStartTime] = useState('');
+	const [endTime, setEndTime] = useState('');
 
+	console.log('event:', event);
 	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+	const handleClose: () => void = () => setOpen(false);
+
+	const startDateString = event.startDate;
+	const endDateString = event.endDate;
+
+	useEffect(() => {
+		if (startDateString) {
+			const startDateObject = new Date(startDateString);
+			const startformattedTime = startDateObject.toLocaleTimeString();
+			const startFormattedDate = startDateObject.toLocaleDateString();
+			setStartDate(startFormattedDate);
+
+			setStartTime(startformattedTime);
+		}
+
+		if (endDateString) {
+			const endDateObject = new Date(endDateString);
+			const endFormattedTime = endDateObject.toLocaleTimeString();
+			const endFormattedDate = endDateObject.toLocaleDateString();
+			setEndDate(endFormattedDate);
+			setEndTime(endFormattedTime);
+		}
+	}, [startDate, endDate, startTime, endTime]);
+
+	console.log('sd', startDate);
 
 	const fetchEvent = async () => {
 		try {
@@ -93,32 +109,46 @@ export default function EventCard({ event, id }: EventCardProps) {
 						<img
 							src={cardEvent ? cardEvent?.image : event?.image}
 							alt='event image'
-							className='h-[200px] md:h-[250px] lg:h-[190px] xl:h-[250px] w-full'
+							className='h-[200px] md:h-[250px] lg:h-[190px] xl:h-[250px] w-full object-cover'
 							onError={(e) => {
 								const imgElement = e.target as HTMLImageElement;
 								imgElement.src =
 									'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png';
 							}}
 						/>
-						{event.tickets.length > 1 ? (
-							<div className=''>
-								{event.tickets.map((ticket, index) => (
-									<div className='' key={index}>
-										{ticket.price}
-									</div>
-								))}
-							</div>
-						) : (
-							<p className='absolute bg-white text-black py-1 px-4 rounded-sm top-0 mt-2 ml-2'>
-								{event.tickets[0].price}
-							</p>
-						)}
+
+						{/* <p className='absolute bg-white text-black py-1 px-4 rounded-sm top-0 mt-2 ml-2'>
+							{event?.tickets?.length > 1 ? (
+								<p>From ${event.tickets?.[0][0]?.price}</p>
+							) : (
+								<p>
+									{event?.tickets?.[0][0]?.price === 0
+										? 'Free'
+										: '$' + event?.tickets?.[0][0]?.price}
+								</p>
+							)}
+						</p> */}
+
 						<div className='p-2 text-lg'>
 							<p className='font-medium md:text-lg'>
 								{cardEvent ? cardEvent.title : event.title}
 							</p>
-							<p className=''>Date: Saturday, January 13, 2024</p>
-							<p className=''>Time: 2:00pm - 3:00pm</p>
+							<p className=''>
+								Date:{' '}
+								<Moment format='ddd, MMM DD YYYY'>
+									{cardEvent ? cardEvent.startDate : event.startDate}
+								</Moment>
+							</p>
+							<p className=''>
+								Time:{' '}
+								<Moment format='h:mma'>
+									{cardEvent ? cardEvent.startDate : event.startDate}
+								</Moment>{' '}
+								-
+								<Moment format='h:mma'>
+									{cardEvent ? cardEvent.endDate : event.endDate}
+								</Moment>
+							</p>
 							<p className=''>
 								Location: {cardEvent ? cardEvent.location : event.location}
 							</p>
@@ -137,7 +167,10 @@ export default function EventCard({ event, id }: EventCardProps) {
 									event.stopPropagation();
 								}}
 							>
-								<RSVPButton id={event._id} organizerId={event.organizer} />
+								<RSVPButton
+									id={cardEvent ? cardEvent._id : event._id}
+									organizerId={cardEvent?.organizer || event.organizer || ''}
+								/>
 							</div>
 							<button className='absolute top-2 right-2 hover:text-white text-gray-300 opacity-20 hover:opacity-100 text-3xl flex flex-col items-center'>
 								<FiShare />
@@ -157,8 +190,8 @@ export default function EventCard({ event, id }: EventCardProps) {
 			>
 				<Box sx={style}>
 					<EventsDetailPage
-						close={handleClose}
 						event={cardEvent ? cardEvent : event}
+						handleClose={handleClose}
 					/>
 				</Box>
 			</Modal>

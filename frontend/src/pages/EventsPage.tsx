@@ -3,17 +3,7 @@ import SearchBar from '../components/SearchBar';
 import ScrollingTags from '../components/ScrollingTags';
 import EventCard from 'components/EventCard';
 import axios from 'axios';
-interface IEvent {
-	_id: string;
-	title: string;
-	category: string;
-	location: string;
-	organizer: string;
-	description: string;
-	image: string;
-	attendees: [];
-	tickets: [];
-}
+import { IEvent } from 'interface';
 
 const EventsPage = () => {
 	const [events, setEvents] = useState<IEvent[]>([]);

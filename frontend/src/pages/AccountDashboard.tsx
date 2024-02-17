@@ -7,9 +7,10 @@ import MessageDashboard from '../components/dashboard/MessageDashboard';
 import CreateEventPage from './CreateEventPage';
 import { useAuth } from 'context/AuthContext';
 import YourCreatedEvents from '../components/YourCreatedEvents';
+import { Navigate } from 'react-router';
 
 const variants = {
-	expanded: { width: '25%' },
+	expanded: { width: '14%' },
 	nonExpanded: { width: '8%' },
 };
 
@@ -35,18 +36,21 @@ const ComponentsArray = [
 	},
 ];
 const AccountDashboard = () => {
-	const { text } = useAuth();
+	const { text, user } = useAuth();
 	const [isExpanded, setIsExpanded] = useState<boolean>(true);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
+	if (!user) {
+		return <Navigate to='/' />;
+	}
 	return (
-		<div className='h-full w-full flex relative z-50'>
+		<div className='w-screen h-full  flex relative z-50 mb-80 overflow-x-hidden'>
 			<motion.div
 				animate={isExpanded ? 'expanded' : 'nonExpanded'}
 				variants={variants}
-				className='w-[25%] border border-r-1'
+				className=''
 			>
 				<AccountSidebar isExpanded={isExpanded} />
 			</motion.div>
@@ -55,12 +59,12 @@ const AccountDashboard = () => {
 					setIsExpanded(!isExpanded);
 				}}
 				className={`bg-pink w-5 h-5 rounded-full absolute ${
-					isExpanded ? 'left-[22%]' : 'left-[7%]'
-				} top-12 text-white font-bold pl-[5px] pt-[1px] cursor-pointer`}
+					isExpanded ? 'left-[16%]' : 'left-[7%]'
+				} top-80 md:top-12 text-white font-bold pl-[5px] pt-[1px] cursor-pointer`}
 			>
 				{!isExpanded ? <MdArrowForwardIos /> : <MdArrowBackIos />}
 			</div>
-			<div className='w-[85%] h-full'>
+			<div className='w-full md:w-[95%] h-full pr-10 ml-20 border border-l-1'>
 				{ComponentsArray.map((comp, idx) => (
 					<div className='' key={idx}>
 						{comp.name === text && comp.component}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 
 const Dashboard: React.FC = () => {
@@ -60,8 +60,6 @@ const Dashboard: React.FC = () => {
 						// Save the updated user back to localStorage
 						localStorage.setItem('user', JSON.stringify(currentUser));
 					}
-
-					window.location.reload();
 				} catch (error) {
 					console.error('Error updating profile image:', error);
 				}
@@ -84,7 +82,7 @@ const Dashboard: React.FC = () => {
 	};
 
 	return (
-		<div className='bg-gray-100 min-h-screen flex justify-center items-center'>
+		<div className='bg-gray-100 h-full md:min-h-screen flex justify-center items-center'>
 			<div className='bg-white rounded-md shadow-md p-8 space-y-8 max-w-4xl w-full overflow-y-auto'>
 				<h1 className='text-3xl font-semibold mb-4 text-center'>
 					Account Information

@@ -1,48 +1,93 @@
-import './SideDrawer.css'; //12
+import './SideDrawer.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { IoClose } from 'react-icons/io5';
 import '../assets/profile icon.png';
 import { useAuth } from 'context/AuthContext';
+import { CgProfile } from 'react-icons/cg';
 
-const SideDrawer = () => {
+interface SideDrawerProps {
+	setDrawerIsOpen: (string: boolean) => void;
+}
+
+const SideDrawer = ({ setDrawerIsOpen }: SideDrawerProps) => {
 	const { setText, user } = useAuth();
+	console.log(user);
 	const navigate = useNavigate();
 
+	if (!user) {
+		return null;
+	}
 	return (
-		<div className='text-left'>
-			<h1 className='text-center'>
-				Hi, {user?.user?.name} {user?.user?.surname}
+		<div className='text-left z-60 h-full'>
+			<h1 className='text-center pb-6'>
+				{user?.profile_img ? (
+					<img
+						src={user?.profile_img}
+						alt='profile image'
+						className='h-20 w-20 flex items-center justify-center mx-auto mb-1 rounded-full'
+					/>
+				) : user?.user?.profile_img ? (
+					<img
+						src={`http://localhost:8000/${user?.user?.profile_img}`}
+						alt='profile image'
+						className='h-20 w-20 flex items-center justify-center mx-auto mb-1 rounded-full'
+					/>
+				) : (
+					<CgProfile />
+				)}
+				<p className='font-semibold'>
+					Hi, {user?.user?.name} {user?.user?.surname}
+				</p>
 			</h1>
 
-			<br />
 			<hr />
-			<br />
-			<button className='flex w-full bg-pink hover:bg-black text-white font-bold py-2 px-4 rounded'>
-				<Link to='./dashboard'>Browse Events</Link>
-			</button>
-			<hr />
-			<button className='flex bg-pink w-full hover:bg-black text-white font-bold py-2 px-4 rounded'>
-				<Link to='./dashboard'>Manage My Events</Link>
-			</button>
-			<hr />
-			<button className='flex bg-pink w-full hover:bg-black text-white font-bold py-2 px-4 rounded'>
-				<Link to='./dashboard'>My joined Events</Link>
+
+			<button
+				className='flex w-full bg-pink hover:bg-black text-white font-bold py-2 px-4 rounded my-2'
+				onClick={() => setDrawerIsOpen(false)}
+			>
+				<Link to='/events'>Browse Events</Link>
 			</button>
 			<hr />
 			<button
-				className='flex bg-pink w-full hover:bg-black text-white font-bold py-2 px-4 rounded'
+				className='flex bg-pink w-full hover:bg-black text-white font-bold py-2 px-4 rounded my-2'
+				onClick={() => {
+					setText('your-created-events');
+					navigate('/my-account');
+					setDrawerIsOpen(false);
+				}}
+			>
+				<p>Manage My Events</p>
+			</button>
+			<hr />
+			<button
+				className='flex bg-pink w-full hover:bg-black text-white font-bold py-2 px-4 rounded my-2'
+				onClick={() => setDrawerIsOpen(false)}
+			>
+				<Link to='./dashboard'>My Booked Events</Link>
+			</button>
+			<hr />
+			<button
+				className='flex bg-pink w-full hover:bg-black text-white font-bold py-2 px-4 rounded my-2'
 				onClick={() => {
 					setText('dashboard');
 					navigate('/my-account');
+					setDrawerIsOpen(false);
 				}}
 			>
 				Account Settings
 			</button>
-			<br />
+
 			<hr />
-			<br />
-			<button className='flex bg-red-500 w-full hover:bg-black text-white font-bold py-2 px-4 rounded'>
-				<Link to='./'>Log Out</Link>
+
+			<button
+				className='flex bg-red-500 w-full hover:bg-black text-white font-bold py-2 px-4 rounded my-2'
+				onClick={() => {
+					localStorage.clear();
+					setDrawerIsOpen(false);
+					window.location.reload();
+				}}
+			>
+				Log Out
 			</button>
 		</div>
 	);
