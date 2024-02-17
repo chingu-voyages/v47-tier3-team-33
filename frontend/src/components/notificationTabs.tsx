@@ -107,17 +107,6 @@ export default function NotificationTabs() {
 
 	return (
 		<Box sx={{ width: '100%', zIndex: 100, backgroundColor: 'white' }}>
-			{/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-				<Tabs
-					value={value}
-					onChange={handleChange}
-					aria-label='basic tabs example'
-				>
-					<Tab label='All' {...a11yProps(0)} />å
-					<Tab label='Unread' {...a11yProps(1)} />
-					<Tab label='Read' {...a11yProps(2)} />
-				</Tabs>
-			</Box> */}
 			<CustomTabPanel value={value} index={0}>
 				{notifications
 					.slice(notifications.length - 1, notifications.length)
@@ -128,6 +117,10 @@ export default function NotificationTabs() {
 								<div className='text-black text-md font-medium'>
 									{note?.type === 'new_inbox_message' && 'New inbox message'}
 									{note?.type === 'event_booked' && 'New event reservation'}
+									{note?.type === 'event_cancelled' &&
+										'An event you rsvp for has been cancelled.'}
+									{note?.type === 'event_updated' &&
+										'An event you rsvp for has been updated.'}
 								</div>
 								<div className='text-red-600 flex'>
 									<p className=''>Mark as read</p>
@@ -135,12 +128,6 @@ export default function NotificationTabs() {
 							</div>
 						</div>
 					))}
-			</CustomTabPanel>
-			<CustomTabPanel value={value} index={1}>
-				Item Two
-			</CustomTabPanel>
-			<CustomTabPanel value={value} index={2}>
-				Item Three
 			</CustomTabPanel>
 		</Box>
 	);

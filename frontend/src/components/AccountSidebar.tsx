@@ -24,35 +24,35 @@ const AccountSidebar = ({ isExpanded }: SidebarProps) => {
 		window.location.reload();
 	};
 	return (
-		<div className='h-screen w-full px-10 py-12'>
+		<div className='h-screen flex items-center absolute -top-48 md:py-12 md:px-10 -ml-1'>
 			{/* <div className={`text-3xl font-medium mb-10 ${!isExpanded && ''}`}>
 				My Dashboard
 			</div> */}
 
-			<div className='space-y-8'>
+			<div className='space-y-4 md:space-y-12 '>
 				{NavLinks.map((link, idx) => (
 					<div
-						className={`font-medium text-xl cursor-pointer space-x-3 py-3 pl-2 flex items-center ${
-							text === link.main && 'bg-pink rounded-md text-white'
-						}   rounded-sm`}
+						className={`font-medium text-xl cursor-pointer md:space-x-3 py-2 md:pl-2 flex md:items-center px-3 ${
+							text === link.main && 'bg-pink text-white'
+						}  rounded-md`}
 						key={idx}
 						onClick={() => {
 							setActiveLink(idx);
 							setText(link.main);
 						}}
 					>
-						<p className='pr-2 text-2xl'>{link.icon}</p>
+						<p className='text-2xl'>{link.icon}</p>
 						{isExpanded && <div className='hidden md:block'>{link.name}</div>}
 					</div>
 				))}
 			</div>
-			<button
+			{/* <button
 				className='mt-8 font-medium text-xl bg-pink text-white px-6 py-2 rounded-md flex items-center justify-between space-x-2'
 				onClick={handleLogout}
 			>
 				<BiLogOutCircle />
 				{isExpanded && <p className=''>Logout</p>}
-			</button>
+			</button> */}
 		</div>
 	);
 };

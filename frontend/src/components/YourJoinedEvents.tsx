@@ -3,17 +3,7 @@ import SearchBar from './SearchBar';
 import ScrollingTags from './ScrollingTags';
 import BookedEventsCard from 'components/EventCard';
 import axios from 'axios';
-interface IEvent {
-	_id: string;
-	title: string;
-	category: string;
-	location: string;
-	description: string;
-	image: string;
-	organizer: string;
-	attendees: [];
-	tickets: [];
-}
+import { IEvent } from 'interface';
 
 const YourJoinedEvents = () => {
 	const [events, setEvents] = useState<IEvent[]>([]);

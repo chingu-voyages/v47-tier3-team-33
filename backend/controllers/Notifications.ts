@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import NotificationModel from '../models/Notification';
-import { io } from '../server';
+import { getPendingNotifications, io } from '../server';
+import mongoose from 'mongoose';
 
 export const getAllNotification = async (req: Request, res: Response) => {
 	try {
@@ -88,17 +89,22 @@ export const getNotificationByUserId = async (req: Request, res: Response) => {
 	}
 };
 
-export const getPendingNotifications = async (req: Request, res: Response) => {
-	try {
-		const userId = req.params.userId;
+export const getUserPendingNotifications = async (
+	req: Request,
+	res: Response
+) => {
+	const userId = req.params.userId;
 
-		const pendingNotifications = await NotificationModel.find({
-			userId,
-			status: 'pending',
-		});
+	if (!userId || !mongoose.isValidObjectId(userId)) {
+		return res.status(400).json({ error: 'Invalid userId' });
+	}
+
+	try {
+		const pendingNotifications = await getPendingNotifications(userId);
+		// Handle and send response with pendingNotifications
 		res.status(200).json(pendingNotifications);
 	} catch (error) {
-		console.error('Error getting pending notifications:', error);
-		return [];
+		console.error('Error handling notification request:', error);
+		res.status(500).json({ error: 'Internal Server Error' });
 	}
 };

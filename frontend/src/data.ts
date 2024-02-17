@@ -21,54 +21,55 @@ export const categories = [
 	},
 ];
 
-
 export const teamMembers = [
-    {
-        image:'',
-        name:'Joe',
-        role:'Product Manager',
-        github:'',
-        linkedIn:'',
-        website:''
-    },
-     {
-        image:'https://avatars.githubusercontent.com/u/92543814?v=4',
-        name:'Tishtanya Shaw',
-        role:'Full-stack developer',
-        github:'',
-        linkedIn:'',
-        website:''
-    },
-    {
-        image:'https://avatars.githubusercontent.com/u/57598320?v=4',
-        name:'Dorene St.Marthe',
-        role:'Front-end developer',
-        github:'',
-        linkedIn:'',
-        website:''
-    },
-    {
-        image:'https://avatars.githubusercontent.com/GalacticKnight',
-        name:'Vincent Lau',
-        role:'Front-end Developer',
-        github:'https://github.com/GalacticKnight',
-        linkedIn:'https://www.linkedin.com/in/vincent-lau-cs/',
-        website:'https://vifiles.onrender.com/'
-    },
-    {
-        image:'https://media.licdn.com/dms/image/D5635AQFh6iEnXZ19og/profile-framedphoto-shrink_400_400/0/1705886047017?e=1707091200&v=beta&t=15AYYUX06aob51UwE3g1QsaK9cZMV9WD6I_ebidc9b4',
-        name:'Wilson Chu',
-        role:'Back-end developer',
-        github:'',
-        linkedIn:'',
-        website:''
-    },
-    {
-        image:'https://avatars.githubusercontent.com/u/40072414?v=4',
-        name:'Murat Can Sarkalkan',
-        role:'Back-end developer',
-        github:'',
-        linkedIn:'',
-        website:''
-    },
-]
+	{
+		image:
+			'https://media.licdn.com/dms/image/C5603AQH6uZcoAVRYCg/profile-displayphoto-shrink_400_400/0/1623110116352?e=1713398400&v=beta&t=thgqDyDQFyzO17TSBzqNjmKBgBpWOFGCY1Ge3-7puqY',
+		name: 'Joe',
+		role: 'Product Manager',
+		github: '',
+		linkedIn: '',
+		website: '',
+	},
+	{
+		image: 'https://avatars.githubusercontent.com/u/92543814?v=4',
+		name: 'Tishtanya Shaw',
+		role: 'Full-stack developer',
+		github: '',
+		linkedIn: '',
+		website: '',
+	},
+	{
+		image: 'https://avatars.githubusercontent.com/u/57598320?v=4',
+		name: 'Dorene St.Marthe',
+		role: 'Front-end developer',
+		github: '',
+		linkedIn: '',
+		website: '',
+	},
+	{
+		image: 'https://avatars.githubusercontent.com/GalacticKnight',
+		name: 'Vincent Lau',
+		role: 'Front-end Developer',
+		github: 'https://github.com/GalacticKnight',
+		linkedIn: 'https://www.linkedin.com/in/vincent-lau-cs/',
+		website: 'https://vifiles.onrender.com/',
+	},
+	{
+		image:
+			'https://media.licdn.com/dms/image/D5635AQFh6iEnXZ19og/profile-framedphoto-shrink_400_400/0/1705886047017?e=1707091200&v=beta&t=15AYYUX06aob51UwE3g1QsaK9cZMV9WD6I_ebidc9b4',
+		name: 'Wilson Chu',
+		role: 'Back-end developer',
+		github: '',
+		linkedIn: '',
+		website: '',
+	},
+	{
+		image: 'https://avatars.githubusercontent.com/u/40072414?v=4',
+		name: 'Murat Can Sarkalkan',
+		role: 'Back-end developer',
+		github: '',
+		linkedIn: '',
+		website: '',
+	},
+];

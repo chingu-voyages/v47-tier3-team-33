@@ -110,12 +110,11 @@ export const updateUser = async (req: Request, res: Response) => {
 	}
 };
 
-// Route handling the file upload and user update// Route handling the file upload and user update
+// Route handling the file upload and user update
 export const updateUserWithFile = async (req: Request, res: Response) => {
 	const userId = req.params.userId;
 	const profileImgPath = req.file ? req.file.path : undefined;
 
-	// Handle the uploaded data and update the user information in the database
 	try {
 		const updatedUser = await UserModel.findByIdAndUpdate(
 			userId,

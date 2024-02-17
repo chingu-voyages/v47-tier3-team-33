@@ -17,6 +17,8 @@ const CategoriesPage = () => {
 	const [category, setCategory] = useState<ICategory | null>(null);
 	const [categories, setCategories] = useState<ICategory[]>([]);
 
+	console.log('categories:', categories);
+	console.log('category:', category);
 	const { id } = useParams<{ id: string }>();
 
 	const navigate = useNavigate();
@@ -26,6 +28,7 @@ const CategoriesPage = () => {
 			const response = await axios.get(
 				`http://localhost:8000/categories/${id}`
 			);
+			console.log('res:', response.data.category);
 			setCategory(response.data.category);
 		} catch (error) {
 			console.error('Error fetching category:', error);
@@ -55,7 +58,7 @@ const CategoriesPage = () => {
 	}
 	return (
 		<div className='h-full'>
-			{category && (
+			{category ? (
 				<div className='h-full mb-72'>
 					<div className='text-3xl mt-10 pl-8 py-30'>{category?.name}</div>
 					<div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 p-8'>
@@ -64,8 +67,7 @@ const CategoriesPage = () => {
 						))}
 					</div>
 				</div>
-			)}
-			{categories && (
+			) : (
 				<div className='h-full mb-72'>
 					<div className='text-3xl mt-10 pl-8 py-30'>Categories</div>
 					<div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7 p-8'>

@@ -29,7 +29,9 @@ const AboutUs = () => {
 					/>
 
 					<h1 className='text-white text-3xl md:text-5xl px-4 md:w-[37%] font-semibold ml-6 md:ml-0'>
-						Crafting Unforgettable Moments. Your Ultimate Events Planner.
+						Your Exclusive Partner in Crafting Exquisite Events! Elevate your
+						celebrations to new heights with our meticulous attention to detail
+						and unwavering commitment to excellence.
 					</h1>
 				</div>
 			</div>
@@ -40,29 +42,34 @@ const AboutUs = () => {
 				</h2>
 				<div className='text-center leading-10 w-[90%] mx-auto '>
 					<span className='text-[#3C0345] text-2xl text-medium'>
-						Our mission is for you and your friends, family,
+						Our mission is to create unforgettable moments where you, your
+						friends, family, and customers come together to share in the magic
+						of extraordinary events.
+					</span>
+					<br />
+
+					<span className='text-[#3C0345] text-2xl text-medium'>
+						We firmly believe that quality time spent together and the
+						experiences we share are invaluable opportunities for connection and
+						joy.
 					</span>
 					<br />
 					<span className='text-[#3C0345] text-2xl text-medium'>
-						and customers can get together and share amazing events together.
+						By bringing people together, we envision a world united as one
+						global family, where the bonds formed through shared experiences
+						transcend boundaries.
 					</span>
 					<br />
 					<span className='text-[#3C0345] text-2xl text-medium'>
-						We believe quality time and events are such a great opprotunity and
+						We invite you to share your thoughts and plans with the world,
+						knowing that in doing so, you open the door for others to
+						reciprocate your feelings and create meaningful connections.
+						Together, let's celebrate the power of togetherness and the beauty
+						of shared experiences that enrich our lives and weave the fabric of
 					</span>
 					<br />
 					<span className='text-[#3C0345] text-2xl text-medium'>
-						gift for people to have toegether we can unite the world as a
-						family.
-					</span>
-					<br />
-					<span className='text-[#3C0345] text-2xl text-medium'>
-						Share your thoughts and plans with the world so the world can
-						recipricate
-					</span>
-					<br />
-					<span className='text-[#3C0345] text-2xl text-medium'>
-						your thoughts and feelings.
+						our collective humanity.
 					</span>
 				</div>
 			</div>

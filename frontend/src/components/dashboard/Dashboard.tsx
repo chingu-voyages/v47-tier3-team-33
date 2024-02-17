@@ -32,18 +32,39 @@ const Dashboard: React.FC = () => {
             formData.append('surname', contactInfo?.surname ?? '');
             formData.append('email', contactInfo?.email ?? '');
 
-            if (profileImg) {
-                formData.append('profile_img', profileImg);
-                await axios.put(
-                    `http://localhost:8000/users/${userId}/profileImg`,
-                    formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    }
-                );
-            }
+
+			if (profileImg) {
+				try {
+					formData.append('profile_img', profileImg);
+
+					const response = await axios.put(
+						`http://localhost:8000/users/${userId}/profileImg`,
+						formData,
+						{
+							headers: {
+								'Content-Type': 'multipart/form-data',
+							},
+						}
+					);
+
+					const updatedProfileImg = response.data.profile_img;
+
+					// Get the current user from localStorage
+					const userString = localStorage.getItem('user');
+
+					if (userString) {
+						const currentUser = JSON.parse(userString);
+
+						// Update the profile_img property
+						currentUser.profile_img = `http://localhost:8000/${updatedProfileImg}`;
+
+						// Save the updated user back to localStorage
+						localStorage.setItem('user', JSON.stringify(currentUser));
+					}
+				} catch (error) {
+					console.error('Error updating profile image:', error);
+				}
+			}
 
             const response = await axios.put(
                 `http://localhost:8000/users/${userId}`,
@@ -61,26 +82,27 @@ const Dashboard: React.FC = () => {
         }
     };
 
-    return (
-        <div className='bg-gray-100 min-h-screen flex justify-center items-center'>
-            <div className='bg-white rounded-md shadow-md p-8 space-y-8 max-w-4xl w-full overflow-y-auto'>
-                <h1 className='text-3xl font-semibold mb-4 text-center'>
-                    Account Information
-                </h1>
-                <form onSubmit={handleSubmit} className='space-y-6'>
-                    {/* Upload Photo */}
-                    <div className='mb-8'>
-                        <h1 className='text-xl font-semibold text-black mb-4'>
-                            Upload Photo
-                        </h1>
-                        <input
-                            type='file'
-                            accept='image/*'
-                            className='input'
-                            name='profile_img'
-                            onChange={handlePhotoChange}
-                        />
-                    </div>
+
+	return (
+		<div className='bg-gray-100 h-full md:min-h-screen flex justify-center items-center'>
+			<div className='bg-white rounded-md shadow-md p-8 space-y-8 max-w-4xl w-full overflow-y-auto'>
+				<h1 className='text-3xl font-semibold mb-4 text-center'>
+					Account Information
+				</h1>
+				<form onSubmit={handleSubmit} className='space-y-6'>
+					{/* Upload Photo */}
+					<div className='mb-8'>
+						<h1 className='text-xl font-semibold text-black mb-4'>
+							Upload Photo
+						</h1>
+						<input
+							type='file'
+							accept='image/*'
+							className='input'
+							name='profile_img'
+							onChange={handlePhotoChange}
+						/>
+					</div>
 
                     {/* Name and Last Name */}
                     <div className='mb-8 grid grid-cols-2 gap-4'>

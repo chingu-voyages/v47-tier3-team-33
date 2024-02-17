@@ -4,6 +4,8 @@ import NotificationModel, { NotificationType } from '../models/Notification';
 import UserModel from '../models/User';
 import { io, userSocketMap } from '../server';
 import { Socket } from 'socket.io';
+import multer from 'multer';
+import fs from 'fs';
 
 export const getEvents = async (req: Request, res: Response) => {
 	try {
@@ -28,14 +30,51 @@ export const getEventById = async (req: Request, res: Response) => {
 	}
 };
 
+// Multer configuration for event image uploads
+const eventImageStorage = multer.diskStorage({
+	destination: (req, file, cb) => {
+		const uploadDirectory = 'event_images';
+		if (!fs.existsSync(uploadDirectory)) {
+			fs.mkdirSync(uploadDirectory);
+			console.log(`Directory ${uploadDirectory} created.`);
+		}
+		cb(null, uploadDirectory); // Destination directory for event images
+	},
+	filename: (req, file, cb) => {
+		cb(null, file.originalname); // Use the original filename for the uploaded image
+	},
+});
+
+// Create a multer instance for handling event image uploads
+export const uploadEventImage = multer({ storage: eventImageStorage });
+
 export const createEvent = async (req: Request, res: Response) => {
 	try {
-		const eventData: IEvent = req.body;
+		const eventData = req.body;
+		console.log('eventData:', eventData);
+		eventData.organizer = Array.isArray(eventData.organizer)
+			? eventData.organizer[0]
+			: eventData.organizer;
+
+		// Check if an image file was uploaded
+		if (!req.file) {
+			return res.status(400).json({ error: 'Event image is required' });
+		}
+
+		// Add the image file path or filename to the eventData
+		eventData.image =
+			`http://localhost:8000/${req.file.path}` ||
+			`http://localhost:8000/${req.file.filename}`;
+
+		console.log('eventData:', eventData);
+
+		// Create a new event with the provided data
 		const newEvent = await EventModel.create(eventData);
 
+		// Return the created event in the response
 		res.status(201).json({ event: newEvent });
 	} catch (error: any) {
-		console.log(error.message);
+		console.error(error.message);
 		res.status(500).json({ error: 'Internal Server Error' });
 	}
 };
@@ -130,19 +169,27 @@ export const bookEvent = async (req: Request, res: Response) => {
 
 export const updateEventById = async (req: Request, res: Response) => {
 	try {
-		const eventId = req.params.id;
+		const eventId = req.params.eventId;
 		const updatedEventData: Partial<IEvent> = req.body;
+		console.log(eventId);
+		console.log('updatee:', updatedEventData);
 
-		const userId = req.body.userId;
+		const userId = Array.isArray(req.body.userId)
+			? req.body.userId[0]
+			: req.body.userId;
 
 		const event = await EventModel.findById(eventId);
 
 		if (!event) {
+			console.log('even:', event);
 			return res.status(404).json({ error: 'Event not found' });
 		}
 
+		console.log('found1');
 		// Check if the user making the request is the organizer
 		if (event.organizer.toString() !== userId) {
+			console.log('org:', event.organizer.toString());
+			console.log('ouser', userId);
 			return res.status(403).json({
 				error: 'Unauthorized: Only the organizer can update this event',
 			});
@@ -166,24 +213,25 @@ export const updateEventById = async (req: Request, res: Response) => {
 		let notificationType: NotificationType;
 
 		// Check the event status and set the appropriate notification type
-		if (updatedEvent.endDate && updatedEvent.endDate < new Date()) {
-			notificationType = NotificationType.EVENT_ENDED;
-		} else if (updatedEvent.startDate && updatedEvent.startDate > new Date()) {
-			notificationType = NotificationType.EVENT_STARTING_SOON;
-		} else {
-			notificationType = NotificationType.EVENT_UPDATED;
-		}
+		// if (updatedEvent.endDate && updatedEvent.endDate < new Date()) {
+		// 	notificationType = NotificationType.EVENT_ENDED;
+		// } else if (updatedEvent.startDate && updatedEvent.startDate > new Date()) {
+		// 	notificationType = NotificationType.EVENT_STARTING_SOON;
+		// } else {
+		notificationType = NotificationType.EVENT_UPDATED;
+		// }
 
-		const notificationData = await NotificationModel.create({
-			userId: attendeeUserIds,
-			message: eventId,
-			type: notificationType,
-		});
+		// Loop through each attendee user ID and create a notification for each
+		for (const userId of attendeeUserIds) {
+			const notificationData = await NotificationModel.create({
+				userId,
+				message: eventId,
+				type: notificationType,
+			});
 
-		await notificationData.save();
+			await notificationData.save();
 
-		// Emit the notification to all attendees' sockets
-		attendeeUserIds.forEach((userId) => {
+			// Emit the notification to the attendee's socket
 			const attendeeSocket = findSocket(userId);
 
 			if (attendeeSocket) {
@@ -192,7 +240,7 @@ export const updateEventById = async (req: Request, res: Response) => {
 				// If the socket is not available, store the notification as pending
 				userSocketMap[userId]?.notifications.push(notificationData);
 			}
-		});
+		}
 
 		res.json({ event: updatedEvent, message: 'Event updated successfully' });
 	} catch (error: any) {
@@ -205,6 +253,7 @@ export const deleteEventById = async (req: Request, res: Response) => {
 	try {
 		const eventId = req.params.id;
 		const userId = req.body.userId;
+		console.log('userId: ', userId);
 
 		const event = await EventModel.findById(eventId);
 
