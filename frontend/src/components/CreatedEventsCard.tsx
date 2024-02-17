@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import EventModifyPage from 'pages/EventModifyPage';
-import { FiShare } from 'react-icons/fi';
 import { FaUserAlt } from 'react-icons/fa';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';

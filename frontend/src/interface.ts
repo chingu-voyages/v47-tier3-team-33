@@ -10,7 +10,7 @@ export interface IEvent {
 	startDate?: Date;
 	endDate?: Date;
 	location: string;
-	organizer?: string | '';
+	organizer?: string;
 	description: string;
 	image: string;
 	attendees?: [];

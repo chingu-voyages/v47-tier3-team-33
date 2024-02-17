@@ -7,24 +7,9 @@ import axios from 'axios';
 import { useAuth } from 'context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
-
-interface Event {
-	_id: string;
-	title: string;
-	category: string;
-	date?: Date;
-	location: string;
-	organizer: string;
-	description: string;
-	image: string;
-	tickets: {
-		type: string;
-		price: number;
-	}[];
-}
-
+import { IEvent } from 'interface';
 interface EventCardProps {
-	event: Event;
+	event: IEvent;
 }
 
 const tagsData = [
@@ -41,7 +26,7 @@ const EventsDetailPage = ({
 	event,
 }: {
 	close: () => void;
-	event: Event;
+	event: IEvent;
 }) => {
 	const { user, setText, setConversationId } = useAuth();
 
@@ -117,9 +102,7 @@ const EventsDetailPage = ({
 					<p className='font-semibold text-xl text-black'>Date & Time</p>
 					<p className='text-gray-400'>Saturday, Sep 14, 2019 at 20:30 PM</p>
 					<div className='flex flex-col space-y-2 text-white text-lg mt-4'>
-						<button
-							className='bg-pink py-2 rounded-md font-medium'
-						>
+						<button className='bg-pink py-2 rounded-md font-medium'>
 							Remove Reservation
 						</button>
 						<button className='bg-darkTeal py-2 rounded-md font-medium'>

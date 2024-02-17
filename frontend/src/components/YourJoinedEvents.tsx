@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import SearchBar from './SearchBar';
-import ScrollingTags from './ScrollingTags';
 import BookedEventsCard from 'components/EventCard';
 import axios from 'axios';
 import { IEvent } from 'interface';
