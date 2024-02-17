@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { useSocket } from '../../context/SocketContext';
@@ -29,8 +29,6 @@ const MessageDashboard = () => {
 	const [messages, setMessages] = useState<IMessage[]>([]);
 	const [message, setMessage] = useState('');
 
-	const lastMessageRef = useRef<HTMLDivElement>(null);
-
 	const [recieverProfiles, setRecieverProfiles] = useState<RecieverProfile[]>(
 		[]
 	);
@@ -50,12 +48,6 @@ const MessageDashboard = () => {
 	const receivers = conversations
 		?.map((convo) => convo?.participants?.filter((a) => a !== userId))
 		.flat();
-
-	useEffect(() => {
-		if (lastMessageRef.current) {
-			lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
-		}
-	}, [messages]);
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -126,6 +118,13 @@ const MessageDashboard = () => {
 			handleConversationClick(conversationId);
 		}
 	}, [socket]);
+
+	useEffect(() => {
+		if (conversationId) {
+			handleConversationClick(conversationId);
+			setSelectedConversationId(conversationId);
+		}
+	}, [conversationId]);
 
 	const fetchRecipientUser = async () => {
 		try {
@@ -221,22 +220,23 @@ const MessageDashboard = () => {
 						}`}</p>
 						<div className='flex-grow overflow-y-scroll'>
 							<div className='w-full'>
-								{messages?.map((message, idx) => (
-									<div
-										key={idx}
-										className={
-											message.sender === userId
-												? 'bg-[#DCF8C6] align p-4 m-4 rounded-full w-[50%] text-l'
-												: 'bg-[#EAEAEA] p-4 m-4 rounded-full  w-[50%] text-lg'
-										}
-										style={{
-											marginLeft: message.sender === userId ? 'auto' : '0',
-										}}
-									>
-										{message.text}
-									</div>
-								))}
-								<div ref={lastMessageRef}></div>
+								<div className=''>
+									{messages?.map((message, idx) => (
+										<div
+											key={idx}
+											className={
+												message.sender === userId
+													? 'bg-[#DCF8C6] align p-4 m-4 rounded-full w-[50%] text-l'
+													: 'bg-[#EAEAEA] p-4 m-4 rounded-full  w-[50%] text-lg'
+											}
+											style={{
+												marginLeft: message.sender === userId ? 'auto' : '0',
+											}}
+										>
+											{message.text}
+										</div>
+									))}
+								</div>
 							</div>
 						</div>
 						<form className='flex items-center gap-2' onSubmit={handleSubmit}>
