@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
 import ShareModal from '../components/ShareModal';
 import { IEvent } from 'interface';
+
 interface EventCardProps {
 	event: IEvent;
 	handleClose: () => void;
@@ -22,6 +23,7 @@ const tagsData = [
 	'Party',
 	'Exhibition',
 ];
+
 
 const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 	const { user, setText, setConversationId } = useAuth();
