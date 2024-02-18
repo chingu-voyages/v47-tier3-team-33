@@ -57,7 +57,7 @@ export const teamMembers = [
 	},
 	{
 		image:
-			'https://media.licdn.com/dms/image/D5635AQFh6iEnXZ19og/profile-framedphoto-shrink_400_400/0/1705886047017?e=1707091200&v=beta&t=15AYYUX06aob51UwE3g1QsaK9cZMV9WD6I_ebidc9b4',
+			'https://media.licdn.com/dms/image/C5603AQHIuLG6zmtjTQ/profile-displayphoto-shrink_200_200/0/1597969299247?e=1714003200&v=beta&t=yv5uyoozPusVwqLK0qyxKrM__YVCbmt2yYYRjOGrDiw',
 		name: 'Wilson Chu',
 		role: 'Back-end developer',
 		github: 'https://github.com/Wilson-Chu',
