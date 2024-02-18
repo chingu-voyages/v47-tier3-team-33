@@ -161,7 +161,7 @@ const NavBar: React.FC = () => {
 							<FaRegBell
 								onClick={() => {
 									setShowNotifications(!showNotifications);
-									setNewNotifications(false);
+									setNewNotifications(false); // Set new notifications to false across all pages after first click
 								}}
 							/>
 							{newNotifications && (
