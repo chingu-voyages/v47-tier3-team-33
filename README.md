@@ -42,10 +42,11 @@ Install Dependencies
 or 
 - yarn install
 
+npm run vercel-build
 
 ## Acknowledgments
 
-Shout out to our wonderful project manager that helped bring this project alive. 
+Shout out to our wonderful product owner that helped bring this project alive. 
 - [@Joe Taylor](https://www.linkedin.com/in/joe-taylor98/)
 
 ## Authors
