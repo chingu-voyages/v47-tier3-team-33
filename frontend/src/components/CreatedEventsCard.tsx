@@ -44,9 +44,7 @@ export default function CreatedEventCard({ event, id }: EventCardProps) {
 	const handleClose = () => setOpen(false);
 
 	const fetchEvent = async () => {
-		const event = await axios.get(
-			`https://omnievents.vercel.app/events/${eventId}`
-		);
+		const event = await axios.get(`http://localhost:8000/events/${eventId}`);
 		console.log('evve', event.data);
 		setCardEvent(event.data);
 	};
@@ -54,7 +52,7 @@ export default function CreatedEventCard({ event, id }: EventCardProps) {
 	const deleteEvent = async () => {
 		try {
 			const event = await axios.delete(
-				`https://omnievents.vercel.app/events/${eventId}`,
+				`http://localhost:8000/events/${eventId}`,
 				{
 					data: {
 						userId: userId,

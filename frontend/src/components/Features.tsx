@@ -48,11 +48,9 @@ function Features() {
 		};
 
 		const fetchCategories = async () => {
-			await axios
-				.get('https://omnievents.vercel.app/categories')
-				.then((response) => {
-					setCategories(response.data.categories);
-				});
+			await axios.get('http://localhost:8000/categories').then((response) => {
+				setCategories(response.data.categories);
+			});
 		};
 		fetchCategories();
 
@@ -102,7 +100,7 @@ function Features() {
 					</span>
 					{isSmallScreen
 						? renderSingleCategory()
-						: categories.slice(currIdx, currIdx + 3).map((cat, idx) => (
+						: categories?.slice(currIdx, currIdx + 3).map((cat, idx) => (
 								<div
 									key={idx}
 									className='border bottom-2 border-black -mt-6 w-[250px] md:w-[320px] h-[250px] md:h-[370px] rounded-md relative shadow-md'

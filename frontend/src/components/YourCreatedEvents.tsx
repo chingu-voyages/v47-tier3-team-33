@@ -12,7 +12,7 @@ const YourCreatedEvents = () => {
 
 	useEffect(() => {
 		const getUserCreatedEvents = async () => {
-			const eventsArr = await axios.get(`https://omnievents.vercel.app/events`);
+			const eventsArr = await axios.get(`http://localhost:8000/events`);
 			const userEvents = eventsArr.data.events.filter(
 				(e: IEvent) => e.organizer === userId
 			);

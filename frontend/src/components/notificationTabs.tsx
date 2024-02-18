@@ -58,7 +58,7 @@ export default function NotificationTabs() {
 
 	const fetchAllNotifications = async () => {
 		await axios
-			.get(`https://omnievents.vercel.app/notifications/${userId}`)
+			.get(`http://localhost:8000/notifications/${userId}`)
 			.then((response) => {
 				setNotifications(response.data);
 			});
@@ -67,7 +67,7 @@ export default function NotificationTabs() {
 	const markAsRead = async (notificationId: string) => {
 		try {
 			await axios.patch(
-				`https://omnievents.vercel.app/notifications/${notificationId}`,
+				`http://localhost:8000/notifications/${notificationId}`,
 				{
 					status: 'read',
 				}
@@ -88,7 +88,7 @@ export default function NotificationTabs() {
 	const deleteNotification = async (notificationId: string) => {
 		try {
 			await axios.delete(
-				`https://omnievents.vercel.app/notifications/${notificationId}`
+				`http://localhost:8000/notifications/${notificationId}`
 			);
 
 			setNotifications((prevNotifications) =>

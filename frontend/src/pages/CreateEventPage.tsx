@@ -73,7 +73,7 @@ const CreateEventPage = () => {
 				});
 				formData.append('organizer', user?.user?._id || user?._id || 'ohh');
 
-				await axios.post('https://omnievents.vercel.app/events', formData, {
+				await axios.post('http://localhost:8000/events', formData, {
 					headers: {
 						'Content-Type': 'multipart/form-data',
 					},
@@ -100,9 +100,7 @@ const CreateEventPage = () => {
 	useEffect(() => {
 		const fetchCategories = async () => {
 			try {
-				const response = await axios.get(
-					'https://omnievents.vercel.app/categories'
-				);
+				const response = await axios.get('http://localhost:8000/categories');
 				setCategories(response.data.categories);
 			} catch (error) {
 				console.error('Error fetching categories:', error);

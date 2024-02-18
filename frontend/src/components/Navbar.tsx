@@ -32,7 +32,7 @@ const NavBar: React.FC = () => {
 	const fetchPendingNotifications = async () => {
 		try {
 			const response = await axios.get(
-				`https://omnievents.vercel.app/notifications/pending/${userId}`
+				`http://localhost:8000/notifications/pending/${userId}`
 			);
 			const pendingNotifications = response.data;
 			setNewNotifications(true);
@@ -161,9 +161,9 @@ const NavBar: React.FC = () => {
 							<FaRegBell
 								onClick={() => {
 									setShowNotifications(!showNotifications);
-                  // BUG: Needs to persist new notifications to false across all pages after first click
-                  // Could use Context... investigating possible backend solutions first...
-									setNewNotifications(false); 
+									// BUG: Needs to persist new notifications to false across all pages after first click
+									// Could use Context... investigating possible backend solutions first...
+									setNewNotifications(false);
 								}}
 							/>
 							{newNotifications && (
@@ -193,7 +193,7 @@ const NavBar: React.FC = () => {
 								/>
 							) : user?.user?.profile_img ? (
 								<img
-									src={`https://omnievents.vercel.app/${user?.user?.profile_img}`}
+									src={`http://localhost:8000/${user?.user?.profile_img}`}
 									alt='profile image'
 									className='h-7 w-7 md:h-7 md:w-12 rounded-full'
 								/>

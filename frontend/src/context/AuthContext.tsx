@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 		try {
 			// Make a request to the backend to log in the user
 			const response = await axios.post(
-				'https://omnievents.vercel.app/users/login',
+				'http://localhost:8000/users/login',
 				userData
 			);
 

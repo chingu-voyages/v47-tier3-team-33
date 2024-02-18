@@ -21,7 +21,7 @@ const Register = () => {
 		e.preventDefault();
 		try {
 			await axios
-				.post('https://omnievents.vercel.app/users', {
+				.post('http://localhost:8000/users', {
 					name: formData.first_name,
 					surname: formData.sur_name,
 					email: formData.email,

@@ -39,7 +39,7 @@ const RSVPButton: React.FC<RSVPButtonProps> = ({ id, organizerId }) => {
 		e.preventDefault();
 
 		try {
-			await axios.post('https://omnievents.vercel.app/events/rsvp', {
+			await axios.post('http://localhost:8000/events/rsvp', {
 				userId,
 				eventId,
 			});

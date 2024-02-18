@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
 					formData.append('profile_img', profileImg);
 
 					const response = await axios.put(
-						`https://omnievents.vercel.app/users/${userId}/profileImg`,
+						`http://localhost:8000/users/${userId}/profileImg`,
 						formData,
 						{
 							headers: {
@@ -55,7 +55,7 @@ const Dashboard: React.FC = () => {
 						const currentUser = JSON.parse(userString);
 
 						// Update the profile_img property
-						currentUser.profile_img = `https://omnievents.vercel.app/${updatedProfileImg}`;
+						currentUser.profile_img = `http://localhost:8000/${updatedProfileImg}`;
 
 						// Save the updated user back to localStorage
 						localStorage.setItem('user', JSON.stringify(currentUser));
@@ -66,7 +66,7 @@ const Dashboard: React.FC = () => {
 			}
 
 			const response = await axios.put(
-				`https://omnievents.vercel.app/users/${userId}`,
+				`http://localhost:8000/users/${userId}`,
 				formData,
 				{
 					headers: {

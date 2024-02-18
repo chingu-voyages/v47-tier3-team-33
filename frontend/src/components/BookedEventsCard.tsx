@@ -37,9 +37,7 @@ export default function BookedEventsCard({ event, id }: EventCardProps) {
 
 	const fetchEvent = async () => {
 		{
-			const event = await axios.get(
-				`https://omnievents.vercel.app/events/${eventId}`
-			);
+			const event = await axios.get(`http://localhost:8000/events/${eventId}`);
 			console.log('eve', event.data);
 			setCardEvent(event.data);
 		}

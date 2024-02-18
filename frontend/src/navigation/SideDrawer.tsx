@@ -26,7 +26,7 @@ const SideDrawer = ({ setDrawerIsOpen }: SideDrawerProps) => {
 					/>
 				) : user?.user?.profile_img ? (
 					<img
-						src={`https://omnievents.vercel.app/${user?.user?.profile_img}`}
+						src={`http://localhost:8000/${user?.user?.profile_img}`}
 						alt='profile image'
 						className='h-20 w-20 flex items-center justify-center mx-auto mb-1 rounded-full'
 					/>

@@ -46,7 +46,7 @@ const EventsDetailPage = ({
 	const handleBookingEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		try {
-			await axios.post('https://omnievents.vercel.app/events/rsvp', {
+			await axios.post('http://localhost:8000/events/rsvp', {
 				userId: userId,
 				eventId: eventId,
 			});
@@ -73,7 +73,7 @@ const EventsDetailPage = ({
 
 	const handContactOrganizer = async () => {
 		await axios
-			.post('https://omnievents.vercel.app/conversations', {
+			.post('http://localhost:8000/conversations', {
 				userId,
 				eventOrganizerId,
 			})

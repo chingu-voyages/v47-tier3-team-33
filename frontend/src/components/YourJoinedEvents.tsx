@@ -8,11 +8,9 @@ const YourJoinedEvents = () => {
 
 	useEffect(() => {
 		const getAllEvents = async () => {
-			await axios
-				.get('https://omnievents.vercel.app/events')
-				.then((response) => {
-					setEvents(response.data.events);
-				});
+			await axios.get('http://localhost:8000/events').then((response) => {
+				setEvents(response.data.events);
+			});
 		};
 		getAllEvents();
 	}, []);
