@@ -63,8 +63,8 @@ export const createEvent = async (req: Request, res: Response) => {
 
 		// Add the image file path or filename to the eventData
 		eventData.image =
-			`https://omnievents.vercel.app/${req.file.path}` ||
-			`https://omnievents.vercel.app/${req.file.filename}`;
+			`http://localhost:8000/${req.file.path}` ||
+			`http://localhost:8000/${req.file.filename}`;
 
 		console.log('eventData:', eventData);
 
