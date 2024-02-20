@@ -1,5 +1,5 @@
-import express from 'express';
-import { getCategories, getCategoryById } from '../controllers/Category';
+const express = require('express');
+const { getCategories, getCategoryById } = require('../controllers/Category');
 
 const router = express.Router();
 

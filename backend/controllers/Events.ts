@@ -63,8 +63,8 @@ export const createEvent = async (req: Request, res: Response) => {
 
 		// Add the image file path or filename to the eventData
 		eventData.image =
-			`http://localhost:8000/${req.file.path}` ||
-			`http://localhost:8000/${req.file.filename}`;
+			`https://omni-events-571e671c7a3f.herokuapp.com/${req.file.path}` ||
+			`https://omni-events-571e671c7a3f.herokuapp.com/${req.file.filename}`;
 
 		console.log('eventData:', eventData);
 

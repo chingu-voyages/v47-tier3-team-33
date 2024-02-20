@@ -39,11 +39,10 @@ const app = express();
 dotenv.config();
 const server = http.createServer(app);
 
-const PORT = 8000 || process.env.PORT;
 import path from 'path';
 const io = socketio(server, {
 	cors: {
-		origin: 'http://localhost:3000',
+		origin: 'https://omnievents.vercel.app',
 	},
 });
 
@@ -241,6 +240,8 @@ io.on('connection', (socket: Socket) => {
 		console.log(`Socket ${socket.id} disconnected`);
 	});
 });
+
+const PORT = process.env.PORT || 8000;
 
 server.listen(PORT, () => {
 	console.log(`App listening on port ${PORT}`);

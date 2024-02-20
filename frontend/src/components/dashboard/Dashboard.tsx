@@ -37,7 +37,7 @@ const Dashboard: React.FC = () => {
 					formData.append('profile_img', profileImg);
 
 					const response = await axios.put(
-						`http://localhost:8000/users/${userId}/profileImg`,
+						`https://omni-events-571e671c7a3f.herokuapp.com/users/${userId}/profileImg`,
 						formData,
 						{
 							headers: {
@@ -55,7 +55,7 @@ const Dashboard: React.FC = () => {
 						const currentUser = JSON.parse(userString);
 
 						// Update the profile_img property
-						currentUser.profile_img = `http://localhost:8000/${updatedProfileImg}`;
+						currentUser.profile_img = `https://omni-events-571e671c7a3f.herokuapp.com/${updatedProfileImg}`;
 
 						// Save the updated user back to localStorage
 						localStorage.setItem('user', JSON.stringify(currentUser));
@@ -66,7 +66,7 @@ const Dashboard: React.FC = () => {
 			}
 
 			const response = await axios.put(
-				`http://localhost:8000/users/${userId}`,
+				`https://omni-events-571e671c7a3f.herokuapp.com/users/${userId}`,
 				formData,
 				{
 					headers: {

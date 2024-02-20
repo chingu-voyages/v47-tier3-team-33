@@ -37,7 +37,9 @@ export default function BookedEventsCard({ event, id }: EventCardProps) {
 
 	const fetchEvent = async () => {
 		{
-			const event = await axios.get(`http://localhost:8000/events/${eventId}`);
+			const event = await axios.get(
+				`https://omni-events-571e671c7a3f.herokuapp.com/events/${eventId}`
+			);
 			console.log('eve', event.data);
 			setCardEvent(event.data);
 		}

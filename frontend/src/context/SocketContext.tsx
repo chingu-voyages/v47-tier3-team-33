@@ -17,7 +17,7 @@ export const useSocket = (): Socket | null => {
 	return useContext(SocketContext);
 };
 
-const SOCKET_SERVER_URL = 'http://localhost:8000';
+const SOCKET_SERVER_URL = 'https://omni-events-571e671c7a3f.herokuapp.com';
 
 export const SocketProvider: React.FC<SocketContextProps> = ({ children }) => {
 	const [socket, setSocket] = useState<Socket | null>(null);

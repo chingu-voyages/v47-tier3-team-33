@@ -48,9 +48,11 @@ function Features() {
 		};
 
 		const fetchCategories = async () => {
-			await axios.get('http://localhost:8000/categories').then((response) => {
-				setCategories(response.data.categories);
-			});
+			await axios
+				.get('https://omni-events-571e671c7a3f.herokuapp.com/categories')
+				.then((response) => {
+					setCategories(response.data.categories);
+				});
 		};
 		fetchCategories();
 
