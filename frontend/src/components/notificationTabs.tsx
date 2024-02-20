@@ -58,7 +58,9 @@ export default function NotificationTabs() {
 
 	const fetchAllNotifications = async () => {
 		await axios
-			.get(`http://localhost:8000/notifications/${userId}`)
+			.get(
+				`https://omni-events-571e671c7a3f.herokuapp.com/notifications/${userId}`
+			)
 			.then((response) => {
 				setNotifications(response.data);
 			});
@@ -67,7 +69,7 @@ export default function NotificationTabs() {
 	const markAsRead = async (notificationId: string) => {
 		try {
 			await axios.patch(
-				`http://localhost:8000/notifications/${notificationId}`,
+				`https://omni-events-571e671c7a3f.herokuapp.com/notifications/${notificationId}`,
 				{
 					status: 'read',
 				}
@@ -88,7 +90,7 @@ export default function NotificationTabs() {
 	const deleteNotification = async (notificationId: string) => {
 		try {
 			await axios.delete(
-				`http://localhost:8000/notifications/${notificationId}`
+				`https://omni-events-571e671c7a3f.herokuapp.com/notifications/${notificationId}`
 			);
 
 			setNotifications((prevNotifications) =>

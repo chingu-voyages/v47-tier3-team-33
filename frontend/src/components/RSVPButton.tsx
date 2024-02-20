@@ -39,10 +39,13 @@ const RSVPButton: React.FC<RSVPButtonProps> = ({ id, organizerId }) => {
 		e.preventDefault();
 
 		try {
-			await axios.post('http://localhost:8000/events/rsvp', {
-				userId,
-				eventId,
-			});
+			await axios.post(
+				'https://omni-events-571e671c7a3f.herokuapp.com/events/rsvp',
+				{
+					userId,
+					eventId,
+				}
+			);
 
 			toast('You have successfully RSVPed to the event!', {
 				style: {

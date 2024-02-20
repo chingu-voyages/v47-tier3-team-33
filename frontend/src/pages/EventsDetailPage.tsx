@@ -39,10 +39,13 @@ const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 	const handleBookingEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		try {
-			await axios.post('http://localhost:8000/events/rsvp', {
-				userId: userId,
-				eventId: eventId,
-			});
+			await axios.post(
+				'https://omni-events-571e671c7a3f.herokuapp.com/events/rsvp',
+				{
+					userId: userId,
+					eventId: eventId,
+				}
+			);
 
 			if (socket) {
 				socket.emit('rsvp', {
@@ -66,7 +69,7 @@ const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 
 	const handContactOrganizer = async () => {
 		await axios
-			.post('http://localhost:8000/conversations', {
+			.post('https://omni-events-571e671c7a3f.herokuapp.com/conversations', {
 				userId,
 				eventOrganizerId,
 			})
@@ -77,7 +80,9 @@ const EventsDetailPage = ({ event, handleClose }: EventCardProps) => {
 
 	useEffect(() => {
 		const response = axios
-			.get(`http://localhost:8000/users/${event?.organizer}`)
+			.get(
+				`https://omni-events-571e671c7a3f.herokuapp.com/users/${event?.organizer}`
+			)
 			.then((res) => setEventHost(res.data.name + ' ' + res.data.surname));
 	}, []);
 

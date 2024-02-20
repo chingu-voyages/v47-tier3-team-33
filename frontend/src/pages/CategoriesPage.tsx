@@ -26,7 +26,7 @@ const CategoriesPage = () => {
 	const fetchCategoryById = async () => {
 		try {
 			const response = await axios.get(
-				`http://localhost:8000/categories/${id}`
+				`https://omni-events-571e671c7a3f.herokuapp.com/categories/${id}`
 			);
 			console.log('res:', response.data.category);
 			setCategory(response.data.category);
@@ -37,7 +37,9 @@ const CategoriesPage = () => {
 
 	const fetchAllCategories = async () => {
 		try {
-			const response = await axios.get(`http://localhost:8000/categories`);
+			const response = await axios.get(
+				`https://omni-events-571e671c7a3f.herokuapp.com/categories`
+			);
 			setCategories(response.data.categories);
 		} catch (error) {
 			console.error('Error fetching category:', error);

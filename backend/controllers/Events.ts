@@ -63,8 +63,8 @@ export const createEvent = async (req: Request, res: Response) => {
 
 		// Add the image file path or filename to the eventData
 		eventData.image =
-			`http://localhost:8000/${req.file.path}` ||
-			`http://localhost:8000/${req.file.filename}`;
+			`https://omni-events-571e671c7a3f.herokuapp.com/${req.file.path}` ||
+			`https://omni-events-571e671c7a3f.herokuapp.com/${req.file.filename}`;
 
 		console.log('eventData:', eventData);
 
@@ -163,6 +163,69 @@ export const bookEvent = async (req: Request, res: Response) => {
 		res.json({ message: 'RSVP successful' });
 	} catch (error: any) {
 		console.error(error);
+		res.status(500).json({ error: 'Internal Server Error' });
+	}
+};
+
+export const unBookEvent = async (req: Request, res: Response) => {
+	try {
+		const { userId, eventId } = req.body;
+
+		const user = await UserModel.findById(userId);
+
+		if (!user) {
+			return res.status(404).json({ error: 'User not found' });
+		}
+
+		const event = await EventModel.findById(eventId);
+
+		if (!event) {
+			return res.status(404).json({ error: 'Event not found' });
+		}
+
+		// Remove the user's ID from the event's attendees list
+		const index = event.attendees.indexOf(userId);
+		if (index !== -1) {
+			event.attendees.splice(index, 1);
+		}
+
+		await event.save();
+
+		// Remove the event's ID from the user's events list
+		const eventIndex = user.events.indexOf(eventId);
+		if (eventIndex !== -1) {
+			user.events.splice(eventIndex, 1);
+		}
+
+		await user.save();
+
+		// Notify the organizer about the unbooking
+		const organizerUserId = event.organizer.toString();
+		const organizerSocket = findSocket(organizerUserId);
+
+		if (organizerSocket) {
+			const notificationData = await NotificationModel.create({
+				userId: organizerUserId,
+				message: eventId,
+				type: NotificationType.EVENT_UNBOOKED,
+			});
+
+			await notificationData.save();
+
+			organizerSocket.emit('getNotification', notificationData);
+		} else {
+			const pendingNotification = {
+				userId: organizerUserId,
+				message: eventId,
+				type: NotificationType.EVENT_UNBOOKED,
+			};
+
+			userSocketMap[organizerUserId]?.notifications.push(pendingNotification);
+		}
+
+		res.json({ message: 'Unbooking successful' });
+	} catch (error: any) {
+		console.error(error.message);
 		res.status(500).json({ error: 'Internal Server Error' });
 	}
 };

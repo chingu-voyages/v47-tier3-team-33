@@ -73,11 +73,15 @@ const CreateEventPage = () => {
 				});
 				formData.append('organizer', user?.user?._id || user?._id || 'ohh');
 
-				await axios.post('http://localhost:8000/events', formData, {
-					headers: {
-						'Content-Type': 'multipart/form-data',
-					},
-				});
+				await axios.post(
+					'https://omni-events-571e671c7a3f.herokuapp.com/events',
+					formData,
+					{
+						headers: {
+							'Content-Type': 'multipart/form-data',
+						},
+					}
+				);
 
 				toast('Event created successfully!', {
 					style: {
@@ -100,7 +104,9 @@ const CreateEventPage = () => {
 	useEffect(() => {
 		const fetchCategories = async () => {
 			try {
-				const response = await axios.get('http://localhost:8000/categories');
+				const response = await axios.get(
+					'https://omni-events-571e671c7a3f.herokuapp.com/categories'
+				);
 				setCategories(response.data.categories);
 			} catch (error) {
 				console.error('Error fetching categories:', error);

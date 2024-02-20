@@ -42,11 +42,12 @@ const AccountDashboard = () => {
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
+
 	if (!user) {
 		return <Navigate to='/' />;
 	}
 	return (
-		<div className='w-screen h-full  flex relative z-50 mb-80 overflow-x-hidden'>
+		<div className='w-screen h-full flex relative z-40 mb-80 overflow-x-hidden'>
 			<motion.div
 				animate={isExpanded ? 'expanded' : 'nonExpanded'}
 				variants={variants}

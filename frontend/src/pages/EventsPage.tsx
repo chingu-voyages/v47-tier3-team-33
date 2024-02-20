@@ -11,10 +11,12 @@ const EventsPage = () => {
 
 	useEffect(() => {
 		const getAllEvents = async () => {
-			await axios.get('http://localhost:8000/events').then((response) => {
-				setEvents(response.data.events);
-				setFilteredEvents(response.data.events); // Initially set to all events
-			});
+			await axios
+				.get('https://omnievents-ab5a3a5ddba2.herokuapp.com/events')
+				.then((response) => {
+					setEvents(response.data.events);
+					setFilteredEvents(response.data.events); // Initially set to all events
+				});
 		};
 		getAllEvents();
 	}, []);
@@ -40,7 +42,7 @@ const EventsPage = () => {
 					Upcoming events
 				</h3>
 				<div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
-					{filteredEvents.map((event, idx) => (
+					{filteredEvents?.map((event, idx) => (
 						<EventCard key={idx} event={event} />
 					))}
 				</div>

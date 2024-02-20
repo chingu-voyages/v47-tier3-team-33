@@ -70,7 +70,7 @@ export default function EventCard({ event, id }: EventCardProps) {
 	const fetchEvent = async () => {
 		try {
 			const response = await axios.get(
-				`http://localhost:8000/events/${event._id}`
+				`https://omni-events-571e671c7a3f.herokuapp.com/events/${event._id}`
 			);
 			setCardEvent(response.data);
 		} catch (error) {

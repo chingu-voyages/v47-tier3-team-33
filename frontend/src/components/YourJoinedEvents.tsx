@@ -8,9 +8,11 @@ const YourJoinedEvents = () => {
 
 	useEffect(() => {
 		const getAllEvents = async () => {
-			await axios.get('http://localhost:8000/events').then((response) => {
-				setEvents(response.data.events);
-			});
+			await axios
+				.get('https://omni-events-571e671c7a3f.herokuapp.com/events')
+				.then((response) => {
+					setEvents(response.data.events);
+				});
 		};
 		getAllEvents();
 	}, []);
