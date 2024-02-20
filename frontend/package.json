@@ -55,6 +55,7 @@
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
+		"build:no-eslint": "react-scripts build",
 		"test": "jest",
 		"eject": "react-scripts eject"
 	},
