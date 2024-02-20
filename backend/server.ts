@@ -42,7 +42,7 @@ const server = http.createServer(app);
 import path from 'path';
 const io = socketio(server, {
 	cors: {
-		origin: ['http://localhost:3000', 'https://omnievents.vercel.app'],
+		origin: ['http://localhost:3000', 'https://omnievents.netlify.app/'],
 		methods: ['GET', 'POST', 'PUT', 'DELETE'],
 	},
 });
