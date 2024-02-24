@@ -12,7 +12,7 @@ const EventsPage = () => {
 	useEffect(() => {
 		const getAllEvents = async () => {
 			await axios
-				.get('https://omnievents-ab5a3a5ddba2.herokuapp.com/events')
+				.get('https://omni-events-571e671c7a3f.herokuapp.com/events')
 				.then((response) => {
 					setEvents(response.data.events);
 					setFilteredEvents(response.data.events); // Initially set to all events
