@@ -1,18 +1,13 @@
 import jwt, { Secret } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
-<<<<<<< HEAD
-=======
 declare global {
-    namespace Express {
-        interface Request {
-            user?: any; 
-        }
-    }
+	namespace Express {
+		interface Request {
+			user?: any;
+		}
+	}
 }
-
->>>>>>> 4b2649e4c19eb3965991f6cd00920547414e5acd
-
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 	const token = req.header('Authorization') || '';

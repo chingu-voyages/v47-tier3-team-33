@@ -21,7 +21,7 @@ const Register = () => {
 		e.preventDefault();
 		try {
 			await axios
-				.post('http://localhost:8000/users', {
+				.post('https://omni-events-571e671c7a3f.herokuapp.com/users', {
 					name: formData.first_name,
 					surname: formData.sur_name,
 					email: formData.email,

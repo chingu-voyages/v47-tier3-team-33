@@ -34,10 +34,13 @@ const EventModifyPage = ({
 	const handleUpdateEvent = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		try {
-			await axios.put(`http://localhost:8000/events/${eventId}`, {
-				userId: userId,
-				updatedEventData: data,
-			});
+			await axios.put(
+				`https://omni-events-571e671c7a3f.herokuapp.com/events/${eventId}`,
+				{
+					userId: userId,
+					updatedEventData: data,
+				}
+			);
 			toast('Event updated successfully!', {
 				style: {
 					color: 'green',

@@ -32,7 +32,7 @@ const NavBar: React.FC = () => {
 	const fetchPendingNotifications = async () => {
 		try {
 			const response = await axios.get(
-				`http://localhost:8000/notifications/pending/${userId}`
+				`https://omni-events-571e671c7a3f.herokuapp.com/notifications/pending/${userId}`
 			);
 			const pendingNotifications = response.data;
 			setNewNotifications(true);
@@ -161,6 +161,8 @@ const NavBar: React.FC = () => {
 							<FaRegBell
 								onClick={() => {
 									setShowNotifications(!showNotifications);
+									// BUG: Needs to persist new notifications to false across all pages after first click
+									// Could use Context... investigating possible backend solutions first...
 									setNewNotifications(false);
 								}}
 							/>
@@ -191,7 +193,7 @@ const NavBar: React.FC = () => {
 								/>
 							) : user?.user?.profile_img ? (
 								<img
-									src={`http://localhost:8000/${user?.user?.profile_img}`}
+									src={`https://omni-events-571e671c7a3f.herokuapp.com/${user?.user?.profile_img}`}
 									alt='profile image'
 									className='h-7 w-7 md:h-7 md:w-12 rounded-full'
 								/>

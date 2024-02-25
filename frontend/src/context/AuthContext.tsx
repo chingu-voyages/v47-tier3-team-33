@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 		try {
 			// Make a request to the backend to log in the user
 			const response = await axios.post(
-				'http://localhost:8000/users/login',
+				'https://omni-events-571e671c7a3f.herokuapp.com/users/login',
 				userData
 			);
 

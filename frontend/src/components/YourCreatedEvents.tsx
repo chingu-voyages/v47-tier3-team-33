@@ -12,7 +12,9 @@ const YourCreatedEvents = () => {
 
 	useEffect(() => {
 		const getUserCreatedEvents = async () => {
-			const eventsArr = await axios.get(`http://localhost:8000/events`);
+			const eventsArr = await axios.get(
+				`https://omni-events-571e671c7a3f.herokuapp.com/events`
+			);
 			const userEvents = eventsArr.data.events.filter(
 				(e: IEvent) => e.organizer === userId
 			);

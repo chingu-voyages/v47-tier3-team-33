@@ -1,10 +1,10 @@
 import express from 'express';
 import {
-	getAllNotification,
-	getNotificationByUserId,
-	updateNotification,
-	deleteNotification,
-	getUserPendingNotifications,
+  getAllNotification,
+  getNotificationByUserId,
+  updateNotification,
+  deleteNotification,
+  getUserPendingNotifications,
 } from '../controllers/Notifications';
 
 const router = express.Router();

@@ -1,10 +1,10 @@
-import express from 'express';
-import {
+const express = require('express');
+const {
 	createConversation,
 	getAllConversationForUser,
 	getMessagesInConversation,
 	sendMessage,
-} from '../controllers/Conversations';
+} = require('../controllers/Conversations');
 
 const router = express.Router();
 

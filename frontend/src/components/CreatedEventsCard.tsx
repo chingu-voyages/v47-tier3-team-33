@@ -44,7 +44,9 @@ export default function CreatedEventCard({ event, id }: EventCardProps) {
 	const handleClose = () => setOpen(false);
 
 	const fetchEvent = async () => {
-		const event = await axios.get(`http://localhost:8000/events/${eventId}`);
+		const event = await axios.get(
+			`https://omni-events-571e671c7a3f.herokuapp.com/events/${eventId}`
+		);
 		console.log('evve', event.data);
 		setCardEvent(event.data);
 	};
@@ -52,7 +54,7 @@ export default function CreatedEventCard({ event, id }: EventCardProps) {
 	const deleteEvent = async () => {
 		try {
 			const event = await axios.delete(
-				`http://localhost:8000/events/${eventId}`,
+				`https://omni-events-571e671c7a3f.herokuapp.com/events/${eventId}`,
 				{
 					data: {
 						userId: userId,
