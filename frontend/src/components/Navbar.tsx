@@ -161,7 +161,7 @@ const NavBar: React.FC = () => {
 					</div>
 				) : (
 					<div className='flex text-2xl space-x-6 text-white'>
-						<div className='text-yellow cursor-pointer text-[22px] md:text-md'>
+						<div className='text-yellow cursor-pointer text-[22px] md:text-3xl'>
 							<FaRegBell
 								onClick={() => {
 									setShowNotifications(!showNotifications);
@@ -199,7 +199,12 @@ const NavBar: React.FC = () => {
 								<img
 									src={`https://omni-events-571e671c7a3f.herokuapp.com/${user?.user?.profile_img}`}
 									alt='profile image'
-									className='h-7 w-7 md:h-7 md:w-12 rounded-full'
+									className='h-7 w-7 md:h-10 md:w-10 xl:w-14 rounded-full md:-mt-2'
+									onError={(e) => {
+										const imgElement = e.target as HTMLImageElement;
+										imgElement.src =
+											'https://cdn.vectorstock.com/i/preview-1x/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg';
+									}}
 								/>
 							) : (
 								<CgProfile />

@@ -23,12 +23,22 @@ const SideDrawer = ({ setDrawerIsOpen }: SideDrawerProps) => {
 						src={user?.profile_img}
 						alt='profile image'
 						className='h-20 w-20 flex items-center justify-center mx-auto mb-1 rounded-full'
+						onError={(e) => {
+							const imgElement = e.target as HTMLImageElement;
+							imgElement.src =
+								'https://cdn.vectorstock.com/i/preview-1x/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg';
+						}}
 					/>
 				) : user?.user?.profile_img ? (
 					<img
 						src={`https://omni-events-571e671c7a3f.herokuapp.com/${user?.user?.profile_img}`}
 						alt='profile image'
 						className='h-20 w-20 flex items-center justify-center mx-auto mb-1 rounded-full'
+						onError={(e) => {
+							const imgElement = e.target as HTMLImageElement;
+							imgElement.src =
+								'https://cdn.vectorstock.com/i/preview-1x/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg';
+						}}
 					/>
 				) : (
 					<CgProfile />
