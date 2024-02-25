@@ -9,6 +9,7 @@ import CreateEventPage from 'pages/CreateEventPage';
 import AccountDashboard from 'pages/AccountDashboard';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import BookedEventsCard from 'components/BookedEvents';
 
 function App() {
 	return (

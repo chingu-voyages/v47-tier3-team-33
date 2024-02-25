@@ -28,8 +28,29 @@ Omni is a comprehensive event discovery app designed to help users find exciting
 
 **Server:** Node, Express, Mongo DB
 
+## Getting Started
+Before you begin, ensure you have the following installed on your machine:
+
+- Node.js
+- npm or Yarn
+
+Clone the Repository 
+- cd into the project folder
+
+Install Dependencies
+- npm install 
+or 
+- yarn install
+
+npm run vercel-build
+
+## Acknowledgments
+
+Shout out to our wonderful product owner that helped to bring this application alive. 
+- [@Joe Taylor](https://www.linkedin.com/in/joe-taylor98/)
 
 ## Authors
+
 - [@TishShaw](https://github.com/TishShaw)
 - [@Dorene-St.Marthe](https://github.com/Dorene-StMarthe)
 - [@GalacticKnight](https://github.com/GalacticKnight)

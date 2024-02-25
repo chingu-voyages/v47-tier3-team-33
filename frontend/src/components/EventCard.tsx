@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -117,17 +118,7 @@ export default function EventCard({ event, id }: EventCardProps) {
 							}}
 						/>
 
-						{/* <p className='absolute bg-white text-black py-1 px-4 rounded-sm top-0 mt-2 ml-2'>
-							{event?.tickets?.length > 1 ? (
-								<p>From ${event.tickets?.[0][0]?.price}</p>
-							) : (
-								<p>
-									{event?.tickets?.[0][0]?.price === 0
-										? 'Free'
-										: '$' + event?.tickets?.[0][0]?.price}
-								</p>
-							)}
-						</p> */}
+						
 
 						<div className='p-2 text-lg'>
 							<p className='font-medium md:text-lg'>
