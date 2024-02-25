@@ -33,7 +33,6 @@ interface ICategory {
 const CreateEventPage = () => {
 	const [categories, setCategories] = useState<ICategory[]>([]);
 	const { user } = useAuth();
-	console.log(user?._id);
 
 	const formik = useFormik({
 		initialValues: {
@@ -122,7 +121,7 @@ const CreateEventPage = () => {
 
 	return (
 		<form
-			className='w-full max-w-2xl content-center mx-auto py-20 mb-40'
+			className='w-full max-w-2xl content-center mx-auto py-20 mb-40 px-6 md:px-0'
 			onSubmit={formik.handleSubmit}
 		>
 			<h2 className='flex justify-center items-center text-center text-xl font-bold leading-tight tracking-tight text-red-400 md:text-2xl dark:text-red-400 mb-10'>
@@ -180,45 +179,51 @@ const CreateEventPage = () => {
 			</div>
 
 			<div className='flex flex-wrap -mx-3 mb-6'>
-				<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
-					Start Date & Time
-				</label>
-				<input
-					type='datetime-local'
-					onChange={formik.handleChange}
-					value={formik.values.startDate}
-					name='startDate'
-					className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${
-						formik.touched.startDate && formik.errors.startDate
-							? 'border-red-500'
-							: 'border-gray-200'
-					} rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
-				/>
-				{formik.touched.startDate && formik.errors.startDate && (
-					<p className='text-red-500 text-xs italic'>
-						{formik.errors.startDate}
-					</p>
-				)}
+				<div className='w-full px-3 mb-6 md:mb-0'>
+					<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
+						Start Date & Time
+					</label>
+					<input
+						type='datetime-local'
+						onChange={formik.handleChange}
+						value={formik.values.startDate}
+						name='startDate'
+						className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${
+							formik.touched.startDate && formik.errors.startDate
+								? 'border-red-500'
+								: 'border-gray-200'
+						} rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+					/>
+					{formik.touched.startDate && formik.errors.startDate && (
+						<p className='text-red-500 text-xs italic'>
+							{formik.errors.startDate}
+						</p>
+					)}
+				</div>
 			</div>
 
 			<div className='flex flex-wrap -mx-3 mb-6'>
-				<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
-					End Date & Time
-				</label>
-				<input
-					type='datetime-local'
-					onChange={formik.handleChange}
-					value={formik.values.endDate}
-					name='endDate'
-					className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${
-						formik.touched.endDate && formik.errors.endDate
-							? 'border-red-500'
-							: 'border-gray-200'
-					} rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
-				/>
-				{formik.touched.endDate && formik.errors.endDate && (
-					<p className='text-red-500 text-xs italic'>{formik.errors.endDate}</p>
-				)}
+				<div className='w-full px-3 mb-6 md:mb-0'>
+					<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
+						End Date & Time
+					</label>
+					<input
+						type='datetime-local'
+						onChange={formik.handleChange}
+						value={formik.values.endDate}
+						name='endDate'
+						className={`appearance-none block w-full bg-gray-200 text-gray-700 border ${
+							formik.touched.endDate && formik.errors.endDate
+								? 'border-red-500'
+								: 'border-gray-200'
+						} rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+					/>
+					{formik.touched.endDate && formik.errors.endDate && (
+						<p className='text-red-500 text-xs italic'>
+							{formik.errors.endDate}
+						</p>
+					)}
+				</div>
 			</div>
 
 			<label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>
@@ -279,7 +284,7 @@ const CreateEventPage = () => {
 				</p>
 			)}
 
-			<div className='flex flex-wrap -mx-3 mb-6'>
+			<div className='flex flex-wrap mb-6'>
 				<FieldArray
 					name='tickets'
 					validateOnChange={false}

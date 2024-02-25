@@ -4,30 +4,18 @@ import { LuMessageSquare } from 'react-icons/lu';
 import { IoCreate } from 'react-icons/io5';
 import { TbStackFront } from 'react-icons/tb';
 import { TbStackMiddle } from 'react-icons/tb';
-import { BiLogOutCircle } from 'react-icons/bi';
-import { useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext';
-interface SidebarProps {
-	isExpanded: boolean;
-}
 
-const AccountSidebar = ({ isExpanded }: SidebarProps) => {
+const AccountSidebar = () => {
 	const [activeLink, setActiveLink] = useState<number>(0);
 
 	const { setText, text } = useAuth();
 
-	const navigate = useNavigate();
-
-	const handleLogout = () => {
-		localStorage.clear();
-		navigate('/');
-		window.location.reload();
-	};
 	return (
-		<div className='h-screen flex items-center absolute -top-48 md:py-12 md:px-10 -ml-1'>
-			{/* <div className={`text-3xl font-medium mb-10 ${!isExpanded && ''}`}>
+		<div className='h-screen flex flex-col items-center absolute top-10 md:top-0 md:py-12 md:px-10 -ml-1 '>
+			<div className='hidden md:block text-3xl font-medium mb-10'>
 				My Dashboard
-			</div> */}
+			</div>
 
 			<div className='space-y-4 md:space-y-12 '>
 				{NavLinks.map((link, idx) => (
@@ -42,17 +30,10 @@ const AccountSidebar = ({ isExpanded }: SidebarProps) => {
 						}}
 					>
 						<p className='text-2xl'>{link.icon}</p>
-						{isExpanded && <div className='hidden md:block'>{link.name}</div>}
+						<div className='hidden md:block'>{link.name}</div>
 					</div>
 				))}
 			</div>
-			{/* <button
-				className='mt-8 font-medium text-xl bg-pink text-white px-6 py-2 rounded-md flex items-center justify-between space-x-2'
-				onClick={handleLogout}
-			>
-				<BiLogOutCircle />
-				{isExpanded && <p className=''>Logout</p>}
-			</button> */}
 		</div>
 	);
 };
