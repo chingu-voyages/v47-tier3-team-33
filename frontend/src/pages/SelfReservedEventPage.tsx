@@ -31,16 +31,13 @@ const EventsDetailPage = ({
 	const { user, setText, setConversationId } = useAuth();
 
 	const eventId = event?._id;
-	console.log('eventID*:', eventId);
+
 	const eventOrganizerId = event?.organizer;
-	console.log('event organizer*:', eventOrganizerId);
+
 	const userId = user?.user?._id;
-	console.log('userID*:', userId);
 
 	const socket = useSocket();
-	console.log('socket:', socket);
-	console.log('eventt: ', event);
-	console.log('userId:: ', userId);
+
 	const navigate = useNavigate();
 
 	const handleBookingEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -61,7 +58,6 @@ const EventsDetailPage = ({
 					userId: userId,
 					organizerId: eventOrganizerId,
 				});
-				console.log('RSVP socket event emitted successfully');
 			}
 
 			toast('You have successfully RSVPed to the event!', {

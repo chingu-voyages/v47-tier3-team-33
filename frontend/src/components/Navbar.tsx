@@ -84,7 +84,7 @@ const NavBar: React.FC = () => {
 
 	const renderHamburgerMenu = () => (
 		<button
-			className='tham tham-e-squeeze tham-w-7 bg-pink w-[60px] h-[60px] text-center flex justify-start items-center pl-4 z-30'
+			className='tham tham-e-squeeze tham-w-7 bg-pink w-[50px] md:w-[60px] md:h-[60px] text-center flex justify-start items-center pl-4 z-30'
 			onClick={toggleMenu}
 		>
 			<div className='tham-box'>
@@ -109,10 +109,14 @@ const NavBar: React.FC = () => {
 		setDrawerIsOpen(false);
 	};
 	return (
-		<nav className='bg-pink flex items-center justify-between relative py-8 w-full'>
+		<nav className='bg-pink flex items-center justify-between relative py-6 md:py-8 w-full'>
 			<div className='flex items-center justify-center absolute z-20'>
-				<a href='/' className='text-white '>
-					<img className='object-contain h-60' src={omnilogo} alt='Omni logo' />
+				<a href='/' className='text-white'>
+					<img
+						className='object-contain h-40 ml-6 md:h-60'
+						src={omnilogo}
+						alt='Omni logo'
+					/>
 				</a>
 			</div>
 
@@ -157,7 +161,7 @@ const NavBar: React.FC = () => {
 					</div>
 				) : (
 					<div className='flex text-2xl space-x-6 text-white'>
-						<div className='text-yellow cursor-pointer'>
+						<div className='text-yellow cursor-pointer text-[22px] md:text-md'>
 							<FaRegBell
 								onClick={() => {
 									setShowNotifications(!showNotifications);
@@ -167,7 +171,7 @@ const NavBar: React.FC = () => {
 								}}
 							/>
 							{newNotifications && (
-								<div className='w-2 h-2 bg-red-600 rounded-full absolute right-[80px] top-10 md:top-7'></div>
+								<div className='w-2 h-2 bg-red-600 rounded-full absolute right-[80px] top-5 md:top-7'></div>
 							)}
 							{showNotifications && (
 								<div>

@@ -2,6 +2,7 @@ import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import { MdRemoveRedEye } from 'react-icons/md';
 import { IoEyeOff } from 'react-icons/io5';
+import { toast } from 'react-toastify';
 
 const Login = () => {
 	const { loginUser, handleLogin } = useAuth();
@@ -15,9 +16,12 @@ const Login = () => {
 		e.preventDefault();
 
 		try {
-			loginUser(formData);
+			const message = await loginUser(formData);
+			toast.success(message);
 		} catch (error: any) {
-			console.error('Login failed:', error.message);
+			if (error.response) {
+				toast.error(error.response.data.error);
+			}
 		}
 	};
 

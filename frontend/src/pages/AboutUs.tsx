@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 
 const AboutUs = () => {
 	return (
-		<div className=''>
-			<div className=' -rotate-180 bg-pink h-[550px] md:h-[800px]'>
+		<div>
+			<div className='-rotate-180 bg-pink h-[580px] md:h-[900px]'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					viewBox='0 0 1200 120'
@@ -21,46 +21,45 @@ const AboutUs = () => {
 					></path>
 				</svg>
 
-				<div className='w-full mt-[30%] md:mt-40 flex flex-col-reverse md:flex-row justify-center items-center -rotate-180'>
+				<div className='w-full mt-10 md:mt-12 flex flex-col-reverse md:flex-row justify-center items-center -rotate-180 space-x-8'>
 					<img
 						src={Planning}
 						alt='hero party image'
-						className='w-[80%] md:w-[50%] lg:w-[30%] mt-20 md:mt-8'
+						className='w-[80%] md:w-[500px] md:h-[500px] lg:w-[30%] mt-20 md:mt-8'
 					/>
 
-					<h1 className='text-white text-3xl md:text-5xl px-4 md:w-[37%] font-semibold ml-6 md:ml-0'>
-						Your Exclusive Partner in Crafting Exquisite Events! Elevate your
-						celebrations to new heights with our meticulous attention to detail
-						and unwavering commitment to excellence.
+					<h1 className='text-white text-2xl md:text-5xl px-4 md:w-[27%] font-medium ml-6 md:ml-0'>
+						Elevate your celebrations to new heights with our meticulous
+						attention to detail and unwavering commitment to excellence.
 					</h1>
 				</div>
 			</div>
 			{/* <img src={confetti} className=' w-full relative h-[600px]' /> */}
-			<div className='mt-6 md:mt-40 py-6'>
+			<div className='mt-12 md:mt-40 py-6'>
 				<h2 className='text-center mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-pink'>
 					Our Mission
 				</h2>
-				<div className='text-center leading-10 w-[90%] mx-auto '>
-					<span className='text-[#3C0345] text-2xl text-medium'>
+				<div className='text-center leading-10 w-[80%] md:w-[50%] mx-auto'>
+					<span className='text-[#3C0345] text-xl md:text-3xl'>
 						Our mission is to create unforgettable moments where you, your
 						friends, family, and customers come together to share in the magic
 						of extraordinary events.
 					</span>
 					<br />
 
-					<span className='text-[#3C0345] text-2xl text-medium'>
+					<span className='text-[#3C0345] text-xl md:text-3xl'>
 						We firmly believe that quality time spent together and the
 						experiences we share are invaluable opportunities for connection and
 						joy.
 					</span>
 					<br />
-					<span className='text-[#3C0345] text-2xl text-medium'>
+					<span className='text-[#3C0345] text-xl md:text-3xl'>
 						By bringing people together, we envision a world united as one
 						global family, where the bonds formed through shared experiences
 						transcend boundaries.
 					</span>
 					<br />
-					<span className='text-[#3C0345] text-2xl text-medium'>
+					<span className='text-[#3C0345] text-xl md:text-3xl'>
 						We invite you to share your thoughts and plans with the world,
 						knowing that in doing so, you open the door for others to
 						reciprocate your feelings and create meaningful connections.
@@ -68,64 +67,51 @@ const AboutUs = () => {
 						of shared experiences that enrich our lives and weave the fabric of
 					</span>
 					<br />
-					<span className='text-[#3C0345] text-2xl text-medium'>
+					<span className='text-[#3C0345] text-xl md:text-3xl'>
 						our collective humanity.
 					</span>
 				</div>
 			</div>
 
-			<section className='bg-white h-full mt-20 mb-40'>
+			<section className='bg-white h-full mt-12 mb-40'>
 				<div className='py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6'>
 					<div className='mx-auto mb-8 max-w-screen-sm lg:mb-16'>
 						<h2 className='text-4xl tracking-tight font-extrabold text-gray-900 dark:text-pink mb-10'>
 							Team Members
 						</h2>
 					</div>
-					<div className='grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 overflow-y-scroll'>
+					<div className='grid gap-10 md:gap-20 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 overflow-y-scroll my-20'>
 						{teamMembers.map((member, idx) => (
 							<div
 								key={idx}
 								className='text-center text-gray-500 dark:text-gray-400 overflow-y-scroll'
 							>
 								<img
-									className='mx-auto mb-4 w-36 h-36 rounded-full'
+									className='mx-auto mb-4 w-36 md:w-[200px] h-36 md:h-[200px] rounded-full'
 									src={member.image}
 									alt='chingu team member avatar'
 								/>
 
 								<h3 className='mb-1 text-2xl font-bold tracking-tight text-gray-900 '>
-									<a href='#'>{member.name}</a>
+									{member.name}
 								</h3>
-								<p>{member.role}</p>
+								<p className='text-md md:text-xl'>{member.role}</p>
 								<ul className='flex justify-center mt-4 space-x-4 text-2xl'>
-									<br />
-									<li>
-										<Link
-											to={member.github}
-											className='text-gray-900 hover:text-gray-900 dark:hover:text-white dark:text-gray-300 text'
-										>
+									<li className='hover:text-pink rounded-full'>
+										<Link to={member.github}>
 											<FaGithub />
 										</Link>
 									</li>
-									<li>
-										<Link
-											to={member.linkedIn}
-											className='text-gray-900 hover:text-gray-900 dark:hover:text-white dark:text-gray-300'
-										>
+									<li className='hover:text-pink rounded-full'>
+										<Link to={member.linkedIn}>
 											<FaLinkedin />
 										</Link>
 									</li>
-									<li
-										className='text-gray-900 
-											
-											hover:border-2 
-											hover:h-full hover:border-pink dark:text-gray-300'
-									>
+									<li className='hover:text-pink rounded-full'>
 										<Link to={member.website}>
 											<IoGlobeOutline />
 										</Link>
 									</li>
-									<br />
 								</ul>
 							</div>
 						))}

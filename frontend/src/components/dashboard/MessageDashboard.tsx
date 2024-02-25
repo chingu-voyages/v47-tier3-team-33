@@ -200,10 +200,10 @@ const MessageDashboard = () => {
 								handleConversationClick(conversation._id);
 							}}
 						>
-							<div className='bg-pink text-white rounded-full w-8 h-8 text-center text-xl pt-[1px] mr-5'>
+							<div className='bg-pink text-white rounded-full px-[10px] h-8 text-center text-xl pt-[1px] mr-5'>
 								{recieverProfiles[idx]?.name?.slice(0, 1)?.toUpperCase()}
 							</div>
-							<p className='text-xl'>
+							<p className='font-medium text-lg md:text-xl '>
 								{recieverProfiles[idx]?.name +
 									' ' +
 									recieverProfiles[idx]?.surname}
@@ -222,23 +222,21 @@ const MessageDashboard = () => {
 						}`}</p>
 						<div className='flex-grow overflow-y-scroll'>
 							<div className='w-full'>
-								<div className=''>
-									{messages?.map((message, idx) => (
-										<div
-											key={idx}
-											className={
-												message.sender === userId
-													? 'bg-[#DCF8C6] align p-4 m-4 rounded-full w-[50%] text-l'
-													: 'bg-[#EAEAEA] p-4 m-4 rounded-full  w-[50%] text-lg'
-											}
-											style={{
-												marginLeft: message.sender === userId ? 'auto' : '0',
-											}}
-										>
-											{message.text}
-										</div>
-									))}
-								</div>
+								{messages?.map((message, idx) => (
+									<div
+										key={idx}
+										className={
+											message.sender === userId
+												? 'bg-[#DCF8C6] align p-4 m-4 rounded-full w-full md:w-[50%] text-l'
+												: 'bg-[#EAEAEA] p-4 m-4 rounded-full w-full md:w-[50%] text-lg'
+										}
+										style={{
+											marginLeft: message.sender === userId ? 'auto' : '0',
+										}}
+									>
+										{message.text}
+									</div>
+								))}
 							</div>
 						</div>
 						<form className='flex items-center gap-2' onSubmit={handleSubmit}>

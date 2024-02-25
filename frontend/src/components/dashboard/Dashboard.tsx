@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Dashboard: React.FC = () => {
 	const { user } = useAuth();
@@ -66,7 +67,7 @@ const Dashboard: React.FC = () => {
 			}
 
 			const response = await axios.put(
-				`https://omni-events-571e671c7a3f.herokuapp.com/users/${userId}`,
+				`https://omni-events-571e671c7a3f.herokuapp.com/${userId}`,
 				formData,
 				{
 					headers: {
@@ -75,7 +76,9 @@ const Dashboard: React.FC = () => {
 				}
 			);
 
-			console.log(response.data);
+			if (response.status === 200) {
+				toast.success('Profile updated succesfully!');
+			}
 		} catch (error) {
 			console.error('Error submitting form:', error);
 		}

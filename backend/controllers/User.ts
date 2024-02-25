@@ -47,13 +47,13 @@ export const loginUser = async (req: Request, res: Response) => {
 		const user: IUser | null = await UserModel.findOne({ email });
 
 		if (!user) {
-			return res.status(401).json({ error: 'Invalid credentials' });
+			return res.status(401).json({ error: "User doesn't exist!" });
 		}
 
 		const isPasswordMatch = await bcrypt.compare(password, user.password);
 
 		if (!isPasswordMatch) {
-			return res.status(401).json({ error: 'Invalid credentials' });
+			return res.status(401).json({ error: 'Incorrect password' });
 		}
 
 		const token = jwt.sign({ userId: user._id }, 'your_secret_key', {
@@ -62,7 +62,11 @@ export const loginUser = async (req: Request, res: Response) => {
 
 		res.json({ token, user });
 	} catch (error: any) {
-		console.error(error);
+		if (error) {
+			res.status(401).json({ error: 'Incorrect email and/or password!' });
+		}
+		console.log(error);
+
 		res.status(500).json({ error: 'Error logging in user.' });
 	}
 };
@@ -103,7 +107,7 @@ export const updateUser = async (req: Request, res: Response) => {
 		if (!updatedUser) {
 			return res.status(404).json({ error: 'User not found' });
 		}
-		res.status(200).json(updatedUser);
+		res.status(200).json({ message: 'User updated successfully' });
 	} catch (error: any) {
 		console.error(error);
 		res.status(500).json({ error: 'Error updating user' });

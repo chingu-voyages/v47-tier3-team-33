@@ -16,8 +16,6 @@ const EventModifyPage = ({
 	const eventId = event?._id;
 	const userId = user?._id ? user?._id : user?.user?._id;
 
-	console.log(userId);
-
 	const [data, setData] = useState<IEvent>({
 		_id: event?._id,
 		title: event?.title,
@@ -48,7 +46,7 @@ const EventModifyPage = ({
 			});
 			window.location.reload();
 		} catch (error: any) {
-			console.log(error);
+			console.error(error);
 		}
 	};
 

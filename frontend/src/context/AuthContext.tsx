@@ -13,7 +13,7 @@ interface AuthContextProps {
 	open: boolean;
 	handleOpen: () => void;
 	handleClose: () => void;
-	loginUser: (userData: User) => void;
+	loginUser: (userData: User) => Promise<string>;
 	logoutUser: () => void;
 	user: User | null;
 	text: string;
@@ -65,9 +65,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
 
-	const loginUser = async (userData: User) => {
+	const loginUser = async (userData: User): Promise<string> => {
 		try {
-			// Make a request to the backend to log in the user
 			const response = await axios.post(
 				'https://omni-events-571e671c7a3f.herokuapp.com/users/login',
 				userData
@@ -77,8 +76,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 			localStorage.setItem('user', JSON.stringify(response.data));
 			// Set the logged-in user in the state
 			setUser(response.data.user);
+
+			// Return a success message
+			return 'Login successful!';
 		} catch (error: any) {
-			console.error('Login failed:', error.response.data.message);
+			throw new Error(error);
 		}
 	};
 
