@@ -3,9 +3,10 @@ import { useState } from 'react';
 import { MdRemoveRedEye } from 'react-icons/md';
 import { IoEyeOff } from 'react-icons/io5';
 import { toast } from 'react-toastify';
+import { IoClose } from 'react-icons/io5';
 
 const Login = () => {
-	const { loginUser, handleLogin } = useAuth();
+	const { loginUser, handleLogin, handleClose } = useAuth();
 	const [showPassword, setShowPassword] = useState(false);
 	const [formData, setFormData] = useState({
 		email: '',
@@ -32,6 +33,12 @@ const Login = () => {
 	return (
 		<div className='flex flex-col items-center justify-center'>
 			<div className='w-[50%] md:w-full bg-white rounded-lg shadow dark:border mt-28 md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-50 dark:border-gray-700'>
+				<div
+					className='text-lg absolute bg-pink p-2 text-white'
+					onClick={handleClose}
+				>
+					<IoClose />
+				</div>
 				<div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
 					<h1 className='text-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-gray-900'>
 						Welcome Back!

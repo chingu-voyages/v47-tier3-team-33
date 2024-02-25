@@ -3,9 +3,10 @@ import { useState } from 'react';
 import axios from 'axios';
 import { MdRemoveRedEye } from 'react-icons/md';
 import { IoEyeOff } from 'react-icons/io5';
+import { IoClose } from 'react-icons/io5';
 
 const Register = () => {
-	const { handleLogin } = useAuth();
+	const { handleLogin, handleClose } = useAuth();
 	const [showPassword, setShowPassword] = useState(false);
 	const [formData, setFormData] = useState({
 		first_name: '',
@@ -38,7 +39,13 @@ const Register = () => {
 	return (
 		<section>
 			<div className='w-[50%] flex justify-center items-center mx-auto md:w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-50 dark:border-gray-700'>
-				<div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
+				<div className='p-6 space-y-4 md:space-y-6 sm:p-8 relative'>
+					<div
+						className='text-lg absolute bg-pink p-2 text-white top-0 left-0'
+						onClick={handleClose}
+					>
+						<IoClose />
+					</div>
 					<h2 className=' text-center text-xl font-bold leading-tight tracking-tight text-red-400 md:text-2xl dark:text-red-400'>
 						Event Planner
 					</h2>
