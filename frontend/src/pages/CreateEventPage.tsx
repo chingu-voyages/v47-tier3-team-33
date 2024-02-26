@@ -72,15 +72,11 @@ const CreateEventPage = () => {
 				});
 				formData.append('organizer', user?.user?._id || user?._id || 'ohh');
 
-				await axios.post(
-					'https://omni-events-571e671c7a3f.herokuapp.com/events',
-					formData,
-					{
-						headers: {
-							'Content-Type': 'multipart/form-data',
-						},
-					}
-				);
+				await axios.post('http://localhost:8000/events', formData, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				});
 
 				toast('Event created successfully!', {
 					style: {
