@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import UserModel, { IUser } from '../models/User';
-import multer from 'multer';
 
 export const createUser = async (req: Request, res: Response) => {
 	try {

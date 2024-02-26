@@ -18,6 +18,6 @@ router.put('/:eventId', updateEventById);
 router.delete('/:id', deleteEventById);
 router.post('/', uploadEventImage.single('image'), createEvent);
 router.post('/rsvp', bookEvent);
-router.post('/events/unbook', unBookEvent);
+router.delete('/unbook/:eventId', unBookEvent);
 
 export default router;

@@ -6,7 +6,7 @@ import { io, userSocketMap } from '../server';
 import { Socket } from 'socket.io';
 import multer from 'multer';
 import fs from 'fs';
-
+import { Types } from 'mongoose';
 
 export const getEvents = async (req: Request, res: Response) => {
 	try {
@@ -52,7 +52,6 @@ export const uploadEventImage = multer({ storage: eventImageStorage });
 export const createEvent = async (req: Request, res: Response) => {
 	try {
 		const eventData = req.body;
-		console.log('eventData:', eventData);
 		eventData.organizer = Array.isArray(eventData.organizer)
 			? eventData.organizer[0]
 			: eventData.organizer;
@@ -63,9 +62,7 @@ export const createEvent = async (req: Request, res: Response) => {
 		}
 
 		// Add the image file path or filename to the eventData
-		eventData.image =
-			`https://omni-events-571e671c7a3f.herokuapp.com/${req.file.path}` ||
-			`https://omni-events-571e671c7a3f.herokuapp.com/${req.file.filename}`;
+		eventData.image = req.file.path || req.file.filename;
 
 		console.log('eventData:', eventData);
 
@@ -84,11 +81,10 @@ const findSocket = (userId: string): Socket | null => {
 	const userSocket = userSocketMap[userId]?.socket;
 	return userSocket || null;
 };
+
 export const bookEvent = async (req: Request, res: Response) => {
 	const { userId, eventId } = req.body;
 	try {
-		
-
 		const user = await UserModel.findById(userId);
 
 		if (!user) {
@@ -169,38 +165,32 @@ export const bookEvent = async (req: Request, res: Response) => {
 	}
 };
 
-
 export const unBookEvent = async (req: Request, res: Response) => {
 	try {
-		const { userId, eventId } = req.body;
+		const { userId } = req.body;
+		const eventId = req.params.eventId;
 
 		const user = await UserModel.findById(userId);
-
 		if (!user) {
 			return res.status(404).json({ error: 'User not found' });
 		}
 
-		const event = await EventModel.findById(eventId);
+		// Remove the event from the user's events list
+		user.events = user.events.filter((event) => String(event) !== eventId);
+		await user.save();
 
+		const event = await EventModel.findById(eventId);
 		if (!event) {
 			return res.status(404).json({ error: 'Event not found' });
 		}
 
-		// Remove the user's ID from the event's attendees list
-		const index = event.attendees.indexOf(userId);
-		if (index !== -1) {
-			event.attendees.splice(index, 1);
+		// Remove the user from the event's attendees list
+		const attendeeIndex = event.attendees.indexOf(userId);
+		if (attendeeIndex !== -1) {
+			event.attendees.splice(attendeeIndex, 1);
 		}
 
 		await event.save();
-
-		// Remove the event's ID from the user's events list
-		const eventIndex = user.events.indexOf(eventId);
-		if (eventIndex !== -1) {
-			user.events.splice(eventIndex, 1);
-		}
-
-		await user.save();
 
 		// Notify the organizer about the unbooking
 		const organizerUserId = event.organizer.toString();
@@ -237,8 +227,6 @@ export const updateEventById = async (req: Request, res: Response) => {
 	try {
 		const eventId = req.params.eventId;
 		const updatedEventData: Partial<IEvent> = req.body;
-		console.log(eventId);
-		console.log('updatee:', updatedEventData);
 
 		const userId = Array.isArray(req.body.userId)
 			? req.body.userId[0]
@@ -247,15 +235,11 @@ export const updateEventById = async (req: Request, res: Response) => {
 		const event = await EventModel.findById(eventId);
 
 		if (!event) {
-			console.log('even:', event);
 			return res.status(404).json({ error: 'Event not found' });
 		}
 
-		console.log('found1');
 		// Check if the user making the request is the organizer
 		if (event.organizer.toString() !== userId) {
-			console.log('org:', event.organizer.toString());
-			console.log('ouser', userId);
 			return res.status(403).json({
 				error: 'Unauthorized: Only the organizer can update this event',
 			});

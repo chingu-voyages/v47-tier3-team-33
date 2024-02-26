@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import omnilogo from '../assets/omni-logo.png';
 import LRbutton from './LRbutton';
-import { CgProfile } from 'react-icons/cg';
 import { Link } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 import SideDrawer from '../navigation/SideDrawer';
@@ -194,6 +193,11 @@ const NavBar: React.FC = () => {
 									src={profileImage}
 									alt='profile image'
 									className='h-7 w-7 md:h-7 md:w-12 rounded-full'
+									onError={(e) => {
+										const imgElement = e.target as HTMLImageElement;
+										imgElement.src =
+											'https://cdn.vectorstock.com/i/preview-1x/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg';
+									}}
 								/>
 							) : user?.user?.profile_img ? (
 								<img
@@ -207,7 +211,11 @@ const NavBar: React.FC = () => {
 									}}
 								/>
 							) : (
-								<CgProfile />
+								<img
+									className='h-7 w-7 md:h-10 md:w-10 xl:w-14 rounded-full md:-mt-2'
+									alt='profile image'
+									src='https://cdn.vectorstock.com/i/preview-1x/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg'
+								/>
 							)}
 						</div>
 					</div>
