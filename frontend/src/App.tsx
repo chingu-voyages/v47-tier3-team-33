@@ -22,6 +22,7 @@ function App() {
 				<Route path='/events' element={<EventsPage />} />
 				<Route path='/create-event' element={<CreateEventPage />} />
 				<Route path='/my-account' element={<AccountDashboard />} />
+
 			</Routes>
 			<ToastContainer
 				autoClose={5000}

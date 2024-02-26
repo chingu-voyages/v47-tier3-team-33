@@ -6,6 +6,7 @@ import CreateEventPage from './CreateEventPage';
 import { useAuth } from 'context/AuthContext';
 import YourCreatedEvents from '../components/YourCreatedEvents';
 import { Navigate } from 'react-router';
+import BookedEvents from '../components/BookedEvents';
 
 const ComponentsArray = [
 	{
@@ -22,6 +23,7 @@ const ComponentsArray = [
 	},
 	{
 		name: 'booked-events',
+		component: <BookedEvents />,
 	},
 	{
 		name: 'create-event',
