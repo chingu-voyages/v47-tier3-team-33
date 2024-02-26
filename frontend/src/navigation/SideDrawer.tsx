@@ -70,9 +70,13 @@ const SideDrawer = ({ setDrawerIsOpen }: SideDrawerProps) => {
 			<hr />
 			<button
 				className='flex bg-pink w-full hover:bg-black text-white font-bold py-2 px-4 rounded my-2'
-				onClick={() => setDrawerIsOpen(false)}
+				onClick={() => {
+					setText('booked-events');
+					navigate('/my-account');
+					setDrawerIsOpen(false);
+				}}
 			>
-				<Link to='./dashboard'>My Booked Events</Link>
+				<p>My Booked Events</p>
 			</button>
 			<hr />
 			<button

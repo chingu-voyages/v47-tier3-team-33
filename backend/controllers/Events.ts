@@ -7,6 +7,7 @@ import { Socket } from 'socket.io';
 import multer from 'multer';
 import fs from 'fs';
 
+
 export const getEvents = async (req: Request, res: Response) => {
 	try {
 		const events = await EventModel.find({});
@@ -84,8 +85,9 @@ const findSocket = (userId: string): Socket | null => {
 	return userSocket || null;
 };
 export const bookEvent = async (req: Request, res: Response) => {
+	const { userId, eventId } = req.body;
 	try {
-		const { userId, eventId } = req.body;
+		
 
 		const user = await UserModel.findById(userId);
 
@@ -166,6 +168,7 @@ export const bookEvent = async (req: Request, res: Response) => {
 		res.status(500).json({ error: 'Internal Server Error' });
 	}
 };
+
 
 export const unBookEvent = async (req: Request, res: Response) => {
 	try {
